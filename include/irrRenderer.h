@@ -6,4 +6,9 @@
 #include "MaterialCallbacks.h"
 #include "SMaterials.h"
 
+namespace irr
+{
+    CRenderer* createRenderer(IrrlichtDevice* device, char* shaderDir= "shaders/");
+}
+
 #endif // IRRRENDERER_H_INCLUDED

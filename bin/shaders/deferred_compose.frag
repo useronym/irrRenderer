@@ -14,8 +14,8 @@ void main()
 
     //reconstruct view pixel position
         //get the ray to the far plane
-        vec3 vRay= vec3(mix(-0.5, 0.5, gl_TexCoord[0].x),
-                        mix(0.5, -0.5, gl_TexCoord[0].y),
+        vec3 vRay= vec3(mix(0.5, -0.5, gl_TexCoord[0].x),
+                        mix(-0.5, 0.5, gl_TexCoord[0].y),
                         vDepth);
         vec4 vPixelPos= vec4(vRay * CamFar, 1.0);
 

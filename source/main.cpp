@@ -1,6 +1,10 @@
-#include "CRenderer.h"
+#include <irrlicht.h>
+#include <irrRenderer.h>
 
-CRenderer* createIrrRenderer(IrrlichtDevice* device, char* shaderDir= "shaders/")
+namespace irr
 {
-    return new CRenderer(device, shaderDir);
+    CRenderer* createRenderer(irr::IrrlichtDevice* device, char* shaderDir)
+    {
+        return new CRenderer(device, shaderDir);
+    }
 }
