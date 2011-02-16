@@ -22,6 +22,8 @@ class CRenderer
 
         SMaterials* getMaterials();
 
+        irr::s32 addMaterial(SShader shader, irr::video::IShaderConstantSetCallBack *callback=0);
+
         void drawAll();
 
         video::ITexture* getColorBuffer();
@@ -31,7 +33,7 @@ class CRenderer
 
     private:
         IrrlichtDevice* Device;
-        CShaderLibrary* Shaders;
+        CShaderLibrary* ShaderLib;
         SMaterials* Materials;
 
         core::array<video::IRenderTarget> MRTs;

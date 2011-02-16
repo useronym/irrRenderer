@@ -3,26 +3,20 @@
 CRenderer::CRenderer(IrrlichtDevice* device, char* shaderDir)
 {
     Device= device;
-    Shaders= new CShaderLibrary(shaderDir);
+
+    ShaderLib= new CShaderLibrary(shaderDir);
+    ShaderLib->loadShader("deferred_compose", "deferred_compose.vert", "deferred_compose.frag");
+    ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
+    ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
+
+
     Materials= new SMaterials;
+    Materials->DeferredCompose= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("deferred_compose"), new DeferredComposeCallback(Device->getSceneManager()));
+    Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
+    Materials->Terrain= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new TerrainCallback);
 
-    Materials->DeferredCompose= (irr::video::E_MATERIAL_TYPE)device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
-               Shaders->deferred_compose_vs, "main", irr::video::EVST_VS_2_0,
-               Shaders->deferred_compose_ps, "main", irr::video::EPST_PS_2_0,
-               new DeferredComposeCallback(Device->getSceneManager()));
-
-    Materials->Solid= (irr::video::E_MATERIAL_TYPE)device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
-               Shaders->solid_vs, "main", irr::video::EVST_VS_2_0,
-               Shaders->solid_ps, "main", irr::video::EPST_PS_2_0,
-               new DefaultCallback);
-
-    Materials->Terrain= (irr::video::E_MATERIAL_TYPE)device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
-               Shaders->terrain_vs, "main", irr::video::EVST_VS_2_0,
-               Shaders->terrain_ps, "main", irr::video::EPST_PS_2_0,
-               new TerrainCallback);
-
-    MRTs.push_back(video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-color", video::ECF_A8R8G8B8)));//ECF_A16B16G16R16F
-    MRTs.push_back(video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-normal", video::ECF_A8R8G8B8)));//ECF_A8R8G8B8
+    MRTs.push_back(video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-color-do-not-use-this-funking-name-thanks", video::ECF_A8R8G8B8)));//ECF_A16B16G16R16F
+    MRTs.push_back(video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-normal-do-not-use-this-funking-name-thanks", video::ECF_A8R8G8B8)));//ECF_A8R8G8B8
 
     scene::IMesh* quadMesh= Device->getSceneManager()->getMesh("plane.obj");/*Device->getSceneManager()->getGeometryCreator()->createPlaneMesh(core::dimension2d<f32>(1,1),
                                                                                              core::dimension2d<u32>(1,1),
@@ -52,6 +46,15 @@ SMaterials* CRenderer::getMaterials()
 {
     return Materials;
 }
+
+irr::s32 CRenderer::addMaterial(SShader shader, irr::video::IShaderConstantSetCallBack *callback)
+{
+    return Device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
+               shader.SourceVertex.c_str(), "main", irr::video::EVST_VS_2_0,
+               shader.SourcePixel.c_str(), "main", irr::video::EPST_PS_2_0,
+               callback);
+}
+
 
 void CRenderer::drawAll()
 {

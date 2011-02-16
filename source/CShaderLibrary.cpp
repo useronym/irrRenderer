@@ -1,40 +1,60 @@
 #include "CShaderLibrary.h"
 
-CShaderLibrary::CShaderLibrary(char* shaderDir)
+CShaderLibrary::CShaderLibrary(irr::c8* shaderDir)
 {
     ShaderDir= shaderDir;
 
-    loadShader(deferred_compose_vs, "deferred_compose.vert");
-    loadShader(deferred_compose_ps, "deferred_compose.frag");
-
-    loadShader(terrain_vs, "terrain.vert");
-    loadShader(terrain_ps, "terrain.frag");
-
-    loadShader(solid_vs, "solid.vert");
-    loadShader(solid_ps, "solid.frag");
+    //create empty first shader if someone is stupid enough to request a non-existent shader
+    Shaders.push_back(SShader());
 }
 
-void CShaderLibrary::loadShader(char* dest, char* fileSource)
+void CShaderLibrary::loadShader(irr::c8* name, irr::c8* sourceVertex, irr::c8* sourcePixel)
 {
-    char fileName[128];
-    strcpy(fileName, ShaderDir);
-    strcat(fileName, fileSource);
-    std::ifstream file;
-    file.open(fileName);
+    SShader newShader;
+    newShader.Name.append(name);
 
-    if(file.is_open())
+    irr::core::stringc fileNameVertex;
+    fileNameVertex.append(ShaderDir);
+    fileNameVertex.append(sourceVertex);
+    std::ifstream fileVertex;
+    fileVertex.open(fileNameVertex.c_str());
+    if(fileVertex.is_open())
     {
-        char buff[128];
-        file.getline(buff, 128);
-        strcpy(dest, buff);
-        strcat(dest, "\n");
-
-        while(file.good())
+        while(fileVertex.good())
         {
-            char buff[128];
-            file.getline(buff, 128);
-            strcat(dest, buff);
-            strcat(dest, "\n");
+            irr::c8 buff[512];
+            fileVertex.getline(buff, 512);
+            newShader.SourceVertex.append(buff);
+            newShader.SourceVertex.append("\n");
         }
+        fileVertex.close();
     }
+
+    irr::core::stringc fileNamePixel;
+    fileNamePixel.append(ShaderDir);
+    fileNamePixel.append(sourcePixel);
+    std::ifstream filePixel;
+    filePixel.open(fileNamePixel.c_str());
+    if(filePixel.is_open())
+    {
+        while(filePixel.good())
+        {
+            irr::c8 buff[512];
+            filePixel.getline(buff, 512);
+            newShader.SourcePixel.append(buff);
+            newShader.SourcePixel.append("\n");
+        }
+        filePixel.close();
+    }
+
+    Shaders.push_back(newShader);
+}
+
+SShader& CShaderLibrary::getShader(irr::c8* name)
+{
+    for(irr::u16 i= 0; i < Shaders.size(); i++)
+    {
+        if(Shaders[i].Name.equalsn(name, Shaders[i].Name.size()-1)) return Shaders[i];
+    }
+    return Shaders[0];
 }
