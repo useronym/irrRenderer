@@ -1,10 +1,2 @@
-#include <irrlicht.h>
-#include <irrRenderer.h>
-
-namespace irr
-{
-    CRenderer* createRenderer(irr::IrrlichtDevice* device, char* shaderDir)
-    {
-        return new CRenderer(device, shaderDir);
-    }
-}
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h

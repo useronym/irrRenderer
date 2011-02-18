@@ -1,6 +1,9 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #include "CShaderLibrary.h"
 
-CShaderLibrary::CShaderLibrary(irr::c8* shaderDir)
+irr::video::CShaderLibrary::CShaderLibrary(irr::c8* shaderDir)
 {
     ShaderDir= shaderDir;
 
@@ -8,7 +11,7 @@ CShaderLibrary::CShaderLibrary(irr::c8* shaderDir)
     Shaders.push_back(SShader());
 }
 
-void CShaderLibrary::loadShader(irr::c8* name, irr::c8* sourceVertex, irr::c8* sourcePixel)
+void irr::video::CShaderLibrary::loadShader(irr::c8* name, irr::c8* sourceVertex, irr::c8* sourcePixel)
 {
     SShader newShader;
     newShader.Name.append(name);
@@ -50,7 +53,7 @@ void CShaderLibrary::loadShader(irr::c8* name, irr::c8* sourceVertex, irr::c8* s
     Shaders.push_back(newShader);
 }
 
-SShader& CShaderLibrary::getShader(irr::c8* name)
+irr::video::SShader& irr::video::CShaderLibrary::getShader(irr::c8* name)
 {
     for(irr::u16 i= 0; i < Shaders.size(); i++)
     {

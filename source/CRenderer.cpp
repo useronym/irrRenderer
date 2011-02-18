@@ -1,10 +1,14 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #include "CRenderer.h"
 
-CRenderer::CRenderer(IrrlichtDevice* device, char* shaderDir)
+irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir)
 {
     Device= device;
 
     ShaderLib= new CShaderLibrary(shaderDir);
+    //predefined shaders
     ShaderLib->loadShader("deferred_compose", "deferred_compose.vert", "deferred_compose.frag");
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
     ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
@@ -15,10 +19,10 @@ CRenderer::CRenderer(IrrlichtDevice* device, char* shaderDir)
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
     Materials->Terrain= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new TerrainCallback);
 
-    MRTs.push_back(video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-color-do-not-use-this-funking-name-thanks", video::ECF_A8R8G8B8)));//ECF_A16B16G16R16F
-    MRTs.push_back(video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-normal-do-not-use-this-funking-name-thanks", video::ECF_A8R8G8B8)));//ECF_A8R8G8B8
+    MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-color-do-not-use-this-funking-name-thanks", irr::video::ECF_A8R8G8B8)));//ECF_A16B16G16R16F
+    MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-normal-do-not-use-this-funking-name-thanks", irr::video::ECF_A8R8G8B8)));//ECF_A8R8G8B8
 
-    scene::IMesh* quadMesh= Device->getSceneManager()->getMesh("plane.obj");/*Device->getSceneManager()->getGeometryCreator()->createPlaneMesh(core::dimension2d<f32>(1,1),
+    irr::scene::IMesh* quadMesh= Device->getSceneManager()->getMesh("plane.obj");/*Device->getSceneManager()->getGeometryCreator()->createPlaneMesh(core::dimension2d<f32>(1,1),
                                                                                              core::dimension2d<u32>(1,1),
                                                                                              new video::SMaterial(),
                                                                                              core::dimension2d<f32>(1,1));*/
@@ -37,17 +41,17 @@ CRenderer::CRenderer(IrrlichtDevice* device, char* shaderDir)
     ScreenQuad->setVisible(false);
 }
 
-CRenderer::~CRenderer()
+irr::video::CRenderer::~CRenderer()
 {
     //dtor
 }
 
-SMaterials* CRenderer::getMaterials()
+irr::video::SMaterials* irr::video::CRenderer::getMaterials()
 {
     return Materials;
 }
 
-irr::s32 CRenderer::addMaterial(SShader shader, irr::video::IShaderConstantSetCallBack *callback)
+irr::s32 irr::video::CRenderer::addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback)
 {
     return Device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
                shader.SourceVertex.c_str(), "main", irr::video::EVST_VS_2_0,
@@ -56,7 +60,7 @@ irr::s32 CRenderer::addMaterial(SShader shader, irr::video::IShaderConstantSetCa
 }
 
 
-void CRenderer::drawAll()
+void irr::video::CRenderer::drawAll()
 {
     Device->getVideoDriver()->setRenderTarget(MRTs, true, true, 0);
     Device->getSceneManager()->drawAll();
@@ -64,15 +68,20 @@ void CRenderer::drawAll()
     Device->getVideoDriver()->setRenderTarget(0, true, true, 0);
     ScreenQuad->render();
 
-    Device->getVideoDriver()->setMaterial(video::SMaterial());
+    Device->getVideoDriver()->setMaterial(irr::video::SMaterial());
 }
 
-video::ITexture* CRenderer::getColorBuffer()
+irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary()
+{
+    return ShaderLib;
+}
+
+irr::video::ITexture* irr::video::CRenderer::getColorBuffer()
 {
     return MRTs[0].RenderTexture;
 }
 
-video::ITexture* CRenderer::getNormalBuffer()
+irr::video::ITexture* irr::video::CRenderer::getNormalBuffer()
 {
     return MRTs[1].RenderTexture;
 }

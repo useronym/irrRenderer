@@ -6,7 +6,7 @@ varying float Depth;
 
 void main()
 {
-   Normal= normalize(gl_Normal * gl_NormalMatrix);
+   Normal= gl_Normal * gl_NormalMatrix;
    Normal*= 0.5;
    Normal+= 0.5;
    vec4 vertex = ftransform();

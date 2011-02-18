@@ -20,13 +20,12 @@ void main()
 
         vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUp.x, gl_TexCoord[0].x),
                             mix(FarLeftUp.y, FarLeftDown.y, 1 - gl_TexCoord[0].y),
-                            CamFar);
-        vec4 vPixelPos= vec4(vProjPos, 0.0);
-        vPixelPos*= vDepth;
-        vPixelPos.z= vDepth * CamFar;
+                            FarLeftUp.z);
+        vec4 vPixelPos= vec4(vProjPos, 0.0) * vDepth;
+        //PixelPos.z= 0.0;//vDepth * CamFar;
 
     float light= max(dot(vNormal, normalize(gl_LightSource[0].position - vPixelPos)), 0.0);
 
-    vec4 color= normalize(vPixelPos);//vec4(texture2D(ColorTex, gl_TexCoord[0].xy) * light);
+    vec4 color= vec4(texture2D(ColorTex, gl_TexCoord[0].xy) * light);
     gl_FragColor= color;
 }
