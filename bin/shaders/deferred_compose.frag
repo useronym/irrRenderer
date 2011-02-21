@@ -1,11 +1,9 @@
 uniform sampler2D ColorTex;     //guess what :P
 uniform sampler2D NormalTex;    //view space normal, view space depth
 
-varying float CamFar;
 varying vec3 FarLeftUp;
-varying vec3 FarLeftDown;
-varying vec3 FarRightUp;
-varying mat4 MProjInv;
+varying float FarRightUpX;
+varying float FarLeftDownY;
 
 void main()
 {
@@ -17,12 +15,10 @@ void main()
         vNormal= normalize(vNormal);
 
     //reconstruct view pixel position
-
-        vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUp.x, gl_TexCoord[0].x),
-                            mix(FarLeftUp.y, FarLeftDown.y, 1 - gl_TexCoord[0].y),
+        vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUpX, gl_TexCoord[0].x),
+                            mix(FarLeftUp.y, FarLeftDownY, 1 - gl_TexCoord[0].y),
                             FarLeftUp.z);
-        vec4 vPixelPos= vec4(vProjPos, 0.0) * vDepth;
-        //PixelPos.z= 0.0;//vDepth * CamFar;
+        vec4 vPixelPos= vec4(vProjPos * vDepth, 0.0);
 
     float light= max(dot(vNormal, normalize(gl_LightSource[0].position - vPixelPos)), 0.0);
 

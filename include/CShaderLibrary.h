@@ -25,7 +25,7 @@ struct SShader
 //! A class for managing the shaders
 /*! If you need to add your custom shader, this is the place to start. What this class does, is it loads the source codes
 of your shaders under a name, so you can easily access them later. \n
-Note: If you need to use this class, don't create a new one on your own, but use irr::video::CRenderer::getShaderLibrary
+Note: If you need to use this class, don't create a new one on your own, but use irr::video::CRenderer::getShaderLibrary() instead
 */
 class CShaderLibrary
 {
@@ -42,7 +42,7 @@ class CShaderLibrary
 
         //! Gets a previously loaded shader by name
         /*! \param name the unique name of the desired shader
-        \return The shader, a SShader struct
+        \return The shader, an irr::video::SShader struct
         */
         SShader& getShader(irr::c8* name);
 

@@ -28,21 +28,11 @@ public:
         services->setPixelShaderConstant("ColorTex", (float*)&tex0, 1);
         services->setPixelShaderConstant("NormalTex", (float*)&tex1, 1);
 
-        irr::core::matrix4 mat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
-        float farDist;
-        if (mat[10]>0.f) farDist = -mat[14]/(mat[10]-1.f); // Left Handed
-        else farDist = mat[14]/(mat[10]+1.f); // Right Handed
-        services->setVertexShaderConstant("VertexCamFar", &farDist, 1);
-
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
+        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
         irr::core::vector3df farLeftUp= cam->getViewFrustum()->getFarLeftUp();
-        irr::core::matrix4 transMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
-        transMat.transformVect(farLeftUp);
+        viewMat.transformVect(farLeftUp);
         services->setVertexShaderConstant("VertexFarLeftUp", (float*)&farLeftUp, 3);
-
-        irr::core::matrix4 mProjInv= Smgr->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
-        mProjInv.makeInverse();
-        services->setVertexShaderConstant("VMProjInv", mProjInv.pointer(), 16);
     }
 
 private:

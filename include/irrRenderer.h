@@ -54,16 +54,18 @@ int main()
         renderer->drawAll();
         device->getVideoDriver()->endScene();
     }
+
+    device->closeDevice();
+    return 0;
 }
 \endcode
 */
 
-
-//! Use this function to create a new instance of CRenderer
+//! Use this function to create a new instance of the irrRenderer
 /*! \param device irrlicht device to use
 \param shaderDir directory which holds shader source files, relative to the executable
-\return New instance of CRenderer
+\return New instance of irrRenderer
 */
-irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, char* shaderDir= "shaders/");
+irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir= "shaders/");
 
 #endif // IRRRENDERER_H_INCLUDED

@@ -24,19 +24,19 @@ class CRenderer
         ~CRenderer();
 
         //! Get the Materials structure which holds the irrlicht material enums
-        SMaterials* getMaterials();
+        irr::video::SMaterials* getMaterials();
 
         //! Add a new material
         /*! \param shader previously loaded SShader holding the source code, use CShaderLibrary to load the shader
         \param callback custom callback if needed
         */
-        irr::s32 addMaterial(SShader shader, irr::video::IShaderConstantSetCallBack *callback=0);
+        irr::s32 addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback=0);
 
         //! Draws the scene, use instead of ISceneManager::drawAll()
         void drawAll();
 
         //! \return The irr::video::CShaderLibrary
-        CShaderLibrary* getShaderLibrary();
+        irr::video::CShaderLibrary* getShaderLibrary();
 
         //! \return The color buffer
         irr::video::ITexture* getColorBuffer();
@@ -47,8 +47,8 @@ class CRenderer
 
     private:
         irr::IrrlichtDevice* Device;
-        CShaderLibrary* ShaderLib;
-        SMaterials* Materials;
+        irr::video::CShaderLibrary* ShaderLib;
+        irr::video::SMaterials* Materials;
 
         irr::core::array<irr::video::IRenderTarget> MRTs;
 

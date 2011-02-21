@@ -6,10 +6,10 @@ varying float Depth;
 
 void main()
 {
-   Normal= gl_Normal * gl_NormalMatrix;
+   Normal= gl_NormalMatrix * gl_Normal;
    Normal*= 0.5;
    Normal+= 0.5;
-   vec4 vertex = ftransform();
+   vec4 vertex = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
    Depth= vertex.z/CamFar;
 
    gl_Position= vertex;
