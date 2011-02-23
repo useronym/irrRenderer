@@ -9,10 +9,11 @@ void main()
 {
     //reconstruct normal and get depth
         vec4 vNormal= texture2D(NormalTex, gl_TexCoord[0].xy);
-        float vDepth= vNormal.w;
-        vNormal*= 2.0;
-        vNormal-= 1.0;
-        vNormal= normalize(vNormal);
+        float vDepth= vNormal.z;
+        vNormal.xy*= 2.0;
+        vNormal.xy-= 1.0;
+        vNormal.z= -sqrt(-(vNormal.x*vNormal.x) - (vNormal.y*vNormal.y) + 1.0);
+
 
     //reconstruct view pixel position
         vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUpX, gl_TexCoord[0].x),
@@ -20,7 +21,9 @@ void main()
                             FarLeftUp.z);
         vec4 vPixelPos= vec4(vProjPos * vDepth, 0.0);
 
-    float light= max(dot(vNormal, normalize(gl_LightSource[0].position - vPixelPos)), 0.0);
+    float l= length(gl_LightSource[0].position - vPixelPos);
+    float att= max(1.0-(l/200.0), 0.0);
+    float light= max(dot(normalize(gl_LightSource[0].position - vPixelPos), vNormal), 0.0) * att;
 
     vec4 color= vec4(texture2D(ColorTex, gl_TexCoord[0].xy) * light);
     gl_FragColor= color;

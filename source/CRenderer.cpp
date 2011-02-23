@@ -19,8 +19,8 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
     Materials->Terrain= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new TerrainCallback);
 
-    MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-color-do-not-use-this-funking-name-thanks", irr::video::ECF_A8R8G8B8)));//ECF_A16B16G16R16F
-    MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-normal-do-not-use-this-funking-name-thanks", irr::video::ECF_A8R8G8B8)));//ECF_A8R8G8B8
+    MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-color-do-not-use-this-funking-name-thanks", irr::video::ECF_A16B16G16R16F)));//ECF_A16B16G16R16F
+    MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-normal-do-not-use-this-funking-name-thanks", irr::video::ECF_A16B16G16R16F)));//ECF_A8R8G8B8
 
     irr::scene::IMesh* quadMesh= Device->getSceneManager()->getMesh("plane.obj");/*Device->getSceneManager()->getGeometryCreator()->createPlaneMesh(core::dimension2d<f32>(1,1),
                                                                                              core::dimension2d<u32>(1,1),

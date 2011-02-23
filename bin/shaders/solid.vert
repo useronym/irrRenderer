@@ -1,12 +1,12 @@
 uniform float CamFar;
 uniform float Repeat;
 
-varying vec3 Normal;
+varying vec2 Normal;
 varying float Depth;
 
 void main()
 {
-   Normal= gl_NormalMatrix * gl_Normal;
+   Normal= (gl_NormalMatrix * gl_Normal).xy;
    Normal*= 0.5;
    Normal+= 0.5;
    vec4 vertex = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
