@@ -3,47 +3,61 @@
 
 #include "CRenderer.h"
 
+
 irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir)
 {
     Device= device;
 
     ShaderLib= new CShaderLibrary(shaderDir);
-    //predefined shaders
-    ShaderLib->loadShader("deferred_compose", "deferred_compose.vert", "deferred_compose.frag");
-    ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
-    ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
-
-
     Materials= new SMaterials;
-    Materials->DeferredCompose= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("deferred_compose"), new DeferredComposeCallback(Device->getSceneManager()));
-    Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
-    Materials->Terrain= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new TerrainCallback);
 
-    MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-color-do-not-use-this-funking-name-thanks", irr::video::ECF_A16B16G16R16F)));//ECF_A16B16G16R16F
-    MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(Device->getVideoDriver()->getCurrentRenderTargetSize(), "Deferred-normal-do-not-use-this-funking-name-thanks", irr::video::ECF_A16B16G16R16F)));//ECF_A8R8G8B8
-
-    irr::scene::IMesh* quadMesh= Device->getSceneManager()->getMesh("plane.obj");/*Device->getSceneManager()->getGeometryCreator()->createPlaneMesh(core::dimension2d<f32>(1,1),
-                                                                                             core::dimension2d<u32>(1,1),
-                                                                                             new video::SMaterial(),
-                                                                                             core::dimension2d<f32>(1,1));*/
-
-    /*core::array<video::S3DVertex> *vertices= (core::array<video::S3DVertex> *)quadMesh->getMeshBuffer(0)->getVertices();
-
-    vertices[0].Pos= core::vector3df(-0.5,0.5,0);
-    vertices[1].Pos= core::vector3df(0.5,0.5,0);
-    vertices[2].Pos= core::vector3df(0.5,-0.5,0);
-    vertices[3].Pos= core::vector3df(-0.5,-0.5,0);*/
-
+    irr::scene::IMesh* quadMesh= Device->getSceneManager()->getMesh("plane.obj");
     ScreenQuad= Device->getSceneManager()->addMeshSceneNode(quadMesh);
     ScreenQuad->setMaterialType(getMaterials()->DeferredCompose);
-    ScreenQuad->setMaterialTexture(0, MRTs[0].RenderTexture);
-    ScreenQuad->setMaterialTexture(1, MRTs[1].RenderTexture);
     ScreenQuad->setVisible(false);
+
+    createDefaultPipeline();
 }
 
 irr::video::CRenderer::~CRenderer()
 {
     //dtor
+}
+
+void irr::video::CRenderer::createDefaultPipeline()
+{
+    clearMRTs();
+    addMRT("deferred-default-color-dont-use-this-name-thanks");
+    addMRT("deferred-default-normal-depth-matid-dont-use-this-name-thanks");
+
+    ShaderLib->loadShader("deferred_compose", "deferred_compose.vert", "deferred_compose.frag");
+    ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
+    ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
+
+    Materials->DeferredCompose= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("deferred_compose"), new DeferredComposeCallback(Device->getSceneManager()));
+    Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
+    ScreenQuad->setMaterialType(Materials->DeferredCompose);
+}
+
+void irr::video::CRenderer::clearMRTs()
+{
+    for(irr::u32 i= 0; i < MRTs.size(); i++)
+    {
+        Device->getVideoDriver()->removeTexture(MRTs[i].RenderTexture);
+    }
+    MRTs.clear();
+}
+
+void irr::video::CRenderer::addMRT(irr::c8* name, irr::core::dimension2du dimension)
+{
+    if(MRTs.size() <= 4)
+    {
+        if(dimension.Height == 0 || dimension.Width == 0) dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
+        MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(dimension, name, irr::video::ECF_A16B16G16R16F)));
+
+        irr::u32 addedMrtIdx= MRTs.size()-1;
+        ScreenQuad->setMaterialTexture(addedMrtIdx, MRTs[addedMrtIdx].RenderTexture);
+    }
 }
 
 irr::video::SMaterials* irr::video::CRenderer::getMaterials()
@@ -62,9 +76,11 @@ irr::s32 irr::video::CRenderer::addMaterial(irr::video::SShader shader, irr::vid
 
 void irr::video::CRenderer::drawAll()
 {
+    //Device->getSceneManager()->setLightManager(LightManagerCustom);
     Device->getVideoDriver()->setRenderTarget(MRTs, true, true, 0);
     Device->getSceneManager()->drawAll();
 
+    //Device->getSceneManager()->setLightManager(0);
     Device->getVideoDriver()->setRenderTarget(0, true, true, 0);
     ScreenQuad->render();
 

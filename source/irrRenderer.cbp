@@ -43,17 +43,21 @@
 		</Compiler>
 		<Unit filename="..\bin\shaders\deferred_compose.frag" />
 		<Unit filename="..\bin\shaders\deferred_compose.vert" />
+		<Unit filename="..\bin\shaders\light.vert" />
+		<Unit filename="..\bin\shaders\light_point.frag" />
 		<Unit filename="..\bin\shaders\solid.frag" />
 		<Unit filename="..\bin\shaders\solid.vert" />
 		<Unit filename="..\bin\shaders\terrain.frag" />
 		<Unit filename="..\bin\shaders\terrain.vert" />
 		<Unit filename="..\include\CRenderer.h" />
 		<Unit filename="..\include\CShaderLibrary.h" />
+		<Unit filename="..\include\ILightManagerCustom.h" />
 		<Unit filename="..\include\MaterialCallbacks.h" />
 		<Unit filename="..\include\SMaterials.h" />
 		<Unit filename="..\include\irrRenderer.h" />
 		<Unit filename="CRenderer.cpp" />
 		<Unit filename="CShaderLibrary.cpp" />
+		<Unit filename="ILightManagerCustom.cpp" />
 		<Unit filename="irrRenderer.cpp" />
 		<Extensions>
 			<code_completion />

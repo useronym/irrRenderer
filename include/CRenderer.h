@@ -23,6 +23,18 @@ class CRenderer
 
         ~CRenderer();
 
+        //! Loads the default pipeline \n Note: If you haven't altered the pipeline, it doesn't make sense to call this
+        void createDefaultPipeline();
+
+        //! Removes all multiple render target textures - in case you want to create your own
+        void clearMRTs();
+
+        //! Adds your own multiple render target
+        /*! \param name unique name of the texture, so please make sure it's unique
+        \param dimension resolution of the texture, leave blank for auto
+        */
+        void addMRT(irr::c8* name, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
+
         //! Get the Materials structure which holds the irrlicht material enums
         irr::video::SMaterials* getMaterials();
 

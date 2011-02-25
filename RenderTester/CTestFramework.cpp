@@ -36,10 +36,11 @@ CTestFramework::CTestFramework()
 
 CTestFramework::~CTestFramework()
 {
-    Device->getLogger()->log("I've got to go now", "get on that bus");
+    Device->getLogger()->log("I've got to go now");
     Device->closeDevice();
-    //Me and the Wanderlust
+    //Get on that bus
 }
+//Me and the Wanderlust
 
 bool CTestFramework::run()
 {
