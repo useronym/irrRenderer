@@ -35,6 +35,12 @@ class CRenderer
         */
         void addMRT(irr::c8* name, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
 
+        //! \return The RTT based on index \param index index of the MRT
+        irr::video::ITexture* getMRT(irr::u32 index);
+
+        //! \return The count of the MRT's
+        irr::u32 getMRTCount();
+
         //! Get the Materials structure which holds the irrlicht material enums
         irr::video::SMaterials* getMaterials();
 
@@ -49,12 +55,6 @@ class CRenderer
 
         //! \return The irr::video::CShaderLibrary
         irr::video::CShaderLibrary* getShaderLibrary();
-
-        //! \return The color buffer
-        irr::video::ITexture* getColorBuffer();
-
-        //! \return The normal+depth buffer
-        irr::video::ITexture* getNormalBuffer();
 
 
     private:

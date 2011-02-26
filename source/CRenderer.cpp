@@ -17,6 +17,7 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir
     ScreenQuad->setVisible(false);
 
     createDefaultPipeline();
+    Device->run();
 }
 
 irr::video::CRenderer::~CRenderer()
@@ -60,6 +61,16 @@ void irr::video::CRenderer::addMRT(irr::c8* name, irr::core::dimension2du dimens
     }
 }
 
+irr::video::ITexture* irr::video::CRenderer::getMRT(irr::u32 index)
+{
+    return MRTs[index].RenderTexture;
+}
+
+irr::u32 irr::video::CRenderer::getMRTCount()
+{
+    return MRTs.size();
+}
+
 irr::video::SMaterials* irr::video::CRenderer::getMaterials()
 {
     return Materials;
@@ -90,14 +101,4 @@ void irr::video::CRenderer::drawAll()
 irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary()
 {
     return ShaderLib;
-}
-
-irr::video::ITexture* irr::video::CRenderer::getColorBuffer()
-{
-    return MRTs[0].RenderTexture;
-}
-
-irr::video::ITexture* irr::video::CRenderer::getNormalBuffer()
-{
-    return MRTs[1].RenderTexture;
 }
