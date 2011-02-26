@@ -8,13 +8,13 @@
 
 namespace irr
 {
-namespace video
+namespace scene
 {
 
 class ILightManagerCustom : public irr::scene::ILightManager
 {
     public:
-        ILightManagerCustom(irr::scene::ISceneManager* smgr);
+        ILightManagerCustom(irr::IrrlichtDevice* device);
 
         ~ILightManagerCustom();
 
@@ -30,10 +30,20 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         void OnNodePostRender(irr::scene::ISceneNode *node);
 
+        void setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts);
+
+        void setFinalRenderTexture(irr::video::ITexture* tex);
+
+        irr::video::ITexture* getFinalRenderTexture();
+
+        void setRenderToTexture(bool rtt);
+
 
     private:
-        irr::scene::ISceneManager* Smgr;
-        irr::core::array<irr::scene::IMeshSceneNode*> LightMeshNodes;
+        irr::IrrlichtDevice* Device;
+        irr::core::array<irr::video::IRenderTarget> MRTs;
+        irr::video::ITexture* FinalRender;
+        bool RenderToTexture;
 };
 
 }

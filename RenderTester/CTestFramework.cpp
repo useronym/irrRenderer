@@ -30,9 +30,6 @@ CTestFramework::CTestFramework()
     scene::ICameraSceneNode* cam= smgr->addCameraSceneNodeFPS();
     cam->setFarValue(1000);
 
-    //GBuffer show
-    //Device->getGUIEnvironment()->addImage(Renderer->getMRT(0), irr::core::position2di(0,0));
-
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }
 
@@ -47,7 +44,7 @@ CTestFramework::~CTestFramework()
 bool CTestFramework::run()
 {
     Device->getVideoDriver()->beginScene();
-    Renderer->drawAll();
+    Device->getSceneManager()->drawAll();
     core::stringw str= L"irrRenderer - RenderTest";
     str+= L" | FPS: ";
     str+= Device->getVideoDriver()->getFPS();

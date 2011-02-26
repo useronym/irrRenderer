@@ -7,6 +7,7 @@
 irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir)
 {
     Device= device;
+    LightMgr= 0;
 
     ShaderLib= new CShaderLibrary(shaderDir);
     Materials= new SMaterials;
@@ -28,8 +29,13 @@ irr::video::CRenderer::~CRenderer()
 void irr::video::CRenderer::createDefaultPipeline()
 {
     clearMRTs();
-    addMRT("deferred-default-color-dont-use-this-name-thanks");
-    addMRT("deferred-default-normal-depth-matid-dont-use-this-name-thanks");
+    addMRT("deferred-mrt-color-dont-use-this-name-thanks");
+    addMRT("deferred-mrt-normal-depth-matid-dont-use-this-name-thanks");
+
+    if(LightMgr) LightMgr->drop();
+    LightMgr= new irr::scene::ILightManagerCustom(Device);
+    LightMgr->setMRTs(MRTs);
+    Device->getSceneManager()->setLightManager(LightMgr);
 
     ShaderLib->loadShader("deferred_compose", "deferred_compose.vert", "deferred_compose.frag");
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
@@ -71,6 +77,20 @@ irr::u32 irr::video::CRenderer::getMRTCount()
     return MRTs.size();
 }
 
+void irr::video::CRenderer::setDoFinalRenderToTexture(bool shouldI)
+{
+    if(shouldI)
+    {
+
+    }
+}
+
+irr::video::ITexture* irr::video::CRenderer::getFinalRenderTexture()
+{
+    if(LightMgr->getFinalRenderTexture() != 0) return LightMgr->getFinalRenderTexture();
+    else return 0;
+}
+
 irr::video::SMaterials* irr::video::CRenderer::getMaterials()
 {
     return Materials;
@@ -87,11 +107,9 @@ irr::s32 irr::video::CRenderer::addMaterial(irr::video::SShader shader, irr::vid
 
 void irr::video::CRenderer::drawAll()
 {
-    //Device->getSceneManager()->setLightManager(LightManagerCustom);
     Device->getVideoDriver()->setRenderTarget(MRTs, true, true, 0);
     Device->getSceneManager()->drawAll();
 
-    //Device->getSceneManager()->setLightManager(0);
     Device->getVideoDriver()->setRenderTarget(0, true, true, 0);
     ScreenQuad->render();
 

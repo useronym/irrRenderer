@@ -5,6 +5,7 @@
 #define CRENDERER_H
 
 #include <irrlicht.h>
+#include "ILightManagerCustom.h"
 #include "SMaterials.h"
 #include "CShaderLibrary.h"
 #include "MaterialCallbacks.h"
@@ -29,9 +30,9 @@ class CRenderer
         //! Removes all multiple render target textures - in case you want to create your own
         void clearMRTs();
 
-        //! Adds your own multiple render target
+        //! Adds your own multiple render target texture
         /*! \param name unique name of the texture, so please make sure it's unique
-        \param dimension resolution of the texture, leave blank for auto
+        \param dimension resolution of the texture, leave blank for auto (full screen resolution)
         */
         void addMRT(irr::c8* name, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
 
@@ -41,24 +42,31 @@ class CRenderer
         //! \return The count of the MRT's
         irr::u32 getMRTCount();
 
-        //! Get the Materials structure which holds the irrlicht material enums
-        irr::video::SMaterials* getMaterials();
+        //! Should the final render be rendered to texture?
+        void setDoFinalRenderToTexture(bool shouldI);
+
+        //! \return if irr:video::CRenderer::setDoFinalRenderToTexture() was set to true, this will return the final render, otherwise 0
+        irr::video::ITexture* getFinalRenderTexture();
 
         //! Add a new material
-        /*! \param shader previously loaded SShader holding the source code, use CShaderLibrary to load the shader
+        /*! \param shader previously loaded SShader holding the source code, use irr::video::CShaderLibrary to load the shader
         \param callback custom callback if needed
         */
         irr::s32 addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback=0);
 
-        //! Draws the scene, use instead of ISceneManager::drawAll()
+        //! Draws the scene, use instead of irr::scene::ISceneManager::drawAll()
         void drawAll();
 
         //! \return The irr::video::CShaderLibrary
         irr::video::CShaderLibrary* getShaderLibrary();
 
+        //! \return irr::video::SMaterials structure which holds the irrlicht material enums
+        irr::video::SMaterials* getMaterials();
+
 
     private:
         irr::IrrlichtDevice* Device;
+        irr::scene::ILightManagerCustom* LightMgr;
         irr::video::CShaderLibrary* ShaderLib;
         irr::video::SMaterials* Materials;
 
