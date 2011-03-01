@@ -23,10 +23,11 @@ CTestFramework::CTestFramework()
     ball->setMaterialTexture(0, Device->getVideoDriver()->getTexture("brownground.jpg"));
     ball->setMaterialType(Renderer->getMaterials()->Solid);
 
-    for(int i= 1; i < 3; i++)
+    for(int i= 1; i < 2; i++)
     {
         scene::ILightSceneNode* light= smgr->addLightSceneNode();
-        light->addAnimator(smgr->createFlyCircleAnimator(core::vector3df(0.f, 80.f, 0.f), 100.f, 0.001f));
+        light->setRadius(200);
+        light->addAnimator(smgr->createFlyCircleAnimator(core::vector3df(0.f, 80.f, 0.f), 100.f, 0.001f, irr::core::vector3df(0.f, 1.f, 0.f), i/5.0));
         smgr->addSphereSceneNode(5, 8, light);
     }
 

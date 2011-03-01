@@ -47,7 +47,7 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
     private:
         irr::IrrlichtDevice* Device;
-        irr::core::array<irr::video::IRenderTarget> * MRTs;
+        irr::core::array<irr::video::IRenderTarget> MRTs;
         irr::video::ITexture* FinalRender;
         bool RenderToTexture;
 

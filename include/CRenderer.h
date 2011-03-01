@@ -71,8 +71,6 @@ class CRenderer
         irr::video::SMaterials* Materials;
 
         irr::core::array<irr::video::IRenderTarget> MRTs;
-
-        irr::scene::ISceneNode* ScreenQuad;
 };
 
 }

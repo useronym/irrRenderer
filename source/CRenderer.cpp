@@ -12,11 +12,6 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir
     ShaderLib= new CShaderLibrary(shaderDir);
     Materials= new SMaterials;
 
-    irr::scene::IMesh* quadMesh= Device->getSceneManager()->getMesh("plane.obj");
-    ScreenQuad= Device->getSceneManager()->addMeshSceneNode(quadMesh);
-    ScreenQuad->setMaterialType(getMaterials()->DeferredCompose);
-    ScreenQuad->setVisible(false);
-
     createDefaultPipeline();
     Device->run();
 }
@@ -49,8 +44,6 @@ void irr::video::CRenderer::createDefaultPipeline()
     Materials->LightPoint= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_point"), lightPointCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightPointMaterialType(Materials->LightPoint);
     LightMgr->setLightPointCallback(lightPointCallback);
-
-    ScreenQuad->setMaterialType(Materials->DeferredCompose);
 }
 
 void irr::video::CRenderer::clearMRTs()
@@ -68,9 +61,6 @@ void irr::video::CRenderer::addMRT(irr::c8* name, irr::core::dimension2du dimens
     {
         if(dimension.Height == 0 || dimension.Width == 0) dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
         MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(dimension, name, irr::video::ECF_A16B16G16R16F)));
-
-        irr::u32 addedMrtIdx= MRTs.size()-1;
-        ScreenQuad->setMaterialTexture(addedMrtIdx, MRTs[addedMrtIdx].RenderTexture);
     }
 }
 
@@ -116,10 +106,7 @@ void irr::video::CRenderer::drawAll()
 {
     Device->getVideoDriver()->setRenderTarget(MRTs, true, true, 0);
     Device->getSceneManager()->drawAll();
-
     Device->getVideoDriver()->setRenderTarget(0, true, true, 0);
-    ScreenQuad->render();
-
     Device->getVideoDriver()->setMaterial(irr::video::SMaterial());
 }
 

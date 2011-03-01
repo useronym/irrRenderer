@@ -20,10 +20,9 @@ void main()
 
     //get depth
     vec4 vNormal= texture2D(NormalTex, projCoord.xy);
-    vec4 col= vNormal;
     float vDepth= vNormal.z;
 
-    //if(vDepth < ScreenPos.z)
+    if(vDepth < ScreenPos.z)
     {
         //reconstruct normal
         vNormal.xy*= 2.0;
@@ -37,12 +36,13 @@ void main()
         vec4 vPixelPos= vec4(vProjPos * vDepth, 0.0);
 
         //calculate the light
-        //float l= length(gl_LightSource[0].position - vPixelPos);
-        //float att= max(1.0-(l/200.0), 0.0);
-        //float light= max(dot(normalize(gl_LightSource[0].position - vPixelPos), vNormal), 0.0) * att;
+        vec4 lightPos= vec4(Position, 0.0);
+        float l= length(lightPos - vPixelPos);
+        float att= max(Radius/l, 0.0);
+        float light= max(dot(normalize(lightPos - vPixelPos), vNormal), 0.0) * att;
 
-        //vec4 color= vec4(texture2D(ColorTex, gl_TexCoord[0].xy) * light);
-        gl_FragColor= vec4(1.0, vDepth, 0.0, 1.0);//color;
+        vec4 color= vec4(texture2D(ColorTex, projCoord.xy) * light);
+        gl_FragColor= color;
     }
-    //else discard;
+    else discard;
 }
