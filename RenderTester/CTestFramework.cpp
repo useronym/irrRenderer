@@ -23,9 +23,12 @@ CTestFramework::CTestFramework()
     ball->setMaterialTexture(0, Device->getVideoDriver()->getTexture("brownground.jpg"));
     ball->setMaterialType(Renderer->getMaterials()->Solid);
 
-    scene::ILightSceneNode* light= smgr->addLightSceneNode();
-    light->addAnimator(smgr->createFlyCircleAnimator(core::vector3df(0.f, 80.f, 0.f), 100.f, 0.001f));
-    smgr->addSphereSceneNode(5, 8, light);
+    for(int i= 1; i < 3; i++)
+    {
+        scene::ILightSceneNode* light= smgr->addLightSceneNode();
+        light->addAnimator(smgr->createFlyCircleAnimator(core::vector3df(0.f, 80.f, 0.f), 100.f, 0.001f));
+        smgr->addSphereSceneNode(5, 8, light);
+    }
 
     scene::ICameraSceneNode* cam= smgr->addCameraSceneNodeFPS();
     cam->setFarValue(1000);
@@ -48,6 +51,8 @@ bool CTestFramework::run()
     core::stringw str= L"irrRenderer - RenderTest";
     str+= L" | FPS: ";
     str+= Device->getVideoDriver()->getFPS();
+    str+= L" | Tris: ";
+    str+= Device->getVideoDriver()->getPrimitiveCountDrawn();
     Device->setWindowCaption(str.c_str());
 
     //draw GBuffer debug info

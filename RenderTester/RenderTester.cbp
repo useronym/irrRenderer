@@ -18,7 +18,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="..\bin\libirrRenderer.a" />
+					<Add library="irrRenderer" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
@@ -33,18 +33,19 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="..\bin\libirrRendererDebug.a" />
+					<Add library="..\lib\debug\irrRenderer.a" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="..\..\irrlicht-svn\include" />
-			<Add directory="..\include" />
+			<Add directory="$(#irrlicht.include)" />
+			<Add directory="$(#irrrenderer.include)" />
 		</Compiler>
 		<Linker>
-			<Add library="..\..\irrlicht-svn\lib\Win32-gcc\libIrrlicht.a" />
+			<Add library="Irrlicht" />
+			<Add directory="$(#irrlicht.include)" />
+			<Add directory="..\bin" />
 		</Linker>
 		<Unit filename="CTestFramework.cpp" />
 		<Unit filename="CTestFramework.h" />

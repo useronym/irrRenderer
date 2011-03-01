@@ -52,7 +52,7 @@ class CRenderer
         /*! \param shader previously loaded SShader holding the source code, use irr::video::CShaderLibrary to load the shader
         \param callback custom callback if needed
         */
-        irr::s32 addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback=0);
+        irr::s32 addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback=0, irr::video::E_MATERIAL_TYPE baseType= irr::video::EMT_SOLID);
 
         //! Draws the scene, use instead of irr::scene::ISceneManager::drawAll()
         void drawAll();

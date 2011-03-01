@@ -6,41 +6,39 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Release - SVN">
-				<Option output="..\bin\libirrRenderer" prefix_auto="1" extension_auto="1" />
+			<Target title="Release">
+				<Option output="..\lib\irrRenderer" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output=".obj\" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-march=core2" />
 					<Add option="-O2" />
-					<Add directory="..\..\irrlicht-svn\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="..\..\irrlicht-svn\lib\Win32-gcc\libIrrlicht.a" />
 				</Linker>
 			</Target>
-			<Target title="Debug - SVN">
-				<Option output="..\bin\libirrRendererDebug" prefix_auto="1" extension_auto="1" />
+			<Target title="Debug">
+				<Option output="..\lib\debug\irrRenderer" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output=".obj\" />
+				<Option object_output=".obj\debug" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="..\..\irrlicht-svn\include" />
 				</Compiler>
-				<Linker>
-					<Add library="..\..\irrlicht-svn\lib\Win32-gcc\libIrrlicht.a" />
-				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-fexceptions" />
 			<Add directory="..\include" />
+			<Add directory="$(#irrlicht.include)" />
 		</Compiler>
+		<Linker>
+			<Add library="Irrlicht" />
+			<Add directory="$(#irrlicht.lib)" />
+		</Linker>
 		<Unit filename="..\bin\shaders\deferred_compose.frag" />
 		<Unit filename="..\bin\shaders\deferred_compose.vert" />
 		<Unit filename="..\bin\shaders\light.vert" />

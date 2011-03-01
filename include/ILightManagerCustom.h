@@ -5,6 +5,8 @@
 #define ILIGHTMANAGERCUSTOM_H
 
 #include <irrlicht.h>
+#include "MaterialCallbacks.h"
+#include <iostream>
 
 namespace irr
 {
@@ -18,17 +20,17 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         ~ILightManagerCustom();
 
-        void OnPreRender(irr::core::array<irr::scene::ILightSceneNode*> &lightList);
+        virtual void OnPreRender(irr::core::array<irr::scene::ILightSceneNode*> &lightList);
 
-        void OnPostRender();
+        virtual void OnPostRender();
 
-        void OnRenderPassPreRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass);
+        virtual void OnRenderPassPreRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass);
 
-        void OnRenderPassPostRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass);
+        virtual void OnRenderPassPostRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass);
 
-        void OnNodePreRender(irr::scene::ISceneNode *node);
+        virtual void OnNodePreRender(irr::scene::ISceneNode *node);
 
-        void OnNodePostRender(irr::scene::ISceneNode *node);
+        virtual void OnNodePostRender(irr::scene::ISceneNode *node);
 
         void setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts);
 
@@ -36,14 +38,21 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         irr::video::ITexture* getFinalRenderTexture();
 
-        void setRenderToTexture(bool rtt);
+        void setFinalRenderToTexture(bool rtt);
+
+        void setLightPointMaterialType(irr::video::E_MATERIAL_TYPE &type);
+
+        void setLightPointCallback(irr::video::IShaderLightCallback* callback);
 
 
     private:
         irr::IrrlichtDevice* Device;
-        irr::core::array<irr::video::IRenderTarget> MRTs;
+        irr::core::array<irr::video::IRenderTarget> * MRTs;
         irr::video::ITexture* FinalRender;
         bool RenderToTexture;
+
+        irr::video::E_MATERIAL_TYPE LightPointMaterial;
+        irr::video::IShaderLightCallback* LightPointCallback;
 };
 
 }

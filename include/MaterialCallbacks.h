@@ -39,6 +39,43 @@ private:
     irr::scene::ISceneManager* Smgr;
 };
 
+class IShaderLightCallback : public irr::video::IShaderConstantSetCallBack
+{
+public:
+    IShaderLightCallback(irr::scene::ISceneManager* smgr)
+    {
+        Smgr= smgr;
+    }
+
+    virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
+    {
+        int tex0= 0;
+        int tex1= 1;
+        services->setPixelShaderConstant("ColorTex", (float*)&tex0, 1);
+        services->setPixelShaderConstant("NormalTex", (float*)&tex1, 1);
+
+        services->setPixelShaderConstant("Position", (float*)&Pos, 3);
+        services->setPixelShaderConstant("Radius", &Radius, 1);
+
+        irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
+        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
+        irr::core::vector3df farLeftUp= cam->getViewFrustum()->getFarLeftUp();
+        viewMat.transformVect(farLeftUp);
+        services->setVertexShaderConstant("VertexFarLeftUp", (float*)&farLeftUp, 3);
+    }
+
+    virtual void updateConstants(irr::video::SLight &light)
+    {
+        Pos= light.Position;
+        Radius= light.Radius;
+    }
+
+private:
+    irr::scene::ISceneManager* Smgr;
+    irr::core::vector3df Pos;
+    irr::f32 Radius;
+};
+
 
 class DefaultCallback : public irr::video::IShaderConstantSetCallBack
 {

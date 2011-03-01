@@ -40,9 +40,16 @@ void irr::video::CRenderer::createDefaultPipeline()
     ShaderLib->loadShader("deferred_compose", "deferred_compose.vert", "deferred_compose.frag");
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
     ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
+    ShaderLib->loadShader("light_point", "light.vert", "light_point.frag");
 
     Materials->DeferredCompose= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("deferred_compose"), new DeferredComposeCallback(Device->getSceneManager()));
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
+
+    irr::video::IShaderLightCallback* lightPointCallback= new irr::video::IShaderLightCallback(Device->getSceneManager());
+    Materials->LightPoint= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_point"), lightPointCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    LightMgr->setLightPointMaterialType(Materials->LightPoint);
+    LightMgr->setLightPointCallback(lightPointCallback);
+
     ScreenQuad->setMaterialType(Materials->DeferredCompose);
 }
 
@@ -96,12 +103,12 @@ irr::video::SMaterials* irr::video::CRenderer::getMaterials()
     return Materials;
 }
 
-irr::s32 irr::video::CRenderer::addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback)
+irr::s32 irr::video::CRenderer::addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback, irr::video::E_MATERIAL_TYPE baseType)
 {
     return Device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
                shader.SourceVertex.c_str(), "main", irr::video::EVST_VS_2_0,
                shader.SourcePixel.c_str(), "main", irr::video::EPST_PS_2_0,
-               callback);
+               callback, baseType);
 }
 
 

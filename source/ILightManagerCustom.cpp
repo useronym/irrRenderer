@@ -18,8 +18,7 @@ irr::scene::ILightManagerCustom::~ILightManagerCustom()
 
 void irr::scene::ILightManagerCustom::OnPreRender(irr::core::array<irr::scene::ILightSceneNode*> &lightList)
 {
-    Device->getVideoDriver()->setRenderTarget(MRTs, true, true, 0);
-    Device->getLogger()->log(irr::core::stringw(MRTs.size()).c_str());
+    Device->getVideoDriver()->setRenderTarget(*MRTs, true, true, 0);
 }
 
 void irr::scene::ILightManagerCustom::OnPostRender()
@@ -33,8 +32,31 @@ void irr::scene::ILightManagerCustom::OnPostRender()
         Device->getVideoDriver()->setRenderTarget(FinalRender, true, true, 0);
     }
 
-    //light rendering should come here
-    Device->getVideoDriver()->draw2DImage(MRTs[0].RenderTexture, irr::core::position2di(0,0));
+    //point lights
+    irr::scene::IMeshSceneNode* lightVolume= Device->getSceneManager()->addSphereSceneNode(1.0);
+    lightVolume->setMaterialType(LightPointMaterial);
+    lightVolume->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
+    lightVolume->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
+    for(irr::u32 i= 0; i < MRTs->size(); i++)
+    {
+        lightVolume->setMaterialTexture(i, (*MRTs)[i].RenderTexture);
+    }
+
+    for(irr::u32 i= 0; i < Device->getVideoDriver()->getDynamicLightCount(); i++)
+    {
+        irr::video::SLight light= Device->getVideoDriver()->getDynamicLight(i);
+        if(light.Type == irr::video::ELT_POINT)
+        {
+            LightPointCallback->updateConstants(light);
+            lightVolume->setScale(irr::core::vector3df(light.Radius));
+            lightVolume->setPosition(light.Position);
+            lightVolume->updateAbsolutePosition();
+            lightVolume->render();
+        }
+    }
+
+    lightVolume->remove();
+
 }
 
 void irr::scene::ILightManagerCustom::OnRenderPassPreRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass)
@@ -59,7 +81,7 @@ void irr::scene::ILightManagerCustom::OnNodePostRender(irr::scene::ISceneNode *n
 
 void irr::scene::ILightManagerCustom::setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts)
 {
-    MRTs= mrts;
+    MRTs= &mrts;
 }
 
 void irr::scene::ILightManagerCustom::setFinalRenderTexture(irr::video::ITexture* tex)
@@ -73,7 +95,17 @@ irr::video::ITexture* irr::scene::ILightManagerCustom::getFinalRenderTexture()
     else return 0;
 }
 
-void irr::scene::ILightManagerCustom::setRenderToTexture(bool rtt)
+void irr::scene::ILightManagerCustom::setFinalRenderToTexture(bool rtt)
 {
     RenderToTexture= rtt;
+}
+
+void irr::scene::ILightManagerCustom::setLightPointMaterialType(irr::video::E_MATERIAL_TYPE &type)
+{
+    LightPointMaterial= type;
+}
+
+void irr::scene::ILightManagerCustom::setLightPointCallback(irr::video::IShaderLightCallback* callback)
+{
+    LightPointCallback= callback;
 }
