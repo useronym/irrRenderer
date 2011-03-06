@@ -32,11 +32,6 @@ void irr::scene::ILightManagerCustom::OnPostRender()
         Device->getVideoDriver()->setRenderTarget(FinalRender, true, true, 0);
     }
 
-    //Device->getVideoDriver()->setMaterial(irr::video::SMaterial());
-    //Device->getVideoDriver()->setTransform(irr::video::ETS_PROJECTION, irr::core::IdentityMatrix);
-    //Device->getVideoDriver()->setTransform(irr::video::ETS_VIEW, irr::core::IdentityMatrix);
-    //Device->getVideoDriver()->setTransform(irr::video::ETS_WORLD, irr::core::IdentityMatrix);
-
     //point lights
     irr::scene::IMeshSceneNode* lightVolume= Device->getSceneManager()->addSphereSceneNode(1.0, 8);
     lightVolume->setMaterialType(LightPointMaterial);
@@ -46,8 +41,6 @@ void irr::scene::ILightManagerCustom::OnPostRender()
     {
         lightVolume->setMaterialTexture(i, MRTs[i].RenderTexture);
     }
-    lightVolume->setMaterialTexture(0, MRTs[0].RenderTexture);
-    lightVolume->setMaterialTexture(1, MRTs[1].RenderTexture);
 
     for(irr::u32 i= 0; i < Device->getVideoDriver()->getDynamicLightCount(); i++)
     {
