@@ -60,6 +60,7 @@ public:
         viewMat.transformVect(Pos);
         services->setPixelShaderConstant("Position", (float*)&Pos, 3);
         services->setPixelShaderConstant("Radius", &Radius, 1);
+        services->setPixelShaderConstant("Color", (float*)&Color, 3);
 
         irr::core::vector3df farLeftUp= cam->getViewFrustum()->getFarLeftUp();
         viewMat.transformVect(farLeftUp);
@@ -76,11 +77,13 @@ public:
     {
         Pos= light.Position;
         Radius= light.Radius;
+        Color= light.DiffuseColor;
     }
 
 private:
     irr::scene::ISceneManager* Smgr;
     irr::core::vector3df Pos;
+    irr::video::SColorf Color;
     irr::f32 Radius;
 };
 
@@ -90,6 +93,11 @@ class DefaultCallback : public irr::video::IShaderConstantSetCallBack
 public:
     virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
     {
+        int tex0= 0;
+        int tex1= 1;
+        services->setPixelShaderConstant("Tex0", (float*)&tex0, 1);
+        services->setPixelShaderConstant("Tex1", (float*)&tex1, 1);
+
         irr::core::matrix4 mat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
         float farDist;
         if (mat[10]>0.f) farDist = -mat[14]/(mat[10]-1.f); // Left Handed
@@ -97,16 +105,21 @@ public:
         services->setVertexShaderConstant("CamFar", &farDist, 1);
 
         services->setVertexShaderConstant("Repeat", &Repeat, 1);
+
+        services->setVertexShaderConstant("Lighting", &Lighting, 1);
     }
 
     virtual void OnSetMaterial (const irr::video::SMaterial &material)
     {
         Repeat= material.MaterialTypeParam;
         if(Repeat < 1.0) Repeat= 1.0;
+
+        Lighting= float(material.Lighting);
     }
 
 private:
     float Repeat;
+    float Lighting;
 };
 
 

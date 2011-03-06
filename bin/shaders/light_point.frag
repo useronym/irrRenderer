@@ -1,8 +1,9 @@
 uniform sampler2D ColorTex;     //guess what :P
-uniform sampler2D NormalTex;    //view space normal.xy, view space depth
+uniform sampler2D NormalTex;    //view space normal.xy, view space depth, matID
 uniform float CamFar;
 uniform vec3 Position;
 uniform float Radius;
+uniform vec3 Color;
 
 
 varying vec4 ScreenPos;
@@ -23,27 +24,34 @@ void main()
     vec4 vNormal= texture2D(NormalTex, projCoord.xy);
     float vDepth= vNormal.z;
 
-    if(vDepth * CamFar < ScreenPos.z)
+    if(vDepth * CamFar > ScreenPos.z) discard;
+
+    vec4 texColor= texture2D(ColorTex, projCoord.xy);
+
+    //reconstruct view pixel position
+    vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUpX, projCoord.x),
+                        mix(FarLeftUp.y, FarLeftDownY, 1.0 - projCoord.y),
+                        FarLeftUp.z);
+    vec4 vPixelPos= vec4(vProjPos * vDepth, 0.0);
+
+    vec4 lightPos= vec4(Position, 0.0);
+    float dist= length(lightPos - vPixelPos);
+
+    if(dist < Radius)
     {
         //reconstruct normal
         vNormal.xy*= 2.0;
         vNormal.xy-= 1.0;
         vNormal.z= -sqrt( -(vNormal.x*vNormal.x) - (vNormal.y*vNormal.y) + 1.0 );
 
-        //reconstruct view pixel position
-        vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUpX, projCoord.x),
-                            mix(FarLeftUp.y, FarLeftDownY, 1.0 - projCoord.y),
-                            FarLeftUp.z);
-        vec4 vPixelPos= vec4(vProjPos * vDepth, 0.0);
-
         //calculate the light
-        vec4 lightPos= vec4(Position, 0.0);
-        float l= length(lightPos - vPixelPos);
-        float att= max(1 - (l/Radius), 0.0);
+        float att= max(1 - (dist/Radius), 0.0);
         float light= max(dot(normalize(lightPos - vPixelPos), vNormal), 0.0) * att;
 
-        vec4 color= vec4(texture2D(ColorTex, projCoord.xy) * light);
-        gl_FragColor= color;
+        vec4 lightColor= vec4(Color, 0.0);
+        texColor*= light * lightColor;
     }
     else discard;
+
+    gl_FragColor= texColor;
 }

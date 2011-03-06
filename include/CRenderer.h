@@ -54,8 +54,8 @@ class CRenderer
         */
         irr::s32 addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback=0, irr::video::E_MATERIAL_TYPE baseType= irr::video::EMT_SOLID);
 
-        //! Draws the scene, use instead of irr::scene::ISceneManager::drawAll()
-        void drawAll();
+        //! Swaps the materials
+        void swapMaterials();
 
         //! \return The irr::video::CShaderLibrary
         irr::video::CShaderLibrary* getShaderLibrary();

@@ -33,10 +33,11 @@ void irr::scene::ILightManagerCustom::OnPostRender()
     }
 
     //point lights
-    irr::scene::IMeshSceneNode* lightVolume= Device->getSceneManager()->addSphereSceneNode(1.0, 8);
+    irr::scene::IMeshSceneNode* lightVolume= Device->getSceneManager()->addSphereSceneNode(1.0, 12);
     lightVolume->setMaterialType(LightPointMaterial);
     lightVolume->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
     lightVolume->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
+    lightVolume->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
     for(irr::u32 i= 0; i < MRTs.size(); i++)
     {
         lightVolume->setMaterialTexture(i, MRTs[i].RenderTexture);
@@ -55,6 +56,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
         }
     }
     lightVolume->remove();
+    Device->getVideoDriver()->getOverrideMaterial().Enabled= false;
 }
 
 void irr::scene::ILightManagerCustom::OnRenderPassPreRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass)

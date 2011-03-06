@@ -39,6 +39,7 @@ void irr::video::CRenderer::createDefaultPipeline()
 
     Materials->DeferredCompose= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("deferred_compose"), new DeferredComposeCallback(Device->getSceneManager()));
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
+    Materials->Terrain= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new DefaultCallback);
 
     irr::video::IShaderLightCallback* lightPointCallback= new irr::video::IShaderLightCallback(Device->getSceneManager());
     Materials->LightPoint= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_point"), lightPointCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
@@ -60,7 +61,7 @@ void irr::video::CRenderer::addMRT(irr::c8* name, irr::core::dimension2du dimens
     if(MRTs.size() <= 4)
     {
         if(dimension.Height == 0 || dimension.Width == 0) dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
-        MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(dimension, name, irr::video::ECF_A16B16G16R16F)));
+        MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(dimension, name, irr::video::ECF_A16B16G16R16F)));//ECF_A16B16G16R16F
     }
 }
 
@@ -102,12 +103,21 @@ irr::s32 irr::video::CRenderer::addMaterial(irr::video::SShader shader, irr::vid
 }
 
 
-void irr::video::CRenderer::drawAll()
+void irr::video::CRenderer::swapMaterials()
 {
-    Device->getVideoDriver()->setRenderTarget(MRTs, true, true, 0);
-    Device->getSceneManager()->drawAll();
-    Device->getVideoDriver()->setRenderTarget(0, true, true, 0);
-    Device->getVideoDriver()->setMaterial(irr::video::SMaterial());
+    irr::core::array<irr::scene::ISceneNode*> nodes;
+    Device->getSceneManager()->getSceneNodesFromType(irr::scene::ESNT_ANY, nodes);
+
+    for(irr::u32 i= 0; i < nodes.size(); i++)
+    {
+        irr::scene::ISceneNode* node= nodes[i];
+        for(irr::u32 ii= 0; ii < node->getMaterialCount(); ii++)
+        {
+            if(node->getMaterial(i).MaterialType == irr::video::EMT_SOLID) node->getMaterial(i).MaterialType= getMaterials()->Solid;
+            else if(node->getMaterial(i).MaterialType == irr::video::EMT_DETAIL_MAP) node->getMaterial(i).MaterialType= getMaterials()->Terrain;
+        }
+        node->getMaterial(0).MaterialType= getMaterials()->Terrain;
+    }
 }
 
 irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary()
