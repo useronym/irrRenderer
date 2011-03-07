@@ -32,9 +32,9 @@ CTestFramework::CTestFramework()
     scene::IMeshSceneNode* ball= smgr->addSphereSceneNode(20);
     ball->setPosition(core::vector3df(0, 30, 0));
     ball->setMaterialTexture(0, Device->getVideoDriver()->getTexture("brownground.jpg"));
-    ball->setMaterialType(Renderer->getMaterials()->Solid);*/
+    ball->setMaterialType(Renderer->getMaterials()->Solid);
 
-    /*for(int i= 1; i < 31; i++)
+    for(int i= 1; i < 31; i++)
     {
         float lrange= 75+i*5;
         irr::video::SColorf lcolor= irr::video::SColorf(i/50.0, 1-i/30.0, i/30.0, 0.0);
@@ -70,6 +70,8 @@ bool CTestFramework::run()
     core::stringw str= L"irrRenderer - RenderTest";
     str+= L" | FPS: ";
     str+= Device->getVideoDriver()->getFPS();
+    str+= L" | ms/frame: ";
+    str+= (1.0 / Device->getVideoDriver()->getFPS())*1000.0;
     str+= L" | Tris: ";
     str+= Device->getVideoDriver()->getPrimitiveCountDrawn();
     Device->setWindowCaption(str.c_str());

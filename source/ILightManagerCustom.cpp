@@ -32,31 +32,54 @@ void irr::scene::ILightManagerCustom::OnPostRender()
         Device->getVideoDriver()->setRenderTarget(FinalRender, true, true, 0);
     }
 
-    //point lights
-    irr::scene::IMeshSceneNode* lightVolume= Device->getSceneManager()->addSphereSceneNode(1.0, 12);
-    lightVolume->setMaterialType(LightPointMaterial);
-    lightVolume->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
-    lightVolume->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
-    lightVolume->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
+    //teh lights
+    irr::scene::IMeshSceneNode* lightSphere= Device->getSceneManager()->addSphereSceneNode(1.0, 12);
+    lightSphere->setMaterialType(LightPointMaterial);
+    lightSphere->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
+    lightSphere->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
+    lightSphere->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
+    lightSphere->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
+
+    irr::scene::IQuadSceneNode* lightQuad= new irr::scene::IQuadSceneNode(0, Device->getSceneManager());
+    lightQuad->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
+
     for(irr::u32 i= 0; i < MRTs.size(); i++)
     {
-        lightVolume->setMaterialTexture(i, MRTs[i].RenderTexture);
+        lightSphere->setMaterialTexture(i, MRTs[i].RenderTexture);
+        lightQuad->setMaterialTexture(i, MRTs[i].RenderTexture);
     }
 
+    //ambient
+    lightQuad->setMaterialType(LightAmbientMaterial);
+    if(Device->getSceneManager()->getAmbientLight().r +
+       Device->getSceneManager()->getAmbientLight().g +
+       Device->getSceneManager()->getAmbientLight().b > 2) lightQuad->render();
+
+    //dynamic lights
     for(irr::u32 i= 0; i < Device->getVideoDriver()->getDynamicLightCount(); i++)
     {
         irr::video::SLight light= Device->getVideoDriver()->getDynamicLight(i);
+
+        //point
         if(light.Type == irr::video::ELT_POINT)
         {
             LightPointCallback->updateConstants(light);
-            lightVolume->setScale(irr::core::vector3df(light.Radius));
-            lightVolume->setPosition(light.Position);
-            lightVolume->updateAbsolutePosition();
-            lightVolume->render();
+            lightSphere->setScale(irr::core::vector3df(light.Radius));
+            lightSphere->setPosition(light.Position);
+            lightSphere->updateAbsolutePosition();
+            lightSphere->render();
+        }
+        //directional
+        else if(light.Type == irr::video::ELT_DIRECTIONAL)
+        {
+            lightQuad->setMaterialType(LightDirectionalMaterial);
+            LightDirectionalCallback->updateConstants(light);
+            lightQuad->render();
         }
     }
-    lightVolume->remove();
-    Device->getVideoDriver()->getOverrideMaterial().Enabled= false;
+
+    lightQuad->remove();
+    lightSphere->remove();
 }
 
 void irr::scene::ILightManagerCustom::OnRenderPassPreRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass)
@@ -100,12 +123,32 @@ void irr::scene::ILightManagerCustom::setFinalRenderToTexture(bool rtt)
     RenderToTexture= rtt;
 }
 
+void irr::scene::ILightManagerCustom::setLightAmbientMaterialType(irr::video::E_MATERIAL_TYPE &type)
+{
+    LightAmbientMaterial= type;
+}
+
+void irr::scene::ILightManagerCustom::setLightAmbientCallback(irr::video::IShaderAmbientLightCallback* callback)
+{
+    LightAmbientCallback= callback;
+}
+
 void irr::scene::ILightManagerCustom::setLightPointMaterialType(irr::video::E_MATERIAL_TYPE &type)
 {
     LightPointMaterial= type;
 }
 
-void irr::scene::ILightManagerCustom::setLightPointCallback(irr::video::IShaderLightCallback* callback)
+void irr::scene::ILightManagerCustom::setLightPointCallback(irr::video::IShaderPointLightCallback* callback)
 {
     LightPointCallback= callback;
+}
+
+void irr::scene::ILightManagerCustom::setLightDirectionalMaterialType(irr::video::E_MATERIAL_TYPE &type)
+{
+    LightDirectionalMaterial= type;
+}
+
+void irr::scene::ILightManagerCustom::setLightDirectionalCallback(irr::video::IShaderDirectionalLightCallback* callback)
+{
+    LightDirectionalCallback= callback;
 }

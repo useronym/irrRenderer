@@ -13,36 +13,10 @@ namespace irr
 namespace video
 {
 
-class DeferredComposeCallback : public irr::video::IShaderConstantSetCallBack
+class IShaderPointLightCallback : public irr::video::IShaderConstantSetCallBack
 {
 public:
-    DeferredComposeCallback(irr::scene::ISceneManager* smgr)
-    {
-        Smgr= smgr;
-    }
-
-    virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
-    {
-        int tex0= 0;
-        int tex1= 1;
-        services->setPixelShaderConstant("ColorTex", (float*)&tex0, 1);
-        services->setPixelShaderConstant("NormalTex", (float*)&tex1, 1);
-
-        irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
-        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
-        irr::core::vector3df farLeftUp= cam->getViewFrustum()->getFarLeftUp();
-        viewMat.transformVect(farLeftUp);
-        services->setVertexShaderConstant("VertexFarLeftUp", (float*)&farLeftUp, 3);
-    }
-
-private:
-    irr::scene::ISceneManager* Smgr;
-};
-
-class IShaderLightCallback : public irr::video::IShaderConstantSetCallBack
-{
-public:
-    IShaderLightCallback(irr::scene::ISceneManager* smgr)
+    IShaderPointLightCallback(irr::scene::ISceneManager* smgr)
     {
         Smgr= smgr;
     }
@@ -85,6 +59,65 @@ private:
     irr::core::vector3df Pos;
     irr::video::SColorf Color;
     irr::f32 Radius;
+};
+
+class IShaderAmbientLightCallback : public irr::video::IShaderConstantSetCallBack
+{
+public:
+    IShaderAmbientLightCallback(irr::scene::ISceneManager* smgr)
+    {
+        Smgr= smgr;
+    }
+
+    virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
+    {
+        int tex0= 0;
+        services->setPixelShaderConstant("ColorTex", (float*)&tex0, 1);
+
+        irr::core::vector3df ambientCol;
+        ambientCol.X= Smgr->getAmbientLight().r;
+        ambientCol.Y= Smgr->getAmbientLight().g;
+        ambientCol.Z= Smgr->getAmbientLight().b;
+        services->setPixelShaderConstant("Color", (float*)&ambientCol, 3);
+    }
+
+private:
+    irr::scene::ISceneManager* Smgr;
+};
+
+class IShaderDirectionalLightCallback : public irr::video::IShaderConstantSetCallBack
+{
+public:
+    IShaderDirectionalLightCallback(irr::scene::ISceneManager* smgr)
+    {
+        Smgr= smgr;
+    }
+
+    virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
+    {
+        int tex0= 0;
+        int tex1= 1;
+        services->setPixelShaderConstant("ColorTex", (float*)&tex0, 1);
+        services->setPixelShaderConstant("NormalTex", (float*)&tex1, 1);
+
+        irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
+        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
+        viewMat.transformVect(Direction);
+        services->setPixelShaderConstant("Direction", (float*)&Direction, 3);
+
+        services->setPixelShaderConstant("Color", (float*)&Color, 3);
+    }
+
+    virtual void updateConstants(irr::video::SLight &light)
+    {
+        Direction= light.Direction;
+        Color= light.DiffuseColor;
+    }
+
+private:
+    irr::scene::ISceneManager* Smgr;
+    irr::core::vector3df Direction;
+    irr::video::SColorf Color;
 };
 
 
