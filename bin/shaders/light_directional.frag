@@ -1,5 +1,6 @@
 uniform sampler2D ColorTex;     //guess what :P
-uniform sampler2D NormalTex;    //view space normal.xy, view space depth, matID
+uniform sampler2D NormalTex;    //view space normal.xy
+uniform sampler2D DepthTex;    //view space depth
 uniform vec3 Direction;
 uniform vec3 Color;
 

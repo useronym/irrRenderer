@@ -51,29 +51,37 @@ void irr::scene::ILightManagerCustom::OnPostRender()
 
     //ambient
     lightQuad->setMaterialType(LightAmbientMaterial);
-    if(Device->getSceneManager()->getAmbientLight().r +
-       Device->getSceneManager()->getAmbientLight().g +
-       Device->getSceneManager()->getAmbientLight().b > 2) lightQuad->render();
+    if(Device->getSceneManager()->getAmbientLight().r > 0) lightQuad->render();
 
     //dynamic lights
     for(irr::u32 i= 0; i < Device->getVideoDriver()->getDynamicLightCount(); i++)
     {
         irr::video::SLight light= Device->getVideoDriver()->getDynamicLight(i);
+        irr::core::vector3df camPos= Device->getSceneManager()->getActiveCamera()->getAbsolutePosition();
 
         //point
         if(light.Type == irr::video::ELT_POINT)
         {
             LightPointCallback->updateConstants(light);
-            lightSphere->setScale(irr::core::vector3df(light.Radius));
-            lightSphere->setPosition(light.Position);
-            lightSphere->updateAbsolutePosition();
-            lightSphere->render();
+
+            /*if((camPos - light.Position).getLength() < light.Radius)
+            {
+                lightQuad->setMaterialType(LightPointMaterial);
+                lightQuad->render();
+            }
+            else
+            {*/
+                lightSphere->setScale(irr::core::vector3df(light.Radius));
+                lightSphere->setPosition(light.Position);
+                lightSphere->updateAbsolutePosition();
+                lightSphere->render();
+            //}
         }
         //directional
         else if(light.Type == irr::video::ELT_DIRECTIONAL)
         {
-            lightQuad->setMaterialType(LightDirectionalMaterial);
             LightDirectionalCallback->updateConstants(light);
+            lightQuad->setMaterialType(LightDirectionalMaterial);
             lightQuad->render();
         }
     }

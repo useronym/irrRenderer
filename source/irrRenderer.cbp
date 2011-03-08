@@ -39,8 +39,6 @@
 			<Add library="Irrlicht" />
 			<Add directory="$(#irrlicht.lib)" />
 		</Linker>
-		<Unit filename="..\bin\shaders\deferred_compose.frag" />
-		<Unit filename="..\bin\shaders\deferred_compose.vert" />
 		<Unit filename="..\bin\shaders\light.vert" />
 		<Unit filename="..\bin\shaders\light_ambient.frag" />
 		<Unit filename="..\bin\shaders\light_directional.frag" />

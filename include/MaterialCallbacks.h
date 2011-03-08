@@ -25,8 +25,10 @@ public:
     {
         int tex0= 0;
         int tex1= 1;
+        int tex2= 2;
         services->setPixelShaderConstant("ColorTex", (float*)&tex0, 1);
         services->setPixelShaderConstant("NormalTex", (float*)&tex1, 1);
+        services->setPixelShaderConstant("DepthTex", (float*)&tex2, 1);
 
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
         irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
@@ -97,12 +99,14 @@ public:
     {
         int tex0= 0;
         int tex1= 1;
+        int tex2= 2;
         services->setPixelShaderConstant("ColorTex", (float*)&tex0, 1);
         services->setPixelShaderConstant("NormalTex", (float*)&tex1, 1);
+        services->setPixelShaderConstant("DepthTex", (float*)&tex2, 1);
 
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
         irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
-        viewMat.transformVect(Direction);
+        viewMat.rotateVect(Direction);
         services->setPixelShaderConstant("Direction", (float*)&Direction, 3);
 
         services->setPixelShaderConstant("Color", (float*)&Color, 3);

@@ -34,7 +34,7 @@ class CRenderer
         /*! \param name unique name of the texture, so please make sure it's unique
         \param dimension resolution of the texture, leave blank for auto (full screen resolution)
         */
-        void addMRT(irr::c8* name, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
+        void addMRT(irr::c8* name, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
 
         //! \return The RTT based on index \param index index of the MRT
         irr::video::ITexture* getMRT(irr::u32 index);

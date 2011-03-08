@@ -24,8 +24,9 @@ irr::video::CRenderer::~CRenderer()
 void irr::video::CRenderer::createDefaultPipeline()
 {
     clearMRTs();
-    addMRT("deferred-mrt-color-dont-use-this-name-thanks");
-    addMRT("deferred-mrt-normal-depth-matid-dont-use-this-name-thanks");
+    addMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
+    addMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
+    addMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
 
     if(LightMgr) LightMgr->drop();
     LightMgr= new irr::scene::ILightManagerCustom(Device);
@@ -69,12 +70,12 @@ void irr::video::CRenderer::clearMRTs()
     MRTs.clear();
 }
 
-void irr::video::CRenderer::addMRT(irr::c8* name, irr::core::dimension2du dimension)
+void irr::video::CRenderer::addMRT(irr::c8* name, irr::video::ECOLOR_FORMAT format, irr::core::dimension2du dimension)
 {
     if(MRTs.size() <= 4)
     {
         if(dimension.Height == 0 || dimension.Width == 0) dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
-        MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(dimension, name, irr::video::ECF_A16B16G16R16F)));//ECF_A16B16G16R16F
+        MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(dimension, name, format)));
     }
 }
 

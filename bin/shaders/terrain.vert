@@ -3,7 +3,7 @@ uniform float Repeat;
 uniform float Lighting;
 
 varying vec2 Normal;
-varying vec2 Depth;
+varying float Depth;
 
 void main()
 {
@@ -11,8 +11,7 @@ void main()
    Normal*= 0.5;
    Normal+= 0.5;
    vec4 vertex = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
-   Depth.x= vertex.z/CamFar;
-   Depth.y= Lighting;
+   Depth= vertex.z/CamFar;
 
    gl_Position= vertex;
    gl_TexCoord[0]= gl_MultiTexCoord0;

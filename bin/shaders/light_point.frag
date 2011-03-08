@@ -1,5 +1,6 @@
 uniform sampler2D ColorTex;     //guess what :P
-uniform sampler2D NormalTex;    //view space normal.xy, view space depth, matID
+uniform sampler2D NormalTex;    //view space normal.xy
+uniform sampler2D DepthTex;    //view space normal.xy
 uniform float CamFar;
 uniform vec3 Position;
 uniform float Radius;
@@ -21,12 +22,12 @@ void main()
     projCoord.xy= clamp(projCoord.xy, 0.001, 0.999);
 
     //get depth
-    vec4 vNormal= texture2D(NormalTex, projCoord.xy);
-    float vDepth= vNormal.z;
+    float vDepth= texture2D(DepthTex, projCoord.xy).r;
 
     if(vDepth * CamFar > ScreenPos.z) discard;
 
     vec4 texColor= texture2D(ColorTex, projCoord.xy);
+
 
     //reconstruct view pixel position
     vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUpX, projCoord.x),
@@ -40,6 +41,7 @@ void main()
     if(dist < Radius)
     {
         //reconstruct normal
+        vec4 vNormal= texture2D(NormalTex, projCoord.xy);
         vNormal.xy*= 2.0;
         vNormal.xy-= 1.0;
         vNormal.z= -sqrt( -(vNormal.x*vNormal.x) - (vNormal.y*vNormal.y) + 1.0 );
