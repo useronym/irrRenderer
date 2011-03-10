@@ -15,7 +15,7 @@ namespace video
 {
 
 //! A structure holding shader data: it's name and source
-struct SShader
+struct SShaderSource
 {
     irr::core::stringc Name;
     irr::core::stringc SourceVertex;
@@ -42,13 +42,13 @@ class CShaderLibrary
 
         //! Gets a previously loaded shader by name
         /*! \param name the unique name of the desired shader
-        \return The shader, an irr::video::SShader struct
+        \return The shader, an irr::video::SShaderSource struct
         */
-        SShader& getShader(irr::c8* name);
+        SShaderSource& getShader(irr::c8* name);
 
     private:
         irr::c8* ShaderDir;
-        irr::core::array<SShader> Shaders;
+        irr::core::array<SShaderSource> Shaders;
 };
 
 }

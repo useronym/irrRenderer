@@ -50,7 +50,6 @@
 		<Unit filename="CTestFramework.cpp" />
 		<Unit filename="CTestFramework.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="..\bin\shaders\light_ambient.vert" />
 		<Extensions>
 			<code_completion />
 			<debugger />

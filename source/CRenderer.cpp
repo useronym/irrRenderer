@@ -108,7 +108,7 @@ irr::video::SMaterials* irr::video::CRenderer::getMaterials()
     return Materials;
 }
 
-irr::s32 irr::video::CRenderer::addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback, irr::video::E_MATERIAL_TYPE baseType)
+irr::s32 irr::video::CRenderer::addMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback, irr::video::E_MATERIAL_TYPE baseType)
 {
     return Device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
                shader.SourceVertex.c_str(), "main", irr::video::EVST_VS_2_0,

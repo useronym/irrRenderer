@@ -105,7 +105,7 @@ public:
         services->setPixelShaderConstant("DepthTex", (float*)&tex2, 1);
 
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
-        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
+        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
         viewMat.rotateVect(Direction);
         services->setPixelShaderConstant("Direction", (float*)&Direction, 3);
 

@@ -8,12 +8,12 @@ irr::video::CShaderLibrary::CShaderLibrary(irr::c8* shaderDir)
     ShaderDir= shaderDir;
 
     //create empty first shader if someone is stupid enough to request a non-existent shader
-    Shaders.push_back(SShader());
+    Shaders.push_back(SShaderSource());
 }
 
 void irr::video::CShaderLibrary::loadShader(irr::c8* name, irr::c8* sourceVertex, irr::c8* sourcePixel)
 {
-    SShader newShader;
+    SShaderSource newShader;
     newShader.Name.append(name);
 
     irr::core::stringc fileNameVertex;
@@ -53,7 +53,7 @@ void irr::video::CShaderLibrary::loadShader(irr::c8* name, irr::c8* sourceVertex
     Shaders.push_back(newShader);
 }
 
-irr::video::SShader& irr::video::CShaderLibrary::getShader(irr::c8* name)
+irr::video::SShaderSource& irr::video::CShaderLibrary::getShader(irr::c8* name)
 {
     for(irr::u16 i= 0; i < Shaders.size(); i++)
     {

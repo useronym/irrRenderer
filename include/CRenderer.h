@@ -49,10 +49,10 @@ class CRenderer
         irr::video::ITexture* getFinalRenderTexture();
 
         //! Add a new material
-        /*! \param shader previously loaded SShader holding the source code, use irr::video::CShaderLibrary to load the shader
+        /*! \param shader previously loaded irr::video::SShaderSource holding the source code, use irr::video::CShaderLibrary to load the shader
         \param callback custom callback if needed
         */
-        irr::s32 addMaterial(irr::video::SShader shader, irr::video::IShaderConstantSetCallBack *callback=0, irr::video::E_MATERIAL_TYPE baseType= irr::video::EMT_SOLID);
+        irr::s32 addMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback=0, irr::video::E_MATERIAL_TYPE baseType= irr::video::EMT_SOLID);
 
         //! Swaps the materials
         void swapMaterials();
