@@ -14,11 +14,12 @@
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O3" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="irrRenderer" />
+					<Add library="$(#irrrenderer.lib)\libirrRenderer.a" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
@@ -30,10 +31,12 @@
 				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-pg" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="..\lib\debug\irrRenderer.a" />
+					<Add option="-pg -lgmon" />
+					<Add library="$(#irrrendererdebug.lib)\libirrRenderer.a" />
 				</Linker>
 			</Target>
 		</Build>

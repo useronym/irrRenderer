@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="..\lib\irrRenderer" prefix_auto="0" extension_auto="1" />
+				<Option output="..\lib\release\libirrRenderer" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output=".obj\" />
 				<Option type="2" />
@@ -20,7 +20,7 @@
 				</Linker>
 			</Target>
 			<Target title="Debug">
-				<Option output="..\lib\debug\irrRenderer" prefix_auto="0" extension_auto="1" />
+				<Option output="..\lib\debug\libirrRenderer" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output=".obj\debug" />
 				<Option type="2" />
