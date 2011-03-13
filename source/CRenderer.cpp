@@ -35,18 +35,13 @@ void irr::video::CRenderer::createDefaultPipeline()
 
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
     ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
-    ShaderLib->loadShader("light_ambient", "quad.vert", "light_ambient.frag");
     ShaderLib->loadShader("light_point", "light.vert", "light_point.frag");
+    ShaderLib->loadShader("light_spot", "light.vert", "light_point.frag");
     ShaderLib->loadShader("light_directional", "quad.vert", "light_directional.frag");
+    ShaderLib->loadShader("light_ambient", "quad.vert", "light_ambient.frag");
 
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
     Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new DefaultCallback);
-
-    //set up ambient light
-    irr::video::IShaderAmbientLightCallback* ambientCallback= new irr::video::IShaderAmbientLightCallback(Device->getSceneManager());
-    Materials->LightAmbient= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_ambient"), ambientCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
-    LightMgr->setLightAmbientMaterialType(Materials->LightAmbient);
-    LightMgr->setLightAmbientCallback(ambientCallback);
 
     //set up point lights
     irr::video::IShaderPointLightCallback* pointCallback= new irr::video::IShaderPointLightCallback(Device->getSceneManager());
@@ -54,11 +49,23 @@ void irr::video::CRenderer::createDefaultPipeline()
     LightMgr->setLightPointMaterialType(Materials->LightPoint);
     LightMgr->setLightPointCallback(pointCallback);
 
+    //set up spot lights
+    irr::video::IShaderSpotLightCallback* spotCallback= new irr::video::IShaderSpotLightCallback(Device->getSceneManager());
+    Materials->LightSpot= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_spot"), spotCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    LightMgr->setLightSpotMaterialType(Materials->LightSpot);
+    LightMgr->setLightSpotCallback(spotCallback);
+
     //set up directional lights
     irr::video::IShaderDirectionalLightCallback* directionalCallback= new irr::video::IShaderDirectionalLightCallback(Device->getSceneManager());
     Materials->LightDirectional= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_directional"), directionalCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightDirectionalMaterialType(Materials->LightDirectional);
     LightMgr->setLightDirectionalCallback(directionalCallback);
+
+    //set up ambient light
+    irr::video::IShaderAmbientLightCallback* ambientCallback= new irr::video::IShaderAmbientLightCallback(Device->getSceneManager());
+    Materials->LightAmbient= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_ambient"), ambientCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    LightMgr->setLightAmbientMaterialType(Materials->LightAmbient);
+    LightMgr->setLightAmbientCallback(ambientCallback);
 }
 
 void irr::video::CRenderer::clearMRTs()
@@ -127,10 +134,9 @@ void irr::video::CRenderer::swapMaterials()
         irr::scene::ISceneNode* node= nodes[i];
         for(irr::u32 ii= 0; ii < node->getMaterialCount(); ii++)
         {
-            if(node->getMaterial(i).MaterialType == irr::video::EMT_SOLID) node->getMaterial(i).MaterialType= getMaterials()->Solid;
-            else if(node->getMaterial(i).MaterialType == irr::video::EMT_DETAIL_MAP) node->getMaterial(i).MaterialType= getMaterials()->DetailMap;
+            if(node->getMaterial(ii).MaterialType == irr::video::EMT_SOLID) node->getMaterial(ii).MaterialType= getMaterials()->Solid;
+            else if(node->getMaterial(ii).MaterialType == irr::video::EMT_DETAIL_MAP) node->getMaterial(ii).MaterialType= getMaterials()->DetailMap;
         }
-        node->getMaterial(0).MaterialType= getMaterials()->DetailMap;
     }
 }
 

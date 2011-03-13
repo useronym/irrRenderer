@@ -41,12 +41,14 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         void setFinalRenderToTexture(bool rtt);
 
-        void setLightAmbientMaterialType(irr::video::E_MATERIAL_TYPE &type);
-        void setLightAmbientCallback(irr::video::IShaderAmbientLightCallback* callback);
         void setLightPointMaterialType(irr::video::E_MATERIAL_TYPE &type);
         void setLightPointCallback(irr::video::IShaderPointLightCallback* callback);
+        void setLightSpotMaterialType(irr::video::E_MATERIAL_TYPE &type);
+        void setLightSpotCallback(irr::video::IShaderSpotLightCallback* callback);
         void setLightDirectionalMaterialType(irr::video::E_MATERIAL_TYPE &type);
         void setLightDirectionalCallback(irr::video::IShaderDirectionalLightCallback* callback);
+        void setLightAmbientMaterialType(irr::video::E_MATERIAL_TYPE &type);
+        void setLightAmbientCallback(irr::video::IShaderAmbientLightCallback* callback);
 
 
     private:
@@ -58,11 +60,14 @@ class ILightManagerCustom : public irr::scene::ILightManager
         irr::video::E_MATERIAL_TYPE LightPointMaterial;
         irr::video::IShaderPointLightCallback* LightPointCallback;
 
-        irr::video::E_MATERIAL_TYPE LightAmbientMaterial;
-        irr::video::IShaderAmbientLightCallback* LightAmbientCallback;
+        irr::video::E_MATERIAL_TYPE LightSpotMaterial;
+        irr::video::IShaderSpotLightCallback* LightSpotCallback;
 
         irr::video::E_MATERIAL_TYPE LightDirectionalMaterial;
         irr::video::IShaderDirectionalLightCallback* LightDirectionalCallback;
+
+        irr::video::E_MATERIAL_TYPE LightAmbientMaterial;
+        irr::video::IShaderAmbientLightCallback* LightAmbientCallback;
 };
 
 }
