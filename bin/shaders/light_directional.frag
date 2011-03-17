@@ -18,7 +18,9 @@ void main()
     vec4 lightDir= vec4(normalize(Direction), 0.0);
     float light= max(dot(lightDir, vNormal), 0.0);
 
-    texColor*= light * vec4(Color, 0.0);
-
-    gl_FragColor= texColor;
+    if(light > 0.0)
+    {
+        gl_FragColor= light * vec4(Color, 0.0) * texture2D(ColorTex, gl_TexCoord[0].xy);
+    }
+    else discard;
 }

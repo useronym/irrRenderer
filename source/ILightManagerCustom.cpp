@@ -8,7 +8,6 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
 {
     Device= device;
     FinalRender= 0;
-    RenderToTexture= false;
 }
 
 irr::scene::ILightManagerCustom::~ILightManagerCustom()
@@ -23,7 +22,7 @@ void irr::scene::ILightManagerCustom::OnPreRender(irr::core::array<irr::scene::I
 
 void irr::scene::ILightManagerCustom::OnPostRender()
 {
-    if(!RenderToTexture)
+    if(!FinalRender)
     {
         Device->getVideoDriver()->setRenderTarget(0);
     }
@@ -86,7 +85,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
         {
             LightSpotCallback->updateConstants(light);
             lightCone->setScale(irr::core::vector3df(LightSpotCallback->getConeRadius(), light.Radius, LightSpotCallback->getConeRadius()));
-            //we(well, only me, entity, really) need to do some more calculations because the cone mesh we created is kinda fucked up by default
+            //we(well, me, really) need to do some more calculations because the cone mesh we created is kinda fucked up by default
             lightCone->setRotation(light.Direction.getHorizontalAngle() + irr::core::vector3df(-90.0, 0.0, 0.0));
             lightCone->setPosition(light.Position + light.Direction*light.Radius);
             //done.. true power of irrlicht!
@@ -128,6 +127,8 @@ void irr::scene::ILightManagerCustom::OnNodePostRender(irr::scene::ISceneNode *n
 
 }
 
+
+
 void irr::scene::ILightManagerCustom::setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts)
 {
     MRTs= mrts;
@@ -142,11 +143,6 @@ irr::video::ITexture* irr::scene::ILightManagerCustom::getFinalRenderTexture()
 {
     if(FinalRender) return FinalRender;
     else return 0;
-}
-
-void irr::scene::ILightManagerCustom::setFinalRenderToTexture(bool rtt)
-{
-    RenderToTexture= rtt;
 }
 
 

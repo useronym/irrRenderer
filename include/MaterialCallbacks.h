@@ -80,9 +80,12 @@ public:
         irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
 
         viewMat.transformVect(Pos);
+        viewMat.rotateVect(Direction);
         services->setPixelShaderConstant("Position", (float*)&Pos, 3);
         services->setPixelShaderConstant("Radius", &Radius, 1);
         services->setPixelShaderConstant("Color", (float*)&Color, 3);
+        services->setPixelShaderConstant("Direction", (float*)&Direction, 3);
+        services->setPixelShaderConstant("CosCutoff", (float*)&CosCutoff, 1);
 
         irr::core::vector3df farLeftUp= cam->getViewFrustum()->getFarLeftUp();
         viewMat.transformVect(farLeftUp);
@@ -94,6 +97,8 @@ public:
         Pos= light.Position;
         Radius= light.Radius;
         Color= light.DiffuseColor;
+        Direction= light.Direction;
+        CosCutoff= cos(light.OuterCone);
 
         /*     /\               Ga - Gamma
          *    /Ga\              Be - Beta
@@ -117,7 +122,9 @@ private:
     irr::scene::ISceneManager* Smgr;
     irr::core::vector3df Pos;
     irr::video::SColorf Color;
+    irr::core::vector3df Direction;
     irr::f32 Radius;
+    irr::f32 CosCutoff;
     irr::f32 ConeRadius;
 };
 

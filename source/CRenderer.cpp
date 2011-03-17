@@ -36,7 +36,7 @@ void irr::video::CRenderer::createDefaultPipeline()
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
     ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
     ShaderLib->loadShader("light_point", "light.vert", "light_point.frag");
-    ShaderLib->loadShader("light_spot", "light.vert", "light_point.frag");
+    ShaderLib->loadShader("light_spot", "light.vert", "light_spot.frag");
     ShaderLib->loadShader("light_directional", "quad.vert", "light_directional.frag");
     ShaderLib->loadShader("light_ambient", "quad.vert", "light_ambient.frag");
 
@@ -51,7 +51,7 @@ void irr::video::CRenderer::createDefaultPipeline()
 
     //set up spot lights
     irr::video::IShaderSpotLightCallback* spotCallback= new irr::video::IShaderSpotLightCallback(Device->getSceneManager());
-    Materials->LightSpot= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_spot"), spotCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    Materials->LightSpot= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_spot"), spotCallback, irr::video::EMT_SOLID);
     LightMgr->setLightSpotMaterialType(Materials->LightSpot);
     LightMgr->setLightSpotCallback(spotCallback);
 

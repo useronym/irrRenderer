@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="RenderTester" />
+		<Option title="RenderTest" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="..\bin\RenderTester" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\RenderTest" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="..\bin\" />
 				<Option object_output=".obj\" />
 				<Option type="1" />
@@ -16,14 +16,17 @@
 				<Compiler>
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
+					<Add directory="$(#irrlicht.include)" />
+					<Add directory="$(#irrrenderer.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="Irrlicht" />
 					<Add library="$(#irrrenderer.lib)\libirrRenderer.a" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
-				<Option output="..\bin\RenderTester" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\RenderTest" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="..\bin\" />
 				<Option object_output=".obj\" />
 				<Option type="1" />
@@ -33,20 +36,40 @@
 					<Add option="-O2" />
 					<Add option="-pg" />
 					<Add option="-g" />
+					<Add directory="$(#irrlicht.include)" />
+					<Add directory="$(#irrrenderer.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
+					<Add library="Irrlicht" />
+					<Add library="$(#irrrendererdebug.lib)\libirrRenderer.a" />
+				</Linker>
+			</Target>
+			<Target title="Debug SVN">
+				<Option output="..\bin\RenderTest" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\bin\" />
+				<Option object_output=".obj\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add directory="$(#irrlicht_svn.include)" />
+					<Add directory="$(#irrrenderer.include)" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="$(#irrlicht_svn.lib)\libIrrlicht.a" />
 					<Add library="$(#irrrendererdebug.lib)\libirrRenderer.a" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-fexceptions" />
-			<Add directory="$(#irrlicht.include)" />
-			<Add directory="$(#irrrenderer.include)" />
 		</Compiler>
 		<Linker>
-			<Add library="Irrlicht" />
 			<Add directory="$(#irrlicht.include)" />
 			<Add directory="..\bin" />
 		</Linker>

@@ -55,7 +55,6 @@ class ILightManagerCustom : public irr::scene::ILightManager
         irr::IrrlichtDevice* Device;
         irr::core::array<irr::video::IRenderTarget> MRTs;
         irr::video::ITexture* FinalRender;
-        bool RenderToTexture;
 
         irr::video::E_MATERIAL_TYPE LightPointMaterial;
         irr::video::IShaderPointLightCallback* LightPointCallback;

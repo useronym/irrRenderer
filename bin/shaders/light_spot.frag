@@ -5,6 +5,8 @@ uniform float CamFar;
 uniform vec3 Position;
 uniform float Radius;
 uniform vec3 Color;
+uniform vec3 Direction;
+uniform float CosCutoff;
 
 
 varying vec4 ScreenPos;
@@ -45,8 +47,11 @@ void main()
         vNormal.z= -sqrt( -(vNormal.x*vNormal.x) - (vNormal.y*vNormal.y) + 1.0 );
 
         //calculate the light
-        float att= 1.0 / (dist * (1.0 / Radius));
-        float light= max(dot(normalize(vLightPos - vPixelPos), vNormal), 0.0) * att;
+        vec4 lightDir= normalize(vLightPos - vPixelPos);
+        vec4 spotDir= vec4(normalize(Direction), 0.0);
+        float spotEffect = dot(spotDir, -lightDir);
+        float att= spotEffect / (dist * (1.0 / Radius));
+        float light= max(dot(lightDir, vNormal), 0.0) * att;
 
         vec4 lightColor= vec4(Color, 0.0);
         gl_FragColor= light * lightColor * texture2D(ColorTex, projCoord.xy);;
