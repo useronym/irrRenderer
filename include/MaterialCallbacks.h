@@ -31,7 +31,13 @@ public:
         services->setPixelShaderConstant("DepthTex", (float*)&tex2, 1);
 
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
-        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
+        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
+        irr::core::matrix4 projMat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
+
+        float farDist;
+        if (projMat[10]>0.f) farDist = -projMat[14]/(projMat[10]-1.f); // Left Handed
+        else farDist = projMat[14]/(projMat[10]+1.f); // Right Handed
+        services->setPixelShaderConstant("CamFar", &farDist, 1);
 
         viewMat.transformVect(Pos);
         services->setPixelShaderConstant("Position", (float*)&Pos, 3);
@@ -78,6 +84,12 @@ public:
 
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
         irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
+        irr::core::matrix4 projMat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
+
+        float farDist;
+        if (projMat[10]>0.f) farDist = -projMat[14]/(projMat[10]-1.f); // Left Handed
+        else farDist = projMat[14]/(projMat[10]+1.f); // Right Handed
+        services->setPixelShaderConstant("CamFar", &farDist, 1);
 
         viewMat.transformVect(Pos);
         viewMat.rotateVect(Direction);
