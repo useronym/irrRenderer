@@ -52,7 +52,7 @@ public:
     virtual void updateConstants(irr::video::SLight &light)
     {
         Pos= light.Position;
-        Radius= light.Radius;
+        Radius= light.Radius * 1.5;
         Color= light.DiffuseColor;
     }
 

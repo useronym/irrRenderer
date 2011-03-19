@@ -14,7 +14,8 @@
 				<Option compiler="gcc" />
 				<Option projectIncludeDirsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O3" />
 					<Add directory="$(#irrlicht.include)" />
 				</Compiler>
 				<Linker>
@@ -49,7 +50,7 @@
 					<Add directory="$(#irrlicht_svn.include)" />
 				</Compiler>
 				<Linker>
-					<Add library="$(#irrlicht_svn.lib)/libIrrlicht.a" />
+					<Add library="$(#irrlicht_svn.lib)\libIrrlicht.a" />
 				</Linker>
 			</Target>
 		</Build>

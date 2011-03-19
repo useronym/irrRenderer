@@ -7,7 +7,6 @@ uniform vec3 Color;
 void main()
 {
     vec4 vNormal= texture2D(NormalTex, gl_TexCoord[0].xy);
-    vec4 texColor= texture2D(ColorTex, gl_TexCoord[0].xy);
 
     //reconstruct normal
     vNormal.xy*= 2.0;

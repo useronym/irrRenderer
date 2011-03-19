@@ -51,7 +51,7 @@ void irr::video::CRenderer::createDefaultPipeline()
 
     //set up spot lights
     irr::video::IShaderSpotLightCallback* spotCallback= new irr::video::IShaderSpotLightCallback(Device->getSceneManager());
-    Materials->LightSpot= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_spot"), spotCallback, irr::video::EMT_SOLID);
+    Materials->LightSpot= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_spot"), spotCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightSpotMaterialType(Materials->LightSpot);
     LightMgr->setLightSpotCallback(spotCallback);
 

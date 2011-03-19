@@ -1,6 +1,5 @@
 //This is kinda funky
 
-#include <iostream>
 #include "CTestFramework.h"
 
 using namespace std;

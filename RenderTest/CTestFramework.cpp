@@ -2,7 +2,7 @@
 
 CTestFramework::CTestFramework()
 {
-    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(1280,720));
+    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800,600));
     Renderer= createRenderer(Device);
 
     //create some live shit
@@ -34,10 +34,9 @@ CTestFramework::CTestFramework()
     }*/
 
     scene::ICameraSceneNode* cam= smgr->addCameraSceneNodeFPS(0, 100, 0.1);
-    cam->setPosition(irr::core::vector3df(0, 100, -150));
     cam->setFarValue(1000);
 
-    smgr->loadScene("media/island.irr");
+    smgr->loadScene("media/scene.irr");
     Renderer->swapMaterials();
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there

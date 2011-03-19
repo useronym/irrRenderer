@@ -50,7 +50,11 @@ void main()
         vec4 lightDir= normalize(vLightPos - vPixelPos);
         vec4 spotDir= vec4(normalize(Direction), 0.0);
         float spotEffect = dot(spotDir, -lightDir);
-        float att= spotEffect / (dist * (1.0 / Radius));
+
+        float attLinear = 1.0 / Radius;
+        float attQuadrathic= (1.0/Radius) / Radius;
+        float att= spotEffect / (dist * attLinear) + (dist * dist * attQuadrathic);
+        att-= 2.0;
         float light= max(dot(lightDir, vNormal), 0.0) * att;
 
         vec4 lightColor= vec4(Color, 0.0);

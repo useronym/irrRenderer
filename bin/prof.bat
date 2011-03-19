@@ -1,2 +1,2 @@
-gprof.exe RenderTester.exe -p > flatprofile.txt
-gprof.exe RenderTester.exe -q > callgraph.txt
+gprof.exe RenderTest.exe -p > flatprofile.txt
+gprof.exe RenderTest.exe -q > callgraph.txt
