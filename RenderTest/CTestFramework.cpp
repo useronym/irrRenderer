@@ -33,11 +33,17 @@ CTestFramework::CTestFramework()
         light->addAnimator(smgr->createFlyCircleAnimator(core::vector3df(0.f, 50.f, 0.f), lrange, 0.001f, irr::core::vector3df(0.f, 1.f, 0.f), i/20.0));
     }*/
 
+    smgr->loadScene("media/scene.irr");
     scene::ICameraSceneNode* cam= smgr->addCameraSceneNodeFPS(0, 100, 0.1);
+    scene::ISceneNode* camPos= smgr->getSceneNodeFromName("camera");
+    if(camPos)
+    {
+        cam->setPosition(camPos->getAbsolutePosition());
+    }
     cam->setFarValue(1000);
 
-    smgr->loadScene("media/scene.irr");
     Renderer->swapMaterials();
+    //deferred::initDeferredRendering(Device->getSceneManager());
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }
@@ -61,14 +67,14 @@ bool CTestFramework::run()
     Device->setWindowCaption(str.c_str());
 
     //draw GBuffer debug info
-    /*irr::core::recti gbuffRect= irr::core::recti(irr::core::vector2di(0, 0),Renderer->getMRT(0)->getSize());
+    irr::core::recti gbuffRect= irr::core::recti(irr::core::vector2di(0, 0),Renderer->getMRT(0)->getSize());
     gbuffRect.LowerRightCorner.Y*= -1;
     gbuffRect.UpperLeftCorner.Y*= -1;
     for(irr::u32 i= 0; i < Renderer->getMRTCount(); i++)
     {
         irr::core::recti gbuffRectSmall= irr::core::recti(irr::core::vector2di(Renderer->getMRT(i)->getSize().Width/4.0*i, 0), irr::core::vector2di(Renderer->getMRT(i)->getSize().Width/4.0*(i+1), Renderer->getMRT(i)->getSize().Height/4.0));
         Device->getVideoDriver()->draw2DImage(Renderer->getMRT(i), gbuffRectSmall, gbuffRect);
-    }*/
+    }
 
     Device->getVideoDriver()->endScene();
     return Device->run();

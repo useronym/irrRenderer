@@ -107,7 +107,7 @@ public:
     virtual void updateConstants(irr::video::SLight &light)
     {
         Pos= light.Position;
-        Radius= light.Radius;
+        Radius= light.Radius * 1.5;
         Color= light.DiffuseColor;
         Direction= light.Direction;
         CosCutoff= cos(light.OuterCone);
@@ -192,6 +192,8 @@ public:
     {
         int tex0= 0;
         services->setPixelShaderConstant("ColorTex", (float*)&tex0, 1);
+        int tex1= 1;
+        services->setPixelShaderConstant("NormalTex", (float*)&tex1, 1);
 
         irr::core::vector3df ambientCol;
         ambientCol.X= Smgr->getAmbientLight().r;

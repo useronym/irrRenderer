@@ -17,7 +17,7 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     LightSphere->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
 
     //set up light mesh - cone
-    LightCone= Device->getSceneManager()->addMeshSceneNode(Device->getSceneManager()->getGeometryCreator()->createConeMesh(1.0, 1.0, 8));
+    LightCone= Device->getSceneManager()->addSphereSceneNode(1.0, 12);//Device->getSceneManager()->addMeshSceneNode(Device->getSceneManager()->getGeometryCreator()->createConeMesh(1.0, 1.0, 8));
     LightCone->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
     LightCone->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
     LightCone->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
@@ -52,7 +52,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
 
     //render ambient
     LightQuad->setMaterialType(LightAmbientMaterial);
-    if(Device->getSceneManager()->getAmbientLight().r > 0) LightQuad->render();
+    LightQuad->render(); //also renders nodes with no lighting
 
     //render dynamic lights
     for(irr::u32 i= 0; i < Device->getVideoDriver()->getDynamicLightCount(); i++)
@@ -74,10 +74,10 @@ void irr::scene::ILightManagerCustom::OnPostRender()
         else if(light.Type == irr::video::ELT_SPOT)
         {
             LightSpotCallback->updateConstants(light);
-            LightCone->setScale(irr::core::vector3df(LightSpotCallback->getConeRadius(), light.Radius, LightSpotCallback->getConeRadius()));
+            LightCone->setScale(irr::core::vector3df(LightSpotCallback->getConeRadius(), light.Radius*1.4, LightSpotCallback->getConeRadius()));
             //we(well, me, really) need to do some more calculations because the cone mesh we created is kinda fucked up by default
             LightCone->setRotation(light.Direction.getHorizontalAngle() + irr::core::vector3df(-90.0, 0.0, 0.0));
-            LightCone->setPosition(light.Position + light.Direction*light.Radius);
+            LightCone->setPosition(light.Position + light.Direction*light.Radius*0.85);
             //done.. true power of irrlicht!
             LightCone->updateAbsolutePosition();
             LightCone->render();

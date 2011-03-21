@@ -38,11 +38,13 @@
 					<Add option="-g" />
 					<Add directory="$(#irrlicht.include)" />
 					<Add directory="$(#irrrenderer.include)" />
+					<Add directory="..\..\deferred\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
 					<Add library="Irrlicht" />
 					<Add library="$(#irrrendererdebug.lib)\libirrRenderer.a" />
+					<Add library="..\..\deferred\lib\win32-gcc\libIrrlichtDeferredRendering.dll.a" />
 				</Linker>
 			</Target>
 			<Target title="Debug SVN">

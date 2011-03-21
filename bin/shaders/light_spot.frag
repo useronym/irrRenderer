@@ -52,8 +52,8 @@ void main()
         float spotEffect = dot(spotDir, -lightDir);
 
         float attLinear = 1.0 / Radius;
-        float attQuadrathic= (1.0/Radius) / Radius;
-        float att= spotEffect / (dist * attLinear) + (dist * dist * attQuadrathic);
+        float attQuadratic= attLinear / Radius;
+        float att= spotEffect / (dist * attLinear) + (dist * dist * attQuadratic);
         att-= 2.0;
         float light= max(dot(lightDir, vNormal), 0.0) * att;
 

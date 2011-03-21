@@ -52,7 +52,7 @@ void main()
         float light= max(dot(normalize(vLightPos - vPixelPos), vNormal), 0.0) * att;
 
         vec4 lightColor= vec4(Color, 0.0);
-        gl_FragColor= light * lightColor * texture2D(ColorTex, projCoord.xy);;
+        gl_FragColor= light * lightColor * texture2D(ColorTex, projCoord.xy);
     }
     else discard;
 }
