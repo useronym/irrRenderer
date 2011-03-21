@@ -33,11 +33,20 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         virtual void OnNodePostRender(irr::scene::ISceneNode *node);
 
+
         void setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts);
 
-        void setFinalRenderTexture(irr::video::ITexture* tex);
+        void addPostProcessingEffect(irr::video::E_MATERIAL_TYPE &matType);
 
-        irr::video::ITexture* getFinalRenderTexture();
+        bool isPostProcessing();
+
+        void setRenderTexture(irr::video::ITexture* tex);
+
+        void doFinalRenderIntoTexture(bool well);
+
+        bool getDoFinalRenderToTexture();
+
+        irr::video::ITexture* getRenderTexture();
 
         void setFinalRenderToTexture(bool rtt);
 
@@ -55,6 +64,8 @@ class ILightManagerCustom : public irr::scene::ILightManager
         irr::IrrlichtDevice* Device;
         irr::core::array<irr::video::IRenderTarget> MRTs;
         irr::video::ITexture* FinalRender;
+        bool FinalRenderToTexture;
+        irr::core::array<irr::video::E_MATERIAL_TYPE> PostProcessingEffects;
         irr::scene::IMeshSceneNode* LightSphere, *LightCone;
         irr::scene::IQuadSceneNode* LightQuad;
 

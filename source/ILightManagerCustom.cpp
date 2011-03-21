@@ -8,6 +8,7 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
 {
     Device= device;
     FinalRender= 0;
+    FinalRenderToTexture= false;
 
     //set up light mesh - sphere
     LightSphere= Device->getSceneManager()->addSphereSceneNode(1.0, 12);
@@ -40,7 +41,7 @@ void irr::scene::ILightManagerCustom::OnPreRender(irr::core::array<irr::scene::I
 
 void irr::scene::ILightManagerCustom::OnPostRender()
 {
-    if(!FinalRender)
+    if(!FinalRenderToTexture)
     {
         Device->getVideoDriver()->setRenderTarget(0);
     }
@@ -91,6 +92,33 @@ void irr::scene::ILightManagerCustom::OnPostRender()
             LightQuad->render();
         }
     }
+
+
+    //post processing
+    if(isPostProcessing() && FinalRender)
+    {
+        if(PostProcessingEffects.size() > 1)
+        {
+            Device->getVideoDriver()->setRenderTarget(FinalRender);
+        }
+
+        LightQuad->setMaterialTexture(0, FinalRender);
+        for(irr::u32 i= 0; i < MRTs.size(); i++)
+        {
+            LightQuad->setMaterialTexture(i+1, MRTs[i].RenderTexture);
+        }
+
+        for(irr::u32 i= 0; i < PostProcessingEffects.size(); i++)
+        {
+            if(i+1 == PostProcessingEffects.size() && !FinalRenderToTexture)
+            {
+                Device->getVideoDriver()->setRenderTarget(0);
+            }
+
+            LightQuad->setMaterialType(PostProcessingEffects[i]);
+            LightQuad->render();
+        }
+    }
 }
 
 void irr::scene::ILightManagerCustom::OnRenderPassPreRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass)
@@ -127,12 +155,33 @@ void irr::scene::ILightManagerCustom::setMRTs(irr::core::array<irr::video::IRend
     }
 }
 
-void irr::scene::ILightManagerCustom::setFinalRenderTexture(irr::video::ITexture* tex)
+void irr::scene::ILightManagerCustom::addPostProcessingEffect(irr::video::E_MATERIAL_TYPE &matType)
+{
+    PostProcessingEffects.push_back(matType);
+}
+
+bool irr::scene::ILightManagerCustom::isPostProcessing()
+{
+    if(PostProcessingEffects.size() > 0) return true;
+    else return false;
+}
+
+void irr::scene::ILightManagerCustom::setRenderTexture(irr::video::ITexture* tex)
 {
     FinalRender= tex;
 }
 
-irr::video::ITexture* irr::scene::ILightManagerCustom::getFinalRenderTexture()
+void irr::scene::ILightManagerCustom::doFinalRenderIntoTexture(bool well)
+{
+    FinalRenderToTexture= well;
+}
+
+bool irr::scene::ILightManagerCustom::getDoFinalRenderToTexture()
+{
+    return FinalRenderToTexture;
+}
+
+irr::video::ITexture* irr::scene::ILightManagerCustom::getRenderTexture()
 {
     if(FinalRender) return FinalRender;
     else return 0;

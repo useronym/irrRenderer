@@ -68,6 +68,13 @@ void irr::video::CRenderer::createDefaultPipeline()
     LightMgr->setLightAmbientCallback(ambientCallback);
 }
 
+
+void irr::video::CRenderer::addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
+{
+    irr::video::E_MATERIAL_TYPE effectId= (irr::video::E_MATERIAL_TYPE)addMaterial(effectShader, callback);
+    LightMgr->addPostProcessingEffect(effectId);
+}
+
 void irr::video::CRenderer::clearMRTs()
 {
     for(irr::u32 i= 0; i < MRTs.size(); i++)
@@ -106,7 +113,7 @@ void irr::video::CRenderer::setDoFinalRenderToTexture(bool shouldI)
 
 irr::video::ITexture* irr::video::CRenderer::getFinalRenderTexture()
 {
-    if(LightMgr->getFinalRenderTexture() != 0) return LightMgr->getFinalRenderTexture();
+    if(LightMgr->getDoFinalRenderToTexture()) return LightMgr->getRenderTexture();
     else return 0;
 }
 
