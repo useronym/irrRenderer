@@ -69,10 +69,12 @@ void irr::video::CRenderer::createDefaultPipeline()
 }
 
 
-void irr::video::CRenderer::addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
+irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
 {
     irr::video::E_MATERIAL_TYPE effectId= (irr::video::E_MATERIAL_TYPE)addMaterial(effectShader, callback);
-    LightMgr->addPostProcessingEffect(effectId);
+    irr::video::CPostProcessingEffect* effect= new irr::video::CPostProcessingEffect(effectId, callback);
+    LightMgr->addPostProcessingEffect(effect);
+    return effect;
 }
 
 void irr::video::CRenderer::enablePostProcessing(bool enable, irr::video::ECOLOR_FORMAT format)

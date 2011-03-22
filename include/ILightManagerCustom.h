@@ -5,6 +5,7 @@
 #define ILIGHTMANAGERCUSTOM_H
 
 #include <irrlicht.h>
+#include "CPostProcessingEffect.h"
 #include "IQuadSceneNode.h"
 #include "MaterialCallbacks.h"
 #include <iostream>
@@ -36,7 +37,9 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         void setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts);
 
-        void addPostProcessingEffect(irr::video::E_MATERIAL_TYPE &matType);
+        void addPostProcessingEffect(irr::video::CPostProcessingEffect* effect);
+
+        irr::u32 getActivePostProcessingEffectsCount();
 
         bool isPostProcessing();
 
@@ -65,9 +68,11 @@ class ILightManagerCustom : public irr::scene::ILightManager
         irr::core::array<irr::video::IRenderTarget> MRTs;
         irr::video::ITexture* FinalRender;
         bool FinalRenderToTexture;
-        irr::core::array<irr::video::E_MATERIAL_TYPE> PostProcessingEffects;
+        irr::core::array<irr::video::CPostProcessingEffect*> PostProcessingEffects;
+
         irr::scene::IMeshSceneNode* LightSphere, *LightCone;
         irr::scene::IQuadSceneNode* LightQuad;
+
 
         irr::video::E_MATERIAL_TYPE LightPointMaterial;
         irr::video::IShaderPointLightCallback* LightPointCallback;

@@ -72,6 +72,7 @@
 		<Unit filename="..\bin\shaders\solid.vert" />
 		<Unit filename="..\bin\shaders\terrain.frag" />
 		<Unit filename="..\bin\shaders\terrain.vert" />
+		<Unit filename="..\include\CPostProcessingEffect.h" />
 		<Unit filename="..\include\CRenderer.h" />
 		<Unit filename="..\include\CShaderLibrary.h" />
 		<Unit filename="..\include\ILightManagerCustom.h" />
@@ -80,6 +81,7 @@
 		<Unit filename="..\include\MaterialCallbacks.h" />
 		<Unit filename="..\include\SMaterials.h" />
 		<Unit filename="..\include\irrRenderer.h" />
+		<Unit filename="CPostProcessingEffect.cpp" />
 		<Unit filename="CRenderer.cpp" />
 		<Unit filename="CShaderLibrary.cpp" />
 		<Unit filename="ILightManagerCustom.cpp" />

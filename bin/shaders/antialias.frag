@@ -1,7 +1,7 @@
 uniform sampler2D Render;
+uniform sampler2D MRT0;
 uniform sampler2D MRT1;
 uniform sampler2D MRT2;
-uniform sampler2D MRT3;
 
 void main()
 {

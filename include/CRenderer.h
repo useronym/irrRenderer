@@ -8,6 +8,7 @@
 #include "ILightManagerCustom.h"
 #include "SMaterials.h"
 #include "CShaderLibrary.h"
+#include "CPostProcessingEffect.h"
 #include "MaterialCallbacks.h"
 #include "IShaderDefaultPostProcessCallback.h"
 
@@ -28,8 +29,16 @@ class CRenderer
         //! Loads the default pipeline \n Note: If you haven't altered the pipeline, it doesn't make sense to call this
         void createDefaultPipeline();
 
-        void addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= new irr::video::IShaderDefaultPostProcessCallback);
+        //! Adds a new post processing effect into the chain
+        /*! \param effectShader shader to use fur this effect
+        \param callback custom callback to use for this shader, if any
+        \return A pointer to the newly created post processing effect
+        */
+        irr::video::CPostProcessingEffect* addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= new irr::video::IShaderDefaultPostProcessCallback);
 
+        //! Enables/Disables post processing
+        /*! \param enable enable or disable post processing
+        */
         void enablePostProcessing(bool enable, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8);
 
         //! Removes all multiple render target textures - in case you want to create your own
