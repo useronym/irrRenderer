@@ -12,7 +12,7 @@ irr::video::CPostProcessingEffect::~CPostProcessingEffect()
     //dtor
 }
 
-void irr::video::CPostProcessingEffect::addTextureToPass(irr::video::ITexture* tex)
+void irr::video::CPostProcessingEffect::addTextureToShader(irr::video::ITexture* tex)
 {
     TexturesToPass.push_back(tex);
 }

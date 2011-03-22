@@ -15,7 +15,7 @@ class CPostProcessingEffect
         CPostProcessingEffect(irr::video::E_MATERIAL_TYPE &type, irr::video::IShaderConstantSetCallBack* callback= 0);
         ~CPostProcessingEffect();
 
-        void addTextureToPass(irr::video::ITexture* tex);
+        void addTextureToShader(irr::video::ITexture* tex);
         irr::video::ITexture* getTextureToPass(irr::u32 index);
         irr::u32 getTextureToPassCount();
         irr::video::E_MATERIAL_TYPE& getMaterialType();
