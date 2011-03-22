@@ -43,7 +43,11 @@ CTestFramework::CTestFramework()
     cam->setFarValue(1000);
 
     Renderer->swapMaterials();
-    //deferred::initDeferredRendering(Device->getSceneManager());
+
+    irr::video::CShaderLibrary* shaderLib= Renderer->getShaderLibrary();
+    shaderLib->loadShader("antialias", "quad.vert", "antialias.frag");
+    Renderer->addPostProcessingEffect(shaderLib->getShader("antialias"));
+    Renderer->enablePostProcessing(true);
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

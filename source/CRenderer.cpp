@@ -75,6 +75,19 @@ void irr::video::CRenderer::addPostProcessingEffect(irr::video::SShaderSource &e
     LightMgr->addPostProcessingEffect(effectId);
 }
 
+void irr::video::CRenderer::enablePostProcessing(bool enable, irr::video::ECOLOR_FORMAT format)
+{
+    if(enable && !LightMgr->getRenderTexture())
+    {
+        irr::core::dimension2du dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
+        LightMgr->setRenderTexture(Device->getVideoDriver()->addRenderTargetTexture(dimension, "Final-Render-Tex", format));
+    }
+    else if(!enable && LightMgr->getRenderTexture())
+    {
+        //LightMgr->removeRenderTexture();
+    }
+}
+
 void irr::video::CRenderer::clearMRTs()
 {
     for(irr::u32 i= 0; i < MRTs.size(); i++)

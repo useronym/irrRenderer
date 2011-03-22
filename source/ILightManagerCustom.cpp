@@ -41,11 +41,7 @@ void irr::scene::ILightManagerCustom::OnPreRender(irr::core::array<irr::scene::I
 
 void irr::scene::ILightManagerCustom::OnPostRender()
 {
-    if(!FinalRenderToTexture)
-    {
-        Device->getVideoDriver()->setRenderTarget(0);
-    }
-    else
+    if(FinalRenderToTexture || PostProcessingEffects.size() > 0)
     {
         Device->getVideoDriver()->setRenderTarget(FinalRender, true, true, 0);
     }

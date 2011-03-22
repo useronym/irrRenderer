@@ -9,6 +9,7 @@
 #include "SMaterials.h"
 #include "CShaderLibrary.h"
 #include "MaterialCallbacks.h"
+#include "IShaderDefaultPostProcessCallback.h"
 
 namespace irr
 {
@@ -27,7 +28,9 @@ class CRenderer
         //! Loads the default pipeline \n Note: If you haven't altered the pipeline, it doesn't make sense to call this
         void createDefaultPipeline();
 
-        void addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= 0);
+        void addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= new irr::video::IShaderDefaultPostProcessCallback);
+
+        void enablePostProcessing(bool enable, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8);
 
         //! Removes all multiple render target textures - in case you want to create your own
         void clearMRTs();
