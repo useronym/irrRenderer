@@ -45,8 +45,8 @@ CTestFramework::CTestFramework()
     Renderer->swapMaterials();
 
     irr::video::CShaderLibrary* shaderLib= Renderer->getShaderLibrary();
-    shaderLib->loadShader("bloom", "quad.vert", "antialias.frag");
-    video::CPostProcessingEffect* antialias= Renderer->addPostProcessingEffect(shaderLib->getShader("bloom"));
+    shaderLib->loadShader("antialias", "quad.vert", "antialias.frag");
+    video::CPostProcessingEffect* antialias= Renderer->addPostProcessingEffect(shaderLib->getShader("antialias"));
     antialias->addTextureToShader(Renderer->getMRT(2));
     Renderer->enablePostProcessing(true);
 
