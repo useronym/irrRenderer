@@ -24,12 +24,12 @@ void main()
     //get depth
     float vDepth= texture2D(DepthTex, projCoord.xy).r;
 
-    if(vDepth * CamFar > ScreenPos.z) discard;
+    if(vDepth * CamFar > ScreenPos.z) discard; //stop him!
 
 
     //reconstruct view pixel position
     vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUpX, projCoord.x),
-                        mix(FarLeftUp.y, FarLeftDownY, 1.0 - projCoord.y),
+                        mix(FarLeftDownY, FarLeftUp.y, projCoord.y),
                         FarLeftUp.z);
     vec4 vPixelPos= vec4(vProjPos * vDepth, 0.0);
 
@@ -54,5 +54,5 @@ void main()
         vec4 lightColor= vec4(Color, 0.0);
         gl_FragColor= light * lightColor * texture2D(ColorTex, projCoord.xy);
     }
-    else discard;
+    else discard; //fucking stop him already
 }

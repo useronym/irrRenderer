@@ -44,11 +44,15 @@ CTestFramework::CTestFramework()
 
     Renderer->swapMaterials();
 
+    Renderer->enablePostProcessing(true);
     irr::video::CShaderLibrary* shaderLib= Renderer->getShaderLibrary();
-    shaderLib->loadShader("antialias", "quad.vert", "antialias.frag");
+    shaderLib->loadShader("antialias", "quad.vert", "postprocess/antialias.frag");
+    shaderLib->loadShader("bloom", "quad.vert", "postprocess/bloom.frag");
+    shaderLib->loadShader("coldcolors", "quad.vert", "postprocess/coldcolors.frag");
     video::CPostProcessingEffect* antialias= Renderer->addPostProcessingEffect(shaderLib->getShader("antialias"));
     antialias->addTextureToShader(Renderer->getMRT(2));
-    Renderer->enablePostProcessing(true);
+    //Renderer->addPostProcessingEffect(shaderLib->getShader("coldcolors"));
+    //Renderer->addPostProcessingEffect(shaderLib->getShader("bloom"));
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

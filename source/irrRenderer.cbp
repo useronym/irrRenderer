@@ -61,13 +61,15 @@
 		<Linker>
 			<Add directory="$(#irrlicht.lib)" />
 		</Linker>
-		<Unit filename="..\bin\shaders\antialias.frag" />
-		<Unit filename="..\bin\shaders\bloom.frag" />
 		<Unit filename="..\bin\shaders\light.vert" />
 		<Unit filename="..\bin\shaders\light_ambient.frag" />
 		<Unit filename="..\bin\shaders\light_directional.frag" />
 		<Unit filename="..\bin\shaders\light_point.frag" />
 		<Unit filename="..\bin\shaders\light_spot.frag" />
+		<Unit filename="..\bin\shaders\postprocess\antialias.frag" />
+		<Unit filename="..\bin\shaders\postprocess\bloom.frag" />
+		<Unit filename="..\bin\shaders\postprocess\coldcolors.frag" />
+		<Unit filename="..\bin\shaders\postprocess\warmcolors.frag" />
 		<Unit filename="..\bin\shaders\quad.vert" />
 		<Unit filename="..\bin\shaders\solid.frag" />
 		<Unit filename="..\bin\shaders\solid.vert" />

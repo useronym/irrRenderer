@@ -97,11 +97,6 @@ void irr::scene::ILightManagerCustom::OnPostRender()
     //post processing
     if(getActivePostProcessingEffectsCount() > 0 && FinalRender)
     {
-        if(PostProcessingEffects.size() > 1)
-        {
-            Device->getVideoDriver()->setRenderTarget(FinalRender);
-        }
-
         LightQuad->setMaterialTexture(0, FinalRender);
 
         for(irr::u32 i= 0; i < PostProcessingEffects.size(); i++)

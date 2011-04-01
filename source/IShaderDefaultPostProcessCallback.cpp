@@ -7,9 +7,9 @@ void irr::video::IShaderDefaultPostProcessCallback::OnSetConstants(irr::video::I
     int tex2= 2;
     int tex3= 3;
     services->setPixelShaderConstant("Render", (float*)&tex0, 1);
-    services->setPixelShaderConstant("MRT0", (float*)&tex1, 1);
-    services->setPixelShaderConstant("MRT1", (float*)&tex2, 1);
-    services->setPixelShaderConstant("MRT2", (float*)&tex3, 1);
+    services->setPixelShaderConstant("Tex0", (float*)&tex1, 1);
+    services->setPixelShaderConstant("Tex1", (float*)&tex2, 1);
+    services->setPixelShaderConstant("Tex2", (float*)&tex3, 1);
 
     //some more useful stuff for post processing shaders
     irr::core::dimension2du screensize= services->getVideoDriver()->getCurrentRenderTargetSize();
