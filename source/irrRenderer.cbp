@@ -69,6 +69,7 @@
 		<Unit filename="..\bin\shaders\postprocess\antialias.frag" />
 		<Unit filename="..\bin\shaders\postprocess\bloom.frag" />
 		<Unit filename="..\bin\shaders\postprocess\coldcolors.frag" />
+		<Unit filename="..\bin\shaders\postprocess\tonemapping.frag" />
 		<Unit filename="..\bin\shaders\postprocess\warmcolors.frag" />
 		<Unit filename="..\bin\shaders\quad.vert" />
 		<Unit filename="..\bin\shaders\solid.frag" />

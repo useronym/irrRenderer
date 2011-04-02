@@ -98,6 +98,7 @@ public:
         services->setPixelShaderConstant("Color", (float*)&Color, 3);
         services->setPixelShaderConstant("Direction", (float*)&Direction, 3);
         services->setPixelShaderConstant("CosCutoff", (float*)&CosCutoff, 1);
+        services->setPixelShaderConstant("Falloff", (float*)&Falloff, 1);
 
         irr::core::vector3df farLeftUp= cam->getViewFrustum()->getFarLeftUp();
         viewMat.transformVect(farLeftUp);
@@ -110,7 +111,8 @@ public:
         Radius= light.Radius * 1.5;
         Color= light.DiffuseColor;
         Direction= light.Direction;
-        CosCutoff= cos(light.OuterCone);
+        CosCutoff= -cos(light.OuterCone/2.0);
+        Falloff= light.Falloff;
 
         /*     /\               Ga - Gamma
          *    /Ga\              Be - Beta
@@ -138,6 +140,7 @@ private:
     irr::f32 Radius;
     irr::f32 CosCutoff;
     irr::f32 ConeRadius;
+    irr::f32 Falloff;
 };
 
 

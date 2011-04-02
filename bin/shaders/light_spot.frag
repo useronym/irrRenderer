@@ -2,11 +2,13 @@ uniform sampler2D ColorTex;     //guess what :P
 uniform sampler2D NormalTex;    //view space normal.xy
 uniform sampler2D DepthTex;    //view space depth
 uniform float CamFar;
+
 uniform vec3 Position;
 uniform float Radius;
 uniform vec3 Color;
 uniform vec3 Direction;
 uniform float CosCutoff;
+uniform float Falloff;
 
 
 varying vec4 ScreenPos;
@@ -51,14 +53,21 @@ void main()
         vec4 spotDir= vec4(normalize(Direction), 0.0);
         float spotEffect = dot(spotDir, -lightDir);
 
-        float attLinear = 1.0 / Radius;
-        float attQuadratic= attLinear / Radius;
-        float att= spotEffect / (dist * attLinear) + (dist * dist * attQuadratic);
-        att-= 2.0;
-        float light= max(dot(lightDir, vNormal), 0.0) * att;
+        if(spotEffect > CosCutoff)
+        {
+            float attLinear = 1.0 / Radius;
+            float attQuadratic= attLinear / Radius;
 
-        vec4 lightColor= vec4(Color, 0.0);
-        gl_FragColor= light * lightColor * texture2D(ColorTex, projCoord.xy);;
+            spotEffect= pow(spotEffect, Falloff);
+            float att= spotEffect / (dist * attLinear) + (dist * dist * attQuadratic);
+            att-= 2.0;
+
+            float light= max(dot(lightDir, vNormal), 0.0) * att;
+
+            vec4 lightColor= vec4(Color, 0.0);
+            gl_FragColor= light * lightColor * texture2D(ColorTex, projCoord.xy);
+        }
+        else discard;
     }
     else discard;
 }

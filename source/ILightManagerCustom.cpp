@@ -18,7 +18,7 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     LightSphere->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
 
     //set up light mesh - cone
-    LightCone= Device->getSceneManager()->addSphereSceneNode(1.0, 12);//Device->getSceneManager()->addMeshSceneNode(Device->getSceneManager()->getGeometryCreator()->createConeMesh(1.0, 1.0, 8));
+    LightCone= /*Device->getSceneManager()->addMeshSceneNode(Device->getSceneManager()->getGeometryCreator()->createConeMesh(1.0, 1.0, 8, irr::video::SColor(0,0,0,0), irr::video::SColor(0,0,0,0)));*/Device->getSceneManager()->addSphereSceneNode(1.0, 12);//
     LightCone->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
     LightCone->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
     LightCone->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);

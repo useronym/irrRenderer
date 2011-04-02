@@ -20,12 +20,13 @@ void main()
     float depthDown= texture2D(Tex0, coord + vec2(0.0, PixelSizeY)).r;
     float depthLeft= texture2D(Tex0, coord + vec2(-PixelSizeX, 0.0)).r;
     float depthRight= texture2D(Tex0, coord + vec2(PixelSizeX, 0.0)).r;
+
     float depthUpLeft= texture2D(Tex0, coord + vec2(-PixelSizeX, -PixelSizeY)).r;
     float depthDownRight= texture2D(Tex0, coord + vec2(PixelSizeX, PixelSizeY)).r;
     float depthUpRight= texture2D(Tex0, coord + vec2(PixelSizeX, -PixelSizeY)).r;
     float depthDownLeft= texture2D(Tex0, coord + vec2(-PixelSizeX, PixelSizeY)).r;
 
-    if( abs(((depthUp + depthDown + depthLeft + depthRight + depthUpLeft + depthDownRight + depthUpRight + depthDownLeft) / 8.0) - depth) > depth/1000.0)
+    if( abs(((depthUp + depthDown + depthLeft + depthRight + depthUpLeft + depthDownRight + depthUpRight + depthDownLeft) / 8.0) - depth) > depth/1250.0)
     {
         color= blurPixel(color, coord);
         //color= vec4(0.9, 0.9, 0.9, 0.0);
