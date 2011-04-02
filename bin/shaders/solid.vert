@@ -10,7 +10,7 @@ void main()
     if(Lighting == 0.0) Normal= vec2(0.0,0.0);
     else
     {
-        Normal= (gl_NormalMatrix * gl_Normal).xy;
+        Normal= normalize((gl_NormalMatrix * gl_Normal)).xy;
         Normal*= 0.5;
         Normal+= 0.5;
     }
