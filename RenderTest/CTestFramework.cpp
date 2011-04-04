@@ -42,6 +42,17 @@ CTestFramework::CTestFramework()
     }
     cam->setFarValue(1000);
 
+    scene::ISceneNode* beast= smgr->getSceneNodeFromName("beast");
+    if(beast)
+    {
+        if(beast->getType() == irr::scene::ESNT_ANIMATED_MESH)
+        {
+            irr::scene::IAnimatedMeshSceneNode* animatedBeast= static_cast<irr::scene::IAnimatedMeshSceneNode*>(beast);
+            animatedBeast->setFrameLoop(0,24);
+            animatedBeast->setAnimationSpeed(25);
+        }
+    }
+
     Renderer->swapMaterials();
 
     Renderer->enablePostProcessing(true);
@@ -50,11 +61,11 @@ CTestFramework::CTestFramework()
     shaderLib->loadShader("tonemapping", "quad.vert", "postprocess/tonemapping.frag");
     shaderLib->loadShader("bloom", "quad.vert", "postprocess/bloom.frag");
     shaderLib->loadShader("coldcolors", "quad.vert", "postprocess/coldcolors.frag");
-    //video::CPostProcessingEffect* antialias= Renderer->addPostProcessingEffect(shaderLib->getShader("antialias"));
-    //antialias->addTextureToShader(Renderer->getMRT(2));
+    video::CPostProcessingEffect* antialias= Renderer->addPostProcessingEffect(shaderLib->getShader("antialias"));
+    antialias->addTextureToShader(Renderer->getMRT(2));
     //Renderer->addPostProcessingEffect(shaderLib->getShader("tonemapping"));
     //Renderer->addPostProcessingEffect(shaderLib->getShader("coldcolors"));
-    //Renderer->addPostProcessingEffect(shaderLib->getShader("bloom"));
+    Renderer->addPostProcessingEffect(shaderLib->getShader("bloom"));
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

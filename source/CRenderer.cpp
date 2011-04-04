@@ -34,14 +34,18 @@ void irr::video::CRenderer::createDefaultPipeline()
     Device->getSceneManager()->setLightManager(LightMgr);
 
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
+    ShaderLib->loadShader("normalAnimated", "normalmap_animated.vert", "normalmap_animated.frag");
     ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
+
+    Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
+    Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
+    Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new DefaultCallback);
+
+
     ShaderLib->loadShader("light_point", "light.vert", "light_point.frag");
     ShaderLib->loadShader("light_spot", "light.vert", "light_spot.frag");
     ShaderLib->loadShader("light_directional", "quad.vert", "light_directional.frag");
     ShaderLib->loadShader("light_ambient", "quad.vert", "light_ambient.frag");
-
-    Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
-    Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new DefaultCallback);
 
     //set up point lights
     irr::video::IShaderPointLightCallback* pointCallback= new irr::video::IShaderPointLightCallback(Device->getSceneManager());
@@ -157,6 +161,7 @@ void irr::video::CRenderer::swapMaterials()
         for(irr::u32 ii= 0; ii < node->getMaterialCount(); ii++)
         {
             if(node->getMaterial(ii).MaterialType == irr::video::EMT_SOLID) node->getMaterial(ii).MaterialType= getMaterials()->Solid;
+            else if(node->getMaterial(ii).MaterialType == irr::video::EMT_NORMAL_MAP_SOLID) node->getMaterial(ii).MaterialType= getMaterials()->NormalAnimated;
             else if(node->getMaterial(ii).MaterialType == irr::video::EMT_DETAIL_MAP) node->getMaterial(ii).MaterialType= getMaterials()->DetailMap;
         }
     }

@@ -47,6 +47,7 @@ void main()
         vNormal.xy*= 2.0;
         vNormal.xy-= 1.0;
         vNormal.z= -sqrt( -(vNormal.x*vNormal.x) - (vNormal.y*vNormal.y) + 1.0 );
+        vNormal= normalize(vNormal);
 
         //calculate the light
         vec4 lightDir= normalize(vLightPos - vPixelPos);
