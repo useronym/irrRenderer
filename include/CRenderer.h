@@ -17,6 +17,15 @@ namespace irr
 namespace video
 {
 
+enum E_EFFECT_TYPE
+{
+    EET_ANTIALIASING= 0,
+    EET_BLOOM,
+    EET_BLOOM_LQ,
+    EET_COLD_COLORS,
+    EET_WARM_COLORS
+};
+
 //! The base class holding all other stuff
 class CRenderer
 {
@@ -35,6 +44,12 @@ class CRenderer
         \return A pointer to the newly created post processing effect
         */
         irr::video::CPostProcessingEffect* addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= new irr::video::IShaderDefaultPostProcessCallback);
+
+        //! Adds a new post processing effect into the chain using one of the included shaders
+        /*! \param type type of the shader
+        \return A pointer to the newly created post processing effect
+        */
+        irr::video::CPostProcessingEffect* addPostProcessingEffect(irr::video::E_EFFECT_TYPE type);
 
         //! Enables/Disables post processing
         /*! \param enable enable or disable post processing

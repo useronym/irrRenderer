@@ -59,7 +59,6 @@ void irr::scene::ILightManagerCustom::OnPostRender()
     for(irr::u32 i= 0; i < Device->getVideoDriver()->getDynamicLightCount(); i++)
     {
         irr::video::SLight light= Device->getVideoDriver()->getDynamicLight(i);
-        irr::core::vector3df camPos= Device->getSceneManager()->getActiveCamera()->getAbsolutePosition();
 
         //point
         if(light.Type == irr::video::ELT_POINT)
