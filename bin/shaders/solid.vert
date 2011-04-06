@@ -2,7 +2,7 @@ uniform float CamFar;
 uniform float Repeat;
 uniform float Lighting;
 
-varying vec3 Normal;
+varying vec2 Normal;
 varying float Depth;
 
 void main()
@@ -11,12 +11,14 @@ void main()
 
     if(Lighting == 0.0)
     {
-        Normal= vec3(0.0,0.0,0.0);
+        Normal= vec2(0.0,0.0);
         Depth= 1.0; //automatically Z-reject these areas
     }
     else
     {
-        Normal= normalize((gl_NormalMatrix * gl_Normal)).xyz;
+        Normal= normalize((gl_NormalMatrix * gl_Normal)).xy;
+        Normal*= 0.5;
+        Normal+= 0.5;
 
         Depth= vertex.z/CamFar;
     }

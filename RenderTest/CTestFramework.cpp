@@ -56,7 +56,9 @@ CTestFramework::CTestFramework()
     Renderer->swapMaterials();
 
     Renderer->enablePostProcessing(true);
-    Renderer->addPostProcessingEffect(irr::video::EET_ANTIALIASING);
+    Renderer->addPostProcessingEffect(irr::video::EPE_COLD_COLORS);
+    Renderer->addPostProcessingEffect(irr::video::EPE_ANTIALIASING);
+    Renderer->addPostProcessingEffect(irr::video::EPE_BLOOM_LQ);
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

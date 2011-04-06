@@ -81,34 +81,34 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffec
     return effect;
 }
 
-irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffect(irr::video::E_EFFECT_TYPE type)
+irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffect(irr::video::E_POSTPROCESSING_EFFECT type)
 {
     video::CPostProcessingEffect* newEffect= 0;
 
     switch(type)
     {
-        case EET_ANTIALIASING:
+        case EPE_ANTIALIASING:
             ShaderLib->loadShader("antialias", "quad.vert", "postprocess/antialias.frag");
             newEffect= addPostProcessingEffect(ShaderLib->getShader("antialias"));
             newEffect->addTextureToShader(getMRT(2));
             break;
 
-        case EET_BLOOM:
+        case EPE_BLOOM:
             ShaderLib->loadShader("bloom", "quad.vert", "postprocess/bloom.frag");
             newEffect= addPostProcessingEffect(ShaderLib->getShader("bloom"));
             break;
 
-        case EET_BLOOM_LQ:
+        case EPE_BLOOM_LQ:
             ShaderLib->loadShader("bloom_lq", "quad.vert", "postprocess/bloom_lq.frag");
-            newEffect= addPostProcessingEffect(ShaderLib->getShader("bloom"));
+            newEffect= addPostProcessingEffect(ShaderLib->getShader("bloom_lq"));
             break;
 
-        case EET_COLD_COLORS:
+        case EPE_COLD_COLORS:
             ShaderLib->loadShader("coldcolors", "quad.vert", "postprocess/coldcolors.frag");
             newEffect= addPostProcessingEffect(ShaderLib->getShader("coldcolors"));
             break;
 
-        case EET_WARM_COLORS:
+        case EPE_WARM_COLORS:
             ShaderLib->loadShader("warmcolors", "quad.vert", "postprocess/warmcolors.frag");
             newEffect= addPostProcessingEffect(ShaderLib->getShader("warmcolors"));
             break;
