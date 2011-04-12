@@ -18,10 +18,11 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     LightSphere->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
 
     //set up light mesh - cone
-    LightCone= /*Device->getSceneManager()->addMeshSceneNode(Device->getSceneManager()->getGeometryCreator()->createConeMesh(1.0, 1.0, 8, irr::video::SColor(0,0,0,0), irr::video::SColor(0,0,0,0)));*/Device->getSceneManager()->addSphereSceneNode(1.0, 12);//
+    LightCone= Device->getSceneManager()->addMeshSceneNode(Device->getSceneManager()->getGeometryCreator()->createConeMesh(1.0, 1.0, 8, irr::video::SColor(0,0,0,0), irr::video::SColor(0,0,0,0)));//Device->getSceneManager()->addSphereSceneNode(1.0, 12);
     LightCone->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
     LightCone->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
     LightCone->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
+    LightCone->setMaterialFlag(irr::video::EMF_ZBUFFER, false);
     LightCone->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
 
     //set up light mesh - quad
@@ -63,6 +64,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
         //point
         if(light.Type == irr::video::ELT_POINT)
         {
+            LightSphere->setMaterialType(LightPointMaterial);
             LightPointCallback->updateConstants(light);
             LightSphere->setScale(irr::core::vector3df(light.Radius));
             LightSphere->setPosition(light.Position);
@@ -70,17 +72,24 @@ void irr::scene::ILightManagerCustom::OnPostRender()
             LightSphere->render();
         }
 
-        //spot
+        //spot //using sphere instead of a cone as a quick hack
         else if(light.Type == irr::video::ELT_SPOT)
         {
-            LightSpotCallback->updateConstants(light);
+            /*LightSpotCallback->updateConstants(light);
             LightCone->setScale(irr::core::vector3df(LightSpotCallback->getConeRadius(), light.Radius*1.4, LightSpotCallback->getConeRadius()));
             //we(well, me, really) need to do some more calculations because the cone mesh we created is kinda fucked up by default
             LightCone->setRotation(light.Direction.getHorizontalAngle() + irr::core::vector3df(-90.0, 0.0, 0.0));
-            LightCone->setPosition(light.Position + light.Direction*light.Radius*0.85);
+            LightCone->setPosition(light.Position + light.Direction*light.Radius);
             //done.. true power of irrlicht!
             LightCone->updateAbsolutePosition();
-            LightCone->render();
+            LightCone->render();*/
+
+            LightSphere->setMaterialType(LightSpotMaterial);
+            LightSpotCallback->updateConstants(light);
+            LightSphere->setScale(irr::core::vector3df(light.Radius/2.0));
+            LightSphere->setPosition(light.Position + light.Direction * light.Radius * 0.5);
+            LightSphere->updateAbsolutePosition();
+            LightSphere->render();
         }
 
         //directional
@@ -200,7 +209,6 @@ irr::video::ITexture* irr::scene::ILightManagerCustom::getRenderTexture()
 void irr::scene::ILightManagerCustom::setLightPointMaterialType(irr::video::E_MATERIAL_TYPE &type)
 {
     LightPointMaterial= type;
-    LightSphere->setMaterialType(LightPointMaterial);
 }
 
 void irr::scene::ILightManagerCustom::setLightPointCallback(irr::video::IShaderPointLightCallback* callback)
@@ -211,7 +219,6 @@ void irr::scene::ILightManagerCustom::setLightPointCallback(irr::video::IShaderP
 void irr::scene::ILightManagerCustom::setLightSpotMaterialType(irr::video::E_MATERIAL_TYPE &type)
 {
     LightSpotMaterial= type;
-    LightCone->setMaterialType(LightSpotMaterial);
 }
 
 void irr::scene::ILightManagerCustom::setLightSpotCallback(irr::video::IShaderSpotLightCallback* callback)

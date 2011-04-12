@@ -1,5 +1,4 @@
 uniform sampler2D Render;
-
 void main()
 {
     vec4 color= texture2D(Render, gl_TexCoord[0].xy);

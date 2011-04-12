@@ -75,6 +75,7 @@ void irr::video::CRenderer::createDefaultPipeline()
 
 irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
 {
+    enablePostProcessing(true);
     irr::video::E_MATERIAL_TYPE effectId= (irr::video::E_MATERIAL_TYPE)addMaterial(effectShader, callback);
     irr::video::CPostProcessingEffect* effect= new irr::video::CPostProcessingEffect(effectId, callback);
     LightMgr->addPostProcessingEffect(effect);
@@ -101,6 +102,11 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffec
         case EPE_BLOOM_LQ:
             ShaderLib->loadShader("bloom_lq", "quad.vert", "postprocess/bloom_lq.frag");
             newEffect= addPostProcessingEffect(ShaderLib->getShader("bloom_lq"));
+            break;
+
+        case EPE_CONTRAST:
+            ShaderLib->loadShader("contrast", "quad.vert", "postprocess/contrast.frag");
+            newEffect= addPostProcessingEffect(ShaderLib->getShader("contrast"));
             break;
 
         case EPE_COLD_COLORS:

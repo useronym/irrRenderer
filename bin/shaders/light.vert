@@ -9,7 +9,6 @@ void main()
 {
     ScreenPos= ftransform();
     gl_Position= ScreenPos;
-    gl_TexCoord[0]= gl_MultiTexCoord0;
     FarLeftUp= VertexFarLeftUp;
     FarLeftDownY= -FarLeftUp.y;
     FarRightUpX= -FarLeftUp.x;

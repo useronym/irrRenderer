@@ -1,4 +1,5 @@
-#define STRENGTH 4
+#define QUALITY 3
+#define SIZE 3.0
 
 uniform sampler2D Render;
 
@@ -15,10 +16,12 @@ void main()
     intensity= 1.0 - intensity;
     intensity*= intensity * 0.5;
 
-    for(int i= -STRENGTH; i < STRENGTH; i++)
+    for(int i= -QUALITY; i < QUALITY; i++)
     {
-        sum+= texture2D(Render, texcoord + vec2(PixelSizeX*i, PixelSizeY*i)) * intensity * (1.0/STRENGTH) * 0.5;
-        sum+= texture2D(Render, texcoord + vec2(-PixelSizeX*i, PixelSizeY*i)) * intensity * (1.0/STRENGTH) * 0.5;
+        sum+= texture2D(Render, texcoord + vec2(PixelSizeX*i*SIZE, 0.0)) * intensity * (1.0/QUALITY) * 0.3;
+        sum+= texture2D(Render, texcoord + vec2(0.0, PixelSizeY*i*SIZE)) * intensity * (1.0/QUALITY) * 0.3;
+        sum+= texture2D(Render, texcoord + vec2(PixelSizeX*i*SIZE, PixelSizeY*i*SIZE)) * intensity * (1.0/QUALITY) * 0.3;
+        sum+= texture2D(Render, texcoord + vec2(-PixelSizeX*i*SIZE, PixelSizeY*i*SIZE)) * intensity * (1.0/QUALITY) * 0.3;
     }
 
     baseColor+= sum;
