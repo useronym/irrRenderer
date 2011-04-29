@@ -4,7 +4,7 @@
 #include "CRenderer.h"
 
 
-irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir)
+irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool HDR, irr::c8* shaderDir)
 {
     Device= device;
     LightMgr= 0;
@@ -12,40 +12,52 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir
     ShaderLib= new CShaderLibrary(shaderDir);
     Materials= new SMaterials;
 
-    createDefaultPipeline();
+    loadShaders();
+    createDefaultPipeline(HDR);
     Device->run();
 }
 
 irr::video::CRenderer::~CRenderer()
 {
-    //dtor
+    delete Materials;
+    delete ShaderLib;
+    delete LightMgr;
+
+    for(irr::u32 i= 0; i < MRTs.size(); i++)
+    {
+        Device->getVideoDriver()->removeTexture(MRTs[i].RenderTexture);
+    }
+
+    Device->getSceneManager()->setLightManager(0);
+    Device= 0;
 }
 
-void irr::video::CRenderer::createDefaultPipeline()
+void irr::video::CRenderer::createDefaultPipeline(bool HDR)
 {
     clearMRTs();
-    addMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
-    addMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
-    addMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
+    if(!HDR)
+    {
+        addMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
+        addMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
+        addMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
+    }
+    else
+    {
+        addMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A16B16G16R16F);
+        addMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G32R32F);
+        addMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G32R32F);
+    }
 
     if(LightMgr) LightMgr->drop();
     LightMgr= new irr::scene::ILightManagerCustom(Device);
     LightMgr->setMRTs(MRTs);
     Device->getSceneManager()->setLightManager(LightMgr);
 
-    ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
-    ShaderLib->loadShader("normalAnimated", "normalmap_animated.vert", "normalmap_animated.frag");
-    ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
 
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
     Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
     Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new DefaultCallback);
 
-
-    ShaderLib->loadShader("light_point", "light.vert", "light_point.frag");
-    ShaderLib->loadShader("light_spot", "light.vert", "light_spot.frag");
-    ShaderLib->loadShader("light_directional", "quad.vert", "light_directional.frag");
-    ShaderLib->loadShader("light_ambient", "quad.vert", "light_ambient.frag");
 
     //set up point lights
     irr::video::IShaderPointLightCallback* pointCallback= new irr::video::IShaderPointLightCallback(Device->getSceneManager());
@@ -117,6 +129,11 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffec
         case EPE_WARM_COLORS:
             ShaderLib->loadShader("warmcolors", "quad.vert", "postprocess/warmcolors.frag");
             newEffect= addPostProcessingEffect(ShaderLib->getShader("warmcolors"));
+            break;
+
+        case EPE_TONE_MAPPING:
+            ShaderLib->loadShader("tonemapping", "quad.vert", "postprocess/tonemapping.frag");
+            newEffect= addPostProcessingEffect(ShaderLib->getShader("tonemapping"));
             break;
 
         default: break; //this should never happen
@@ -214,4 +231,17 @@ void irr::video::CRenderer::swapMaterials()
 irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary()
 {
     return ShaderLib;
+}
+
+
+void irr::video::CRenderer::loadShaders()
+{
+    ShaderLib->loadShader("light_point", "light.vert", "light_point.frag");
+    ShaderLib->loadShader("light_spot", "light.vert", "light_spot.frag");
+    ShaderLib->loadShader("light_directional", "quad.vert", "light_directional.frag");
+    ShaderLib->loadShader("light_ambient", "quad.vert", "light_ambient.frag");
+
+    ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
+    ShaderLib->loadShader("normalAnimated", "normalmap_animated.vert", "normalmap_animated.frag");
+    ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
 }

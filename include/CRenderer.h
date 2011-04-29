@@ -24,7 +24,9 @@ enum E_POSTPROCESSING_EFFECT
     EPE_BLOOM_LQ,
     EPE_CONTRAST,
     EPE_COLD_COLORS,
-    EPE_WARM_COLORS
+    EPE_WARM_COLORS,
+    //HDR effects
+    EPE_TONE_MAPPING
 };
 
 //! The base class holding all other stuff
@@ -32,12 +34,12 @@ class CRenderer
 {
     public:
         //! Constructor, only used internally
-        CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir);
+        CRenderer(irr::IrrlichtDevice* device, bool HDR, irr::c8* shaderDir);
 
         ~CRenderer();
 
         //! Loads the default pipeline \n Note: If you haven't altered the pipeline, it doesn't make sense to call this
-        void createDefaultPipeline();
+        void createDefaultPipeline(bool HDR= false);
 
         //! Adds a new post processing effect into the chain
         /*! \param effectShader shader to use fur this effect
@@ -95,6 +97,8 @@ class CRenderer
 
 
     private:
+        void loadShaders();
+
         irr::IrrlichtDevice* Device;
         irr::scene::ILightManagerCustom* LightMgr;
         irr::video::CShaderLibrary* ShaderLib;

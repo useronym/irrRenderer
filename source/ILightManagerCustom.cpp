@@ -16,6 +16,7 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     LightSphere->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
     LightSphere->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
     LightSphere->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
+    LightSphere->setVisible(false);
 
     //set up light mesh - cone
     LightCone= Device->getSceneManager()->addMeshSceneNode(Device->getSceneManager()->getGeometryCreator()->createConeMesh(1.0, 1.0, 8, irr::video::SColor(0,0,0,0), irr::video::SColor(0,0,0,0)));//Device->getSceneManager()->addSphereSceneNode(1.0, 12);
@@ -24,10 +25,12 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     LightCone->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
     LightCone->setMaterialFlag(irr::video::EMF_ZBUFFER, false);
     LightCone->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
+    LightCone->setVisible(false);
 
     //set up light mesh - quad
     LightQuad= new irr::scene::IQuadSceneNode(0, Device->getSceneManager());
     LightQuad->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
+    LightQuad->setVisible(false);
 }
 
 irr::scene::ILightManagerCustom::~ILightManagerCustom()
