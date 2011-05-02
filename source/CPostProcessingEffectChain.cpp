@@ -10,14 +10,14 @@ irr::video::CPostProcessingEffectChain::~CPostProcessingEffectChain()
     //dtor
 }
 
-irr::u32 irr::video::CPostProcessingEffectChain::addEffect(irr::video::CPostProcessingEffect* effect)
+irr::u32 irr::video::CPostProcessingEffectChain::attachEffect(irr::video::CPostProcessingEffect* effect)
 {
     Effects.push_back(effect);
 }
 
 irr::video::CPostProcessingEffect* irr::video::CPostProcessingEffectChain::createEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
 {
-    addEffect(Renderer->createPostProcessingEffect(effectShader, callback));
+    attachEffect(Renderer->createPostProcessingEffect(effectShader, callback));
 }
 
 irr::video::CPostProcessingEffect* irr::video::CPostProcessingEffectChain::createEffect(irr::video::E_POSTPROCESSING_EFFECT type)
@@ -26,12 +26,12 @@ irr::video::CPostProcessingEffect* irr::video::CPostProcessingEffectChain::creat
 }
 
 
-bool irr::video::CPostProcessingEffectChain::removeEffect(irr::u32 index)
+bool irr::video::CPostProcessingEffectChain::detachEffect(irr::u32 index)
 {
 
 }
 
-bool irr::video::CPostProcessingEffectChain::removeEffect(irr::video::CPostProcessingEffect* effect)
+bool irr::video::CPostProcessingEffectChain::detachEffect(irr::video::CPostProcessingEffect* effect)
 {
 
 }

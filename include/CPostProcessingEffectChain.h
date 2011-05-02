@@ -16,12 +16,12 @@ class CPostProcessingEffectChain
         CPostProcessingEffectChain(irr::video::CRenderer* renderer);
         ~CPostProcessingEffectChain();
 
-        irr::u32 addEffect(irr::video::CPostProcessingEffect* effect);
+        irr::u32 attachEffect(irr::video::CPostProcessingEffect* effect);
         irr::video::CPostProcessingEffect* createEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= new irr::video::IShaderDefaultPostProcessCallback);
         irr::video::CPostProcessingEffect* createEffect(irr::video::E_POSTPROCESSING_EFFECT type);
 
-        bool removeEffect(irr::u32 index);
-        bool removeEffect(irr::video::CPostProcessingEffect* effect);
+        bool detachEffect(irr::u32 index);
+        bool detachEffect(irr::video::CPostProcessingEffect* effect);
 
         irr::video::CPostProcessingEffect* getEffect(irr::u32 index);
 

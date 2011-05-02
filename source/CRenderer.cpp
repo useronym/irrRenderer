@@ -14,6 +14,8 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool HDR, irr::c8*
 
     loadShaders();
     createDefaultPipeline(HDR);
+    RootPostProcessingEffectChain= createPostProcessingEffectChain();
+
     Device->run();
 }
 
@@ -84,6 +86,11 @@ void irr::video::CRenderer::createDefaultPipeline(bool HDR)
     LightMgr->setLightAmbientCallback(ambientCallback);
 }
 
+
+irr::video::CPostProcessingEffectChain* irr::video::CRenderer::createPostProcessingEffectChain()
+{
+    return new irr::video::CPostProcessingEffectChain(this);
+}
 
 irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
 {
@@ -231,6 +238,11 @@ void irr::video::CRenderer::swapMaterials()
 irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary()
 {
     return ShaderLib;
+}
+
+irr::video::CPostProcessingEffectChain* irr::video::CRenderer::getRootPostProcessingEffectChain()
+{
+    return RootPostProcessingEffectChain;
 }
 
 

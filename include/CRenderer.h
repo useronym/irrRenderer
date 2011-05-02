@@ -8,14 +8,17 @@
 #include "ILightManagerCustom.h"
 #include "SMaterials.h"
 #include "CShaderLibrary.h"
-#include "CPostProcessingEffect.h"
 #include "MaterialCallbacks.h"
 #include "IShaderDefaultPostProcessCallback.h"
+#include "CPostProcessingEffect.h"
+
 
 namespace irr
 {
 namespace video
 {
+
+class CPostProcessingEffectChain;
 
 enum E_POSTPROCESSING_EFFECT
 {
@@ -40,6 +43,8 @@ class CRenderer
 
         //! Loads the default pipeline \n Note: If you haven't altered the pipeline, it doesn't make sense to call this
         void createDefaultPipeline(bool HDR= false);
+
+        irr::video::CPostProcessingEffectChain* createPostProcessingEffectChain();
 
         //! Adds a new post processing effect into the chain
         /*! \param effectShader shader to use fur this effect
@@ -95,6 +100,8 @@ class CRenderer
         //! \return irr::video::SMaterials structure which holds the irrlicht material enums
         irr::video::SMaterials* getMaterials();
 
+        irr::video::CPostProcessingEffectChain* getRootPostProcessingEffectChain();
+
 
     private:
         void loadShaders();
@@ -103,6 +110,7 @@ class CRenderer
         irr::scene::ILightManagerCustom* LightMgr;
         irr::video::CShaderLibrary* ShaderLib;
         irr::video::SMaterials* Materials;
+        irr::video::CPostProcessingEffectChain* RootPostProcessingEffectChain;
 
         irr::core::array<irr::video::IRenderTarget> MRTs;
 };

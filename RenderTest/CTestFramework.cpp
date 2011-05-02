@@ -34,7 +34,7 @@ CTestFramework::CTestFramework()
     Renderer->swapMaterials();
 
     //set up post processing
-    Renderer->addPostProcessingEffect(irr::video::EPE_TONE_MAPPING);
+    Renderer->createPostProcessingEffect(irr::video::EPE_TONE_MAPPING);
     //Renderer->addPostProcessingEffect(irr::video::EPE_CONTRAST);
     //Renderer->addPostProcessingEffect(irr::video::EPE_COLD_COLORS);
     //Renderer->addPostProcessingEffect(irr::video::EPE_ANTIALIASING);
