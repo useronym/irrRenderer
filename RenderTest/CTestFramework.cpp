@@ -3,7 +3,7 @@
 CTestFramework::CTestFramework()
 {
     Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800,600));
-    Renderer= createRenderer(Device);
+    Renderer= createRenderer(Device, true);
 
     //create some live shit
     scene::ISceneManager* smgr= Device->getSceneManager();
@@ -34,7 +34,7 @@ CTestFramework::CTestFramework()
     Renderer->swapMaterials();
 
     //set up post processing
-    //Renderer->addPostProcessingEffect(irr::video::EPE_TONE_MAPPING);
+    Renderer->addPostProcessingEffect(irr::video::EPE_TONE_MAPPING);
     //Renderer->addPostProcessingEffect(irr::video::EPE_CONTRAST);
     //Renderer->addPostProcessingEffect(irr::video::EPE_COLD_COLORS);
     //Renderer->addPostProcessingEffect(irr::video::EPE_ANTIALIASING);

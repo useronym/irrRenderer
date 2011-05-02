@@ -37,15 +37,15 @@ void irr::video::CRenderer::createDefaultPipeline(bool HDR)
     clearMRTs();
     if(!HDR)
     {
-        addMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
-        addMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
-        addMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
+        createMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
+        createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
+        createMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
     }
     else
     {
-        addMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A16B16G16R16F);
-        addMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G32R32F);
-        addMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G32R32F);
+        createMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A16B16G16R16F);
+        createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G32R32F);
+        createMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G32R32F);
     }
 
     if(LightMgr) LightMgr->drop();
@@ -54,47 +54,47 @@ void irr::video::CRenderer::createDefaultPipeline(bool HDR)
     Device->getSceneManager()->setLightManager(LightMgr);
 
 
-    Materials->Solid= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
-    Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
-    Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("terrain"), new DefaultCallback);
+    Materials->Solid= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
+    Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
+    Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("terrain"), new DefaultCallback);
 
 
     //set up point lights
     irr::video::IShaderPointLightCallback* pointCallback= new irr::video::IShaderPointLightCallback(Device->getSceneManager());
-    Materials->LightPoint= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_point"), pointCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    Materials->LightPoint= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_point"), pointCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightPointMaterialType(Materials->LightPoint);
     LightMgr->setLightPointCallback(pointCallback);
 
     //set up spot lights
     irr::video::IShaderSpotLightCallback* spotCallback= new irr::video::IShaderSpotLightCallback(Device->getSceneManager());
-    Materials->LightSpot= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_spot"), spotCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    Materials->LightSpot= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_spot"), spotCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightSpotMaterialType(Materials->LightSpot);
     LightMgr->setLightSpotCallback(spotCallback);
 
     //set up directional lights
     irr::video::IShaderDirectionalLightCallback* directionalCallback= new irr::video::IShaderDirectionalLightCallback(Device->getSceneManager());
-    Materials->LightDirectional= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_directional"), directionalCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    Materials->LightDirectional= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_directional"), directionalCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightDirectionalMaterialType(Materials->LightDirectional);
     LightMgr->setLightDirectionalCallback(directionalCallback);
 
     //set up ambient light
     irr::video::IShaderAmbientLightCallback* ambientCallback= new irr::video::IShaderAmbientLightCallback(Device->getSceneManager());
-    Materials->LightAmbient= (irr::video::E_MATERIAL_TYPE)addMaterial(ShaderLib->getShader("light_ambient"), ambientCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    Materials->LightAmbient= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_ambient"), ambientCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightAmbientMaterialType(Materials->LightAmbient);
     LightMgr->setLightAmbientCallback(ambientCallback);
 }
 
 
-irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
+irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
 {
     enablePostProcessing(true);
-    irr::video::E_MATERIAL_TYPE effectId= (irr::video::E_MATERIAL_TYPE)addMaterial(effectShader, callback);
+    irr::video::E_MATERIAL_TYPE effectId= (irr::video::E_MATERIAL_TYPE)createMaterial(effectShader, callback);
     irr::video::CPostProcessingEffect* effect= new irr::video::CPostProcessingEffect(effectId, callback);
     LightMgr->addPostProcessingEffect(effect);
     return effect;
 }
 
-irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffect(irr::video::E_POSTPROCESSING_EFFECT type)
+irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEffect(irr::video::E_POSTPROCESSING_EFFECT type)
 {
     video::CPostProcessingEffect* newEffect= 0;
 
@@ -102,38 +102,38 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::addPostProcessingEffec
     {
         case EPE_ANTIALIASING:
             ShaderLib->loadShader("antialias", "quad.vert", "postprocess/antialias.frag");
-            newEffect= addPostProcessingEffect(ShaderLib->getShader("antialias"));
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("antialias"));
             newEffect->addTextureToShader(getMRT(2));
             break;
 
         case EPE_BLOOM:
             ShaderLib->loadShader("bloom", "quad.vert", "postprocess/bloom.frag");
-            newEffect= addPostProcessingEffect(ShaderLib->getShader("bloom"));
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom"));
             break;
 
         case EPE_BLOOM_LQ:
             ShaderLib->loadShader("bloom_lq", "quad.vert", "postprocess/bloom_lq.frag");
-            newEffect= addPostProcessingEffect(ShaderLib->getShader("bloom_lq"));
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_lq"));
             break;
 
         case EPE_CONTRAST:
             ShaderLib->loadShader("contrast", "quad.vert", "postprocess/contrast.frag");
-            newEffect= addPostProcessingEffect(ShaderLib->getShader("contrast"));
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("contrast"));
             break;
 
         case EPE_COLD_COLORS:
             ShaderLib->loadShader("coldcolors", "quad.vert", "postprocess/coldcolors.frag");
-            newEffect= addPostProcessingEffect(ShaderLib->getShader("coldcolors"));
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("coldcolors"));
             break;
 
         case EPE_WARM_COLORS:
             ShaderLib->loadShader("warmcolors", "quad.vert", "postprocess/warmcolors.frag");
-            newEffect= addPostProcessingEffect(ShaderLib->getShader("warmcolors"));
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("warmcolors"));
             break;
 
         case EPE_TONE_MAPPING:
             ShaderLib->loadShader("tonemapping", "quad.vert", "postprocess/tonemapping.frag");
-            newEffect= addPostProcessingEffect(ShaderLib->getShader("tonemapping"));
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("tonemapping"));
             break;
 
         default: break; //this should never happen
@@ -164,7 +164,7 @@ void irr::video::CRenderer::clearMRTs()
     MRTs.clear();
 }
 
-void irr::video::CRenderer::addMRT(irr::c8* name, irr::video::ECOLOR_FORMAT format, irr::core::dimension2du dimension)
+void irr::video::CRenderer::createMRT(irr::c8* name, irr::video::ECOLOR_FORMAT format, irr::core::dimension2du dimension)
 {
     if(MRTs.size() <= 4)
     {
@@ -202,7 +202,7 @@ irr::video::SMaterials* irr::video::CRenderer::getMaterials()
     return Materials;
 }
 
-irr::s32 irr::video::CRenderer::addMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback, irr::video::E_MATERIAL_TYPE baseType)
+irr::s32 irr::video::CRenderer::createMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback, irr::video::E_MATERIAL_TYPE baseType)
 {
     return Device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
                shader.SourceVertex.c_str(), "main", irr::video::EVST_VS_2_0,

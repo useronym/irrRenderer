@@ -46,13 +46,13 @@ class CRenderer
         \param callback custom callback to use for this shader, if any
         \return A pointer to the newly created post processing effect
         */
-        irr::video::CPostProcessingEffect* addPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= new irr::video::IShaderDefaultPostProcessCallback);
+        irr::video::CPostProcessingEffect* createPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= new irr::video::IShaderDefaultPostProcessCallback);
 
         //! Adds a new post processing effect into the chain using one of the included shaders
         /*! \param type type of the shader
         \return A pointer to the newly created post processing effect
         */
-        irr::video::CPostProcessingEffect* addPostProcessingEffect(irr::video::E_POSTPROCESSING_EFFECT type);
+        irr::video::CPostProcessingEffect* createPostProcessingEffect(irr::video::E_POSTPROCESSING_EFFECT type);
 
         //! Enables/Disables post processing
         /*! \param enable enable or disable post processing
@@ -66,7 +66,7 @@ class CRenderer
         /*! \param name unique name of the texture, so please make sure it's unique
         \param dimension resolution of the texture, leave blank for auto (full screen resolution)
         */
-        void addMRT(irr::c8* name, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
+        void createMRT(irr::c8* name, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
 
         //! \return The RTT based on index \param index index of the MRT
         irr::video::ITexture* getMRT(irr::u32 index);
@@ -84,7 +84,7 @@ class CRenderer
         /*! \param shader previously loaded irr::video::SShaderSource holding the source code, use irr::video::CShaderLibrary to load the shader
         \param callback custom callback if needed
         */
-        irr::s32 addMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback=0, irr::video::E_MATERIAL_TYPE baseType= irr::video::EMT_SOLID);
+        irr::s32 createMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback=0, irr::video::E_MATERIAL_TYPE baseType= irr::video::EMT_SOLID);
 
         //! Swaps the materials
         void swapMaterials();
