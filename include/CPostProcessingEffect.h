@@ -9,11 +9,16 @@ namespace irr
 namespace video
 {
 
+class CPostProcessingEffectChain;
+
 class CPostProcessingEffect
 {
     public:
         CPostProcessingEffect(irr::video::E_MATERIAL_TYPE &type, irr::video::IShaderConstantSetCallBack* callback= 0);
         ~CPostProcessingEffect();
+
+        void setChain(irr::video::CPostProcessingEffectChain* chain);
+        irr::video::CPostProcessingEffectChain* getChain();
 
         void addTextureToShader(irr::video::ITexture* tex);
         irr::video::ITexture* getTextureToPass(irr::u32 index);
@@ -24,6 +29,8 @@ class CPostProcessingEffect
         bool isActive();
 
     private:
+        irr::video::CPostProcessingEffectChain* Chain;
+
         bool Active;
         irr::core::array<irr::video::ITexture*> TexturesToPass;
         irr::video::E_MATERIAL_TYPE MaterialType;

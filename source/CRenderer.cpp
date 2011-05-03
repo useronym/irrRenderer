@@ -2,6 +2,7 @@
 // For conditions of distribution and use, see copyright notice in irrRenderer.h
 
 #include "CRenderer.h"
+#include "CPostProcessingEffectChain.h"
 
 
 irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool HDR, irr::c8* shaderDir)

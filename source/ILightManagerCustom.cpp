@@ -106,26 +106,29 @@ void irr::scene::ILightManagerCustom::OnPostRender()
 
 
     //post processing
-    if(getActivePostProcessingEffectsCount() > 0 && FinalRender)
+    if(getActivePostProcessingEffectChainsCount() > 0 && FinalRender)
     {
         LightQuad->setMaterialTexture(0, FinalRender);
 
-        for(irr::u32 i= 0; i < PostProcessingEffects.size(); i++)
+        for(irr::u32 i= 0; i < PostProcessingEffectChains.size(); i++)
         {
-            if(PostProcessingEffects[i]->isActive())
+            if(PostProcessingEffectChains[i]->isActive())
             {
-                if(i+1 == PostProcessingEffects.size() && !FinalRenderToTexture)
+                for(irr::u32 ii= 0; ii < PostProcessingEffectChains[i].getEffectCount(); ii++)
                 {
-                    Device->getVideoDriver()->setRenderTarget(0);
-                }
+                    if(i+1 == PostProcessingEffectChains.size() && ii+1 == PostProcessingEffectChains[i].getEffectCount() && !FinalRenderToTexture)
+                    {
+                        Device->getVideoDriver()->setRenderTarget(0);
+                    }
 
-                for(irr::u32 ii= 0; ii < PostProcessingEffects[i]->getTextureToPassCount(); ii++)
-                {
-                    LightQuad->setMaterialTexture(ii+1, PostProcessingEffects[i]->getTextureToPass(ii));
-                }
+                    for(irr::u32 iii= 0; iii < PostProcessingEffectChains[i]->getTextureToPassCount(); iii++)
+                    {
+                        LightQuad->setMaterialTexture(iii+1, PostProcessingEffectChains[i].getEffect(ii)->getTextureToPass(iii));
+                    }
 
-                LightQuad->setMaterialType(PostProcessingEffects[i]->getMaterialType());
-                LightQuad->render();
+                    LightQuad->setMaterialType(PostProcessingEffectChains[i].getEffect(ii)->getMaterialType());
+                    LightQuad->render();
+                }
             }
         }
     }
@@ -165,17 +168,17 @@ void irr::scene::ILightManagerCustom::setMRTs(irr::core::array<irr::video::IRend
     }
 }
 
-void irr::scene::ILightManagerCustom::addPostProcessingEffect(irr::video::CPostProcessingEffect* effect)
+void irr::scene::ILightManagerCustom::addPostProcessingEffectChain(irr::video::CPostProcessingEffectChain* chain)
 {
-    PostProcessingEffects.push_back(effect);
+    PostProcessingEffectChains.push_back(chain);
 }
 
-irr::u32 irr::scene::ILightManagerCustom::getActivePostProcessingEffectsCount()
+irr::u32 irr::scene::ILightManagerCustom::getActivePostProcessingEffectChainsCount()
 {
     irr::u32 count= 0;
-    for(irr::u32 i= 0; i < PostProcessingEffects.size(); i++)
+    for(irr::u32 i= 0; i < PostProcessingEffectChains.size(); i++)
     {
-        if(PostProcessingEffects[i]->isActive()) count++;
+        if(PostProcessingEffectChains[i]->isActive()) count++;
     }
     return count;
 }

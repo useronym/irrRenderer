@@ -34,7 +34,15 @@ CTestFramework::CTestFramework()
     Renderer->swapMaterials();
 
     //set up post processing
-    Renderer->createPostProcessingEffect(irr::video::EPE_TONE_MAPPING);
+    irr::video::CPostProcessingEffectChain* chain1= Renderer->createPostProcessingEffectChain();
+    chain1->createEffect(irr::video::EPE_ANTIALIASING);
+    chain1->createEffect(irr::video::EPE_BLOOM);
+    chain1->setActive(false);
+
+    irr::video::CPostProcessingEffectChain* chain2= Renderer->createPostProcessingEffectChain();
+    chain2->createEffect(irr::video::EPE_ANTIALIASING);
+    chain2->createEffect(irr::video::EPE_BLOOM_LQ);
+    //Renderer->createPostProcessingEffect(irr::video::EPE_TONE_MAPPING);
     //Renderer->addPostProcessingEffect(irr::video::EPE_CONTRAST);
     //Renderer->addPostProcessingEffect(irr::video::EPE_COLD_COLORS);
     //Renderer->addPostProcessingEffect(irr::video::EPE_ANTIALIASING);

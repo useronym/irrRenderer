@@ -30,6 +30,7 @@
 
 #include "CRenderer.h"
 #include "CShaderLibrary.h"
+#include "CPostProcessingEffectChain.h"
 #include "CPostProcessingEffect.h"
 #include "MaterialCallbacks.h"
 #include "SMaterials.h"

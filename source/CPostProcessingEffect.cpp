@@ -2,6 +2,7 @@
 
 irr::video::CPostProcessingEffect::CPostProcessingEffect(irr::video::E_MATERIAL_TYPE &type, irr::video::IShaderConstantSetCallBack* callback)
 {
+    Chain= 0;
     Active= true;
     MaterialType= type;
     Callback= callback;
@@ -11,6 +12,17 @@ irr::video::CPostProcessingEffect::~CPostProcessingEffect()
 {
     //dtor
 }
+
+void irr::video::CPostProcessingEffect::setChain(irr::video::CPostProcessingEffectChain* chain)
+{
+    Chain= chain;
+}
+
+irr::video::CPostProcessingEffectChain* irr::video::CPostProcessingEffect::getChain()
+{
+    return Chain;
+}
+
 
 void irr::video::CPostProcessingEffect::addTextureToShader(irr::video::ITexture* tex)
 {

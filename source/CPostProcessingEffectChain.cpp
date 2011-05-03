@@ -12,6 +12,8 @@ irr::video::CPostProcessingEffectChain::~CPostProcessingEffectChain()
 
 irr::u32 irr::video::CPostProcessingEffectChain::attachEffect(irr::video::CPostProcessingEffect* effect)
 {
+    if(effect->getChain())effect->getChain()->detachEffect(effect);
+    effect->setChain(this);
     Effects.push_back(effect);
 }
 
@@ -22,33 +24,50 @@ irr::video::CPostProcessingEffect* irr::video::CPostProcessingEffectChain::creat
 
 irr::video::CPostProcessingEffect* irr::video::CPostProcessingEffectChain::createEffect(irr::video::E_POSTPROCESSING_EFFECT type)
 {
-
+    attachEffect(Renderer->createPostProcessingEffect(type));
 }
 
 
-bool irr::video::CPostProcessingEffectChain::detachEffect(irr::u32 index)
+void irr::video::CPostProcessingEffectChain::detachEffect(irr::u32 index)
 {
-
+    Effects[index]->setChain(0);
+    Effects.erase(index);
 }
 
-bool irr::video::CPostProcessingEffectChain::detachEffect(irr::video::CPostProcessingEffect* effect)
+void irr::video::CPostProcessingEffectChain::detachEffect(irr::video::CPostProcessingEffect* effect)
 {
+    detachEffect(getEffectIndex(effect));
+}
 
+
+irr::u32 irr::video::CPostProcessingEffectChain::getEffectCount()
+{
+    return Effects.size();
 }
 
 
 irr::video::CPostProcessingEffect* irr::video::CPostProcessingEffectChain::getEffect(irr::u32 index)
 {
+    return Effects[index];
+}
 
+
+irr::u32 irr::video::CPostProcessingEffectChain::getEffectIndex(irr::video::CPostProcessingEffect* effect)
+{
+    for(irr::u32 i= 0; i < Effects.size(); i++)
+    {
+        if(Effects[i] == effect) return i;
+    }
+    return 0;
 }
 
 
 void irr::video::CPostProcessingEffectChain::setActive(bool active)
 {
-
+    Active= active;
 }
 
 bool irr::video::CPostProcessingEffectChain::isActive()
 {
-
+    return Active;
 }
