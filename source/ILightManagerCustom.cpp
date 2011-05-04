@@ -45,7 +45,7 @@ void irr::scene::ILightManagerCustom::OnPreRender(irr::core::array<irr::scene::I
 
 void irr::scene::ILightManagerCustom::OnPostRender()
 {
-    if(FinalRenderToTexture || getActivePostProcessingEffectsCount() > 0)
+    if(FinalRenderToTexture || getActivePostProcessingEffectChainsCount() > 0)
     {
         Device->getVideoDriver()->setRenderTarget(FinalRender, true, true, 0);
     }
@@ -114,19 +114,19 @@ void irr::scene::ILightManagerCustom::OnPostRender()
         {
             if(PostProcessingEffectChains[i]->isActive())
             {
-                for(irr::u32 ii= 0; ii < PostProcessingEffectChains[i].getEffectCount(); ii++)
+                for(irr::u32 ii= 0; ii < PostProcessingEffectChains[i]->getEffectCount(); ii++)
                 {
-                    if(i+1 == PostProcessingEffectChains.size() && ii+1 == PostProcessingEffectChains[i].getEffectCount() && !FinalRenderToTexture)
+                    if(i+1 == PostProcessingEffectChains.size() && ii+1 == PostProcessingEffectChains[i]->getEffectCount() && !FinalRenderToTexture)
                     {
                         Device->getVideoDriver()->setRenderTarget(0);
                     }
 
-                    for(irr::u32 iii= 0; iii < PostProcessingEffectChains[i]->getTextureToPassCount(); iii++)
+                    for(irr::u32 iii= 0; iii < PostProcessingEffectChains[i]->getEffect(ii)->getTextureToPassCount(); iii++)
                     {
-                        LightQuad->setMaterialTexture(iii+1, PostProcessingEffectChains[i].getEffect(ii)->getTextureToPass(iii));
+                        LightQuad->setMaterialTexture(iii+1, PostProcessingEffectChains[i]->getEffect(ii)->getTextureToPass(iii));
                     }
 
-                    LightQuad->setMaterialType(PostProcessingEffectChains[i].getEffect(ii)->getMaterialType());
+                    LightQuad->setMaterialType(PostProcessingEffectChains[i]->getEffect(ii)->getMaterialType());
                     LightQuad->render();
                 }
             }
@@ -185,7 +185,7 @@ irr::u32 irr::scene::ILightManagerCustom::getActivePostProcessingEffectChainsCou
 
 bool irr::scene::ILightManagerCustom::isPostProcessing()
 {
-    if(PostProcessingEffects.size() > 0) return true;
+    if(PostProcessingEffectChains.size() > 1) return true;
     else return false;
 }
 

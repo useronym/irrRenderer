@@ -10,27 +10,15 @@
 #include "CShaderLibrary.h"
 #include "MaterialCallbacks.h"
 #include "IShaderDefaultPostProcessCallback.h"
+#include "CPostProcessingEffectChain.h"
 #include "CPostProcessingEffect.h"
+#include "E_POST_PROCESSING_EFFECT.h"
 
 
 namespace irr
 {
 namespace video
 {
-
-class CPostProcessingEffectChain;
-
-enum E_POSTPROCESSING_EFFECT
-{
-    EPE_ANTIALIASING= 0,
-    EPE_BLOOM,
-    EPE_BLOOM_LQ,
-    EPE_CONTRAST,
-    EPE_COLD_COLORS,
-    EPE_WARM_COLORS,
-    //HDR effects
-    EPE_TONE_MAPPING
-};
 
 //! The base class holding all other stuff
 class CRenderer

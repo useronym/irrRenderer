@@ -3,7 +3,7 @@
 CTestFramework::CTestFramework()
 {
     Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800,600));
-    Renderer= createRenderer(Device, true);
+    Renderer= createRenderer(Device, false);
 
     //create some live shit
     scene::ISceneManager* smgr= Device->getSceneManager();
@@ -35,18 +35,12 @@ CTestFramework::CTestFramework()
 
     //set up post processing
     irr::video::CPostProcessingEffectChain* chain1= Renderer->createPostProcessingEffectChain();
-    chain1->createEffect(irr::video::EPE_ANTIALIASING);
-    chain1->createEffect(irr::video::EPE_BLOOM);
+    chain1->createEffect(irr::video::EPE_COLD_COLORS);
     chain1->setActive(false);
 
     irr::video::CPostProcessingEffectChain* chain2= Renderer->createPostProcessingEffectChain();
     chain2->createEffect(irr::video::EPE_ANTIALIASING);
     chain2->createEffect(irr::video::EPE_BLOOM_LQ);
-    //Renderer->createPostProcessingEffect(irr::video::EPE_TONE_MAPPING);
-    //Renderer->addPostProcessingEffect(irr::video::EPE_CONTRAST);
-    //Renderer->addPostProcessingEffect(irr::video::EPE_COLD_COLORS);
-    //Renderer->addPostProcessingEffect(irr::video::EPE_ANTIALIASING);
-    //Renderer->addPostProcessingEffect(irr::video::EPE_BLOOM_LQ);
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

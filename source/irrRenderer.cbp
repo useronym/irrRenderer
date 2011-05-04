@@ -84,6 +84,7 @@
 		<Unit filename="..\include\CPostProcessingEffectChain.h" />
 		<Unit filename="..\include\CRenderer.h" />
 		<Unit filename="..\include\CShaderLibrary.h" />
+		<Unit filename="..\include\E_POST_PROCESSING_EFFECT.h" />
 		<Unit filename="..\include\ILightManagerCustom.h" />
 		<Unit filename="..\include\IQuadSceneNode.h" />
 		<Unit filename="..\include\IShaderDefaultPostProcessCallback.h" />

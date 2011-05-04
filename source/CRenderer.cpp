@@ -2,7 +2,6 @@
 // For conditions of distribution and use, see copyright notice in irrRenderer.h
 
 #include "CRenderer.h"
-#include "CPostProcessingEffectChain.h"
 
 
 irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool HDR, irr::c8* shaderDir)
@@ -90,7 +89,9 @@ void irr::video::CRenderer::createDefaultPipeline(bool HDR)
 
 irr::video::CPostProcessingEffectChain* irr::video::CRenderer::createPostProcessingEffectChain()
 {
-    return new irr::video::CPostProcessingEffectChain(this);
+    irr::video::CPostProcessingEffectChain* chain= new irr::video::CPostProcessingEffectChain(this);
+    LightMgr->addPostProcessingEffectChain(chain);
+    return chain;
 }
 
 irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
@@ -98,7 +99,6 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
     enablePostProcessing(true);
     irr::video::E_MATERIAL_TYPE effectId= (irr::video::E_MATERIAL_TYPE)createMaterial(effectShader, callback);
     irr::video::CPostProcessingEffect* effect= new irr::video::CPostProcessingEffect(effectId, callback);
-    LightMgr->addPostProcessingEffect(effect);
     return effect;
 }
 

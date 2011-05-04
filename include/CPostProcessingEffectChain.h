@@ -2,13 +2,17 @@
 #define CPOSTPROCESSINGEFFECTCHAIN_H
 
 #include <irrlicht.h>
-#include "CRenderer.h"
 #include "CPostProcessingEffect.h"
+#include "E_POST_PROCESSING_EFFECT.h"
+#include "IShaderDefaultPostProcessCallback.h"
 
 namespace irr
 {
 namespace video
 {
+
+class CRenderer;
+class SShaderSource;
 
 class CPostProcessingEffectChain
 {

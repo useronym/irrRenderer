@@ -1,4 +1,5 @@
 #include "CPostProcessingEffectChain.h"
+#include "CRenderer.h"
 
 irr::video::CPostProcessingEffectChain::CPostProcessingEffectChain(irr::video::CRenderer* renderer)
 {

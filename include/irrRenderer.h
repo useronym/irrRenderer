@@ -65,6 +65,7 @@ int main()
 
 //! Use this function to create a new instance of the irrRenderer
 /*! \param device irrlicht device to use
+\param HDR pass true to enable rendering of color buffer into a floating point texture
 \param shaderDir directory which holds shader source files, relative to the executable
 \return New instance of irrRenderer
 */
