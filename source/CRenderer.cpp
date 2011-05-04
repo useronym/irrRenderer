@@ -4,7 +4,7 @@
 #include "CRenderer.h"
 
 
-irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool HDR, irr::c8* shaderDir)
+irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool hdr, irr::c8* shaderDir)
 {
     Device= device;
     LightMgr= 0;
@@ -13,7 +13,8 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool HDR, irr::c8*
     Materials= new SMaterials;
 
     loadShaders();
-    createDefaultPipeline(HDR);
+    createDefaultPipeline(hdr);
+    HDR= hdr;
     RootPostProcessingEffectChain= createPostProcessingEffectChain();
 
     Device->run();
@@ -34,10 +35,10 @@ irr::video::CRenderer::~CRenderer()
     Device= 0;
 }
 
-void irr::video::CRenderer::createDefaultPipeline(bool HDR)
+void irr::video::CRenderer::createDefaultPipeline(bool hdr)
 {
     clearMRTs();
-    if(!HDR)
+    if(!hdr)
     {
         createMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
         createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
@@ -97,6 +98,7 @@ irr::video::CPostProcessingEffectChain* irr::video::CRenderer::createPostProcess
 irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
 {
     enablePostProcessing(true);
+
     irr::video::E_MATERIAL_TYPE effectId= (irr::video::E_MATERIAL_TYPE)createMaterial(effectShader, callback);
     irr::video::CPostProcessingEffect* effect= new irr::video::CPostProcessingEffect(effectId, callback);
     return effect;
@@ -234,6 +236,12 @@ void irr::video::CRenderer::swapMaterials()
             else if(node->getMaterial(ii).MaterialType == irr::video::EMT_DETAIL_MAP) node->getMaterial(ii).MaterialType= getMaterials()->DetailMap;
         }
     }
+}
+
+
+bool irr::video::CRenderer::isHDREnabled()
+{
+    return HDR;
 }
 
 irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary()

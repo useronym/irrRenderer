@@ -35,7 +35,7 @@ CTestFramework::CTestFramework()
 
     //set up post processing
     irr::video::CPostProcessingEffectChain* chain1= Renderer->createPostProcessingEffectChain();
-    chain1->createEffect(irr::video::EPE_COLD_COLORS);
+    chain1->createEffect(irr::video::EPE_TONE_MAPPING);
     chain1->setActive(false);
 
     irr::video::CPostProcessingEffectChain* chain2= Renderer->createPostProcessingEffectChain();
