@@ -20,6 +20,8 @@ class CPostProcessingEffect
         void setChain(irr::video::CPostProcessingEffectChain* chain);
         irr::video::CPostProcessingEffectChain* getChain();
 
+        void remove();
+
         void addTextureToShader(irr::video::ITexture* tex);
         irr::video::ITexture* getTextureToPass(irr::u32 index);
         irr::u32 getTextureToPassCount();

@@ -19,13 +19,13 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     LightSphere->setVisible(false);
 
     //set up light mesh - cone
-    LightCone= Device->getSceneManager()->addMeshSceneNode(Device->getSceneManager()->getGeometryCreator()->createConeMesh(1.0, 1.0, 8, irr::video::SColor(0,0,0,0), irr::video::SColor(0,0,0,0)));//Device->getSceneManager()->addSphereSceneNode(1.0, 12);
+    /*LightCone= Device->getSceneManager()->addMeshSceneNode(Device->getSceneManager()->getGeometryCreator()->createConeMesh(1.0, 1.0, 8, irr::video::SColor(0,0,0,0), irr::video::SColor(0,0,0,0)));//Device->getSceneManager()->addSphereSceneNode(1.0, 12);
     LightCone->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
     LightCone->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
     LightCone->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
     LightCone->setMaterialFlag(irr::video::EMF_ZBUFFER, false);
     LightCone->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
-    LightCone->setVisible(false);
+    LightCone->setVisible(false);*/
 
     //set up light mesh - quad
     LightQuad= new irr::scene::IQuadSceneNode(0, Device->getSceneManager());
@@ -45,7 +45,7 @@ void irr::scene::ILightManagerCustom::OnPreRender(irr::core::array<irr::scene::I
 
 void irr::scene::ILightManagerCustom::OnPostRender()
 {
-    if(FinalRenderToTexture || getActivePostProcessingEffectChainsCount() > 0)
+    if(FinalRenderToTexture || isPostProcessingActive())
     {
         Device->getVideoDriver()->setRenderTarget(FinalRender, true, true, 0);
     }
@@ -75,7 +75,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
             LightSphere->render();
         }
 
-        //spot //using sphere instead of a cone as a quick hack
+        //spot //using sphere instead of a cone as a hack
         else if(light.Type == irr::video::ELT_SPOT)
         {
             /*LightSpotCallback->updateConstants(light);
@@ -106,7 +106,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
 
 
     //post processing
-    if(getActivePostProcessingEffectChainsCount() > 0 && FinalRender)
+    if(isPostProcessingActive() && FinalRender)
     {
         LightQuad->setMaterialTexture(0, FinalRender);
 
@@ -116,17 +116,17 @@ void irr::scene::ILightManagerCustom::OnPostRender()
             {
                 for(irr::u32 ii= 0; ii < PostProcessingEffectChains[i]->getEffectCount(); ii++)
                 {
-                    if(i+1 == PostProcessingEffectChains.size() && ii+1 == PostProcessingEffectChains[i]->getEffectCount() && !FinalRenderToTexture)
+                    if(i+1 == getActivePostProcessingEffectChainsCount() && ii+1 == PostProcessingEffectChains[i]->getActiveEffectCount() && !FinalRenderToTexture)
                     {
                         Device->getVideoDriver()->setRenderTarget(0);
                     }
 
-                    for(irr::u32 iii= 0; iii < PostProcessingEffectChains[i]->getEffect(ii)->getTextureToPassCount(); iii++)
+                    for(irr::u32 iii= 0; iii < PostProcessingEffectChains[i]->getEffectFromIndex(ii)->getTextureToPassCount(); iii++)
                     {
-                        LightQuad->setMaterialTexture(iii+1, PostProcessingEffectChains[i]->getEffect(ii)->getTextureToPass(iii));
+                        LightQuad->setMaterialTexture(iii+1, PostProcessingEffectChains[i]->getEffectFromIndex(ii)->getTextureToPass(iii));
                     }
 
-                    LightQuad->setMaterialType(PostProcessingEffectChains[i]->getEffect(ii)->getMaterialType());
+                    LightQuad->setMaterialType(PostProcessingEffectChains[i]->getEffectFromIndex(ii)->getMaterialType());
                     LightQuad->render();
                 }
             }
@@ -183,10 +183,13 @@ irr::u32 irr::scene::ILightManagerCustom::getActivePostProcessingEffectChainsCou
     return count;
 }
 
-bool irr::scene::ILightManagerCustom::isPostProcessing()
+bool irr::scene::ILightManagerCustom::isPostProcessingActive()
 {
-    if(PostProcessingEffectChains.size() > 1) return true;
-    else return false;
+    for(irr::u32 i= 0; i < PostProcessingEffectChains.size(); i++)
+    {
+        if(PostProcessingEffectChains[i]->isActive() && PostProcessingEffectChains[i]->getActiveEffectCount() > 0) return true;
+    }
+    return false;
 }
 
 void irr::scene::ILightManagerCustom::setRenderTexture(irr::video::ITexture* tex)

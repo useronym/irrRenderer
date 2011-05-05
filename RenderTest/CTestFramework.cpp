@@ -34,13 +34,11 @@ CTestFramework::CTestFramework()
     Renderer->swapMaterials();
 
     //set up post processing
-    irr::video::CPostProcessingEffectChain* chain1= Renderer->createPostProcessingEffectChain();
-    chain1->createEffect(irr::video::EPE_TONE_MAPPING);
-    chain1->setActive(false);
+    Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
 
-    irr::video::CPostProcessingEffectChain* chain2= Renderer->createPostProcessingEffectChain();
-    chain2->createEffect(irr::video::EPE_ANTIALIASING);
-    chain2->createEffect(irr::video::EPE_BLOOM_LQ);
+    irr::video::CPostProcessingEffectChain* chain1= Renderer->createPostProcessingEffectChain();
+    chain1->createEffect(irr::video::EPE_BLOOM_LQ);
+    chain1->setActive(false);
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

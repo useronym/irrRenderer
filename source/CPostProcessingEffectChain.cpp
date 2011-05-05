@@ -4,6 +4,7 @@
 irr::video::CPostProcessingEffectChain::CPostProcessingEffectChain(irr::video::CRenderer* renderer)
 {
     Renderer= renderer;
+    Active= true;
 }
 
 irr::video::CPostProcessingEffectChain::~CPostProcessingEffectChain()
@@ -41,13 +42,30 @@ void irr::video::CPostProcessingEffectChain::detachEffect(irr::video::CPostProce
 }
 
 
+void irr::video::CPostProcessingEffectChain::removeEffect(irr::u32 index)
+{
+    delete Effects[index];
+    Effects.erase(index);
+}
+
+
 irr::u32 irr::video::CPostProcessingEffectChain::getEffectCount()
 {
     return Effects.size();
 }
 
+irr::u32 irr::video::CPostProcessingEffectChain::getActiveEffectCount()
+{
+    irr::u32 count= 0;
+    for(irr::u32 i= 0; i < Effects.size(); i++)
+    {
+        if(Effects[i]->isActive()) count++;
+    }
+    return count;
+}
 
-irr::video::CPostProcessingEffect* irr::video::CPostProcessingEffectChain::getEffect(irr::u32 index)
+
+irr::video::CPostProcessingEffect* irr::video::CPostProcessingEffectChain::getEffectFromIndex(irr::u32 index)
 {
     return Effects[index];
 }

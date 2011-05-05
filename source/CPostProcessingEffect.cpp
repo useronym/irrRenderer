@@ -1,4 +1,5 @@
 #include "CPostProcessingEffect.h"
+#include "CPostProcessingEffectChain.h"
 
 irr::video::CPostProcessingEffect::CPostProcessingEffect(irr::video::E_MATERIAL_TYPE &type, irr::video::IShaderConstantSetCallBack* callback)
 {
@@ -21,6 +22,12 @@ void irr::video::CPostProcessingEffect::setChain(irr::video::CPostProcessingEffe
 irr::video::CPostProcessingEffectChain* irr::video::CPostProcessingEffect::getChain()
 {
     return Chain;
+}
+
+
+void irr::video::CPostProcessingEffect::remove()
+{
+    Chain->removeEffect(Chain->getEffectIndex(this));
 }
 
 

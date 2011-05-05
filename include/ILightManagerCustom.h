@@ -42,7 +42,7 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         irr::u32 getActivePostProcessingEffectChainsCount();
 
-        bool isPostProcessing();
+        bool isPostProcessingActive();
 
         void setRenderTexture(irr::video::ITexture* tex);
 
@@ -69,6 +69,7 @@ class ILightManagerCustom : public irr::scene::ILightManager
         irr::core::array<irr::video::IRenderTarget> MRTs;
         irr::video::ITexture* FinalRender;
         bool FinalRenderToTexture;
+        bool PostProcessing;
         irr::core::array<irr::video::CPostProcessingEffectChain*> PostProcessingEffectChains;
 
         irr::scene::IMeshSceneNode* LightSphere, *LightCone;

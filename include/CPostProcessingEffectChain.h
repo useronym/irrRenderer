@@ -27,8 +27,11 @@ class CPostProcessingEffectChain
         void detachEffect(irr::u32 index);
         void detachEffect(irr::video::CPostProcessingEffect* effect);
 
+        void removeEffect(irr::u32 index);
+
         irr::u32 getEffectCount();
-        irr::video::CPostProcessingEffect* getEffect(irr::u32 index);
+        irr::u32 getActiveEffectCount();
+        irr::video::CPostProcessingEffect* getEffectFromIndex(irr::u32 index);
         irr::u32 getEffectIndex(irr::video::CPostProcessingEffect* effect);
 
         void setActive(bool active);

@@ -101,6 +101,7 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
 
     irr::video::E_MATERIAL_TYPE effectId= (irr::video::E_MATERIAL_TYPE)createMaterial(effectShader, callback);
     irr::video::CPostProcessingEffect* effect= new irr::video::CPostProcessingEffect(effectId, callback);
+    RootPostProcessingEffectChain->attachEffect(effect);
     return effect;
 }
 
