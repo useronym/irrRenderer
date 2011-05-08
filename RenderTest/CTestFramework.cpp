@@ -15,6 +15,7 @@ CTestFramework::CTestFramework()
     if(camPos)
     {
         cam->setPosition(camPos->getAbsolutePosition());
+        camPos->remove();
     }
     cam->setFarValue(1000);
 
@@ -34,11 +35,11 @@ CTestFramework::CTestFramework()
     Renderer->swapMaterials();
 
     //set up post processing
-    Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
+    //Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
 
-    irr::video::CPostProcessingEffectChain* chain1= Renderer->createPostProcessingEffectChain();
+    /*irr::video::CPostProcessingEffectChain* chain1= Renderer->createPostProcessingEffectChain();
     chain1->createEffect(irr::video::EPE_BLOOM_LQ);
-    chain1->setActive(false);
+    chain1->setActive(false);*/
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

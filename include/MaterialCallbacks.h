@@ -220,6 +220,9 @@ public:
         services->setPixelShaderConstant("Tex0", (float*)&tex0, 1);
         services->setPixelShaderConstant("Tex1", (float*)&tex1, 1);
 
+        irr::core::matrix4 viewMat = services->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
+        services->setVertexShaderConstant("VertexViewMat", viewMat.pointer(), 16);
+
         irr::core::matrix4 mat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
         float farDist;
         if (mat[10]>0.f) farDist = -mat[14]/(mat[10]-1.f); // Left Handed

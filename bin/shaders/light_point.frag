@@ -40,10 +40,10 @@ void main()
     {
         //reconstruct normal
         vec4 vNormal= texture2D(NormalTex, projCoord.xy);
-        vNormal.xy*= 2.0;
-        vNormal.xy-= 1.0;
-        vNormal.z= -sqrt( -(vNormal.x*vNormal.x) - (vNormal.y*vNormal.y) + 1.0 );
-        //vNormal= normalize(vNormal);
+        vNormal.xyz*= 2.0;
+        vNormal.xyz-= 1.0;
+        //vNormal.z= -sqrt( -(vNormal.x*vNormal.x) - (vNormal.y*vNormal.y) + 1.0 );
+        vNormal= normalize(vNormal);
 
         //calculate the light
         float attLinear = 1.0 / Radius;

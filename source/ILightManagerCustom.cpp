@@ -163,7 +163,7 @@ void irr::scene::ILightManagerCustom::setMRTs(irr::core::array<irr::video::IRend
     for(irr::u32 i= 0; i < MRTs.size(); i++)
     {
         LightSphere->setMaterialTexture(i, MRTs[i].RenderTexture);
-        LightCone->setMaterialTexture(i, MRTs[i].RenderTexture);
+        //LightCone->setMaterialTexture(i, MRTs[i].RenderTexture);
         LightQuad->setMaterialTexture(i, MRTs[i].RenderTexture);
     }
 }
