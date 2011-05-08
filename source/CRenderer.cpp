@@ -41,13 +41,13 @@ void irr::video::CRenderer::createDefaultPipeline(bool hdr)
     if(!hdr)
     {
         createMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
-        createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
+        createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
         createMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
     }
     else
     {
         createMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A16B16G16R16F);
-        createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_G32R32F);
+        createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_A16B16G16R16F);
         createMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G32R32F);
     }
 
@@ -58,7 +58,7 @@ void irr::video::CRenderer::createDefaultPipeline(bool hdr)
 
 
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
-    Materials->NormalAnimated= Materials->Solid;//(irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
+    Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
     Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("terrain"), new DefaultCallback);
 
 
