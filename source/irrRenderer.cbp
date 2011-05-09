@@ -80,6 +80,7 @@
 		<Unit filename="..\bin\shaders\solid.vert" />
 		<Unit filename="..\bin\shaders\terrain.frag" />
 		<Unit filename="..\bin\shaders\terrain.vert" />
+		<Unit filename="..\include\CMaterialSwapper.h" />
 		<Unit filename="..\include\CPostProcessingEffect.h" />
 		<Unit filename="..\include\CPostProcessingEffectChain.h" />
 		<Unit filename="..\include\CRenderer.h" />
@@ -91,6 +92,7 @@
 		<Unit filename="..\include\MaterialCallbacks.h" />
 		<Unit filename="..\include\SMaterials.h" />
 		<Unit filename="..\include\irrRenderer.h" />
+		<Unit filename="CMaterialSwapper.cpp" />
 		<Unit filename="CPostProcessingEffect.cpp" />
 		<Unit filename="CPostProcessingEffectChain.cpp" />
 		<Unit filename="CRenderer.cpp" />

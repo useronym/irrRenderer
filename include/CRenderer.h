@@ -9,6 +9,7 @@
 #include "SMaterials.h"
 #include "CShaderLibrary.h"
 #include "MaterialCallbacks.h"
+#include "CMaterialSwapper.h"
 #include "IShaderDefaultPostProcessCallback.h"
 #include "CPostProcessingEffectChain.h"
 #include "CPostProcessingEffect.h"
@@ -79,9 +80,6 @@ class CRenderer
         */
         irr::s32 createMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback=0, irr::video::E_MATERIAL_TYPE baseType= irr::video::EMT_SOLID);
 
-        //! Swaps the materials
-        void swapMaterials();
-
         bool isHDREnabled();
 
         //! \return The irr::video::CShaderLibrary
@@ -89,6 +87,8 @@ class CRenderer
 
         //! \return irr::video::SMaterials structure which holds the irrlicht material enums
         irr::video::SMaterials* getMaterials();
+
+        irr::video::CMaterialSwapper* getMaterialSwapper();
 
         irr::video::CPostProcessingEffectChain* getRootPostProcessingEffectChain();
 
@@ -100,6 +100,7 @@ class CRenderer
         irr::scene::ILightManagerCustom* LightMgr;
         irr::video::CShaderLibrary* ShaderLib;
         irr::video::SMaterials* Materials;
+        irr::video::CMaterialSwapper* MaterialSwapper;
         irr::video::CPostProcessingEffectChain* RootPostProcessingEffectChain;
 
         irr::core::array<irr::video::IRenderTarget> MRTs;

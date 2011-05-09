@@ -35,8 +35,8 @@ void main()
     Binormal = cross(Tangent, Normal);
     Binormal = normalize(Binormal);
 
-    Tangent=gl_NormalMatrix*cross(Binormal,gl_Normal);
-    Binormal=gl_NormalMatrix*Binormal;
+    Tangent= gl_NormalMatrix * cross(Binormal,gl_Normal);
+    Binormal= gl_NormalMatrix * Binormal;
 
     gl_Position= vertex;
     gl_TexCoord[0]= gl_MultiTexCoord0 * Repeat;

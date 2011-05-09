@@ -2,7 +2,7 @@
 
 CTestFramework::CTestFramework()
 {
-    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800,600));
+    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(1066,600));
     Renderer= createRenderer(Device, false);
 
     //create some live shit
@@ -32,14 +32,13 @@ CTestFramework::CTestFramework()
     }
 
     //set automatically all materials
-    Renderer->swapMaterials();
+    irr::video::CMaterialSwapper* swapper= Renderer->getMaterialSwapper();
+    swapper->updateEntry(irr::video::EMT_SOLID, Renderer->getMaterials()->NormalAnimated);
+    swapper->swapMaterials();
 
     //set up post processing
-    //Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
-
-    /*irr::video::CPostProcessingEffectChain* chain1= Renderer->createPostProcessingEffectChain();
-    chain1->createEffect(irr::video::EPE_BLOOM_LQ);
-    chain1->setActive(false);*/
+    Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
+    //Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_LQ);
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

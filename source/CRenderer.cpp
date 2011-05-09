@@ -9,8 +9,9 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool hdr, irr::c8*
     Device= device;
     LightMgr= 0;
 
-    ShaderLib= new CShaderLibrary(shaderDir);
-    Materials= new SMaterials;
+    ShaderLib= new irr::video::CShaderLibrary(shaderDir);
+    Materials= new irr::video::SMaterials;
+    MaterialSwapper= new irr::video::CMaterialSwapper(Device->getSceneManager(), Materials);
 
     loadShaders();
     createDefaultPipeline(hdr);
@@ -208,35 +209,12 @@ irr::video::ITexture* irr::video::CRenderer::getFinalRenderTexture()
     else return 0;
 }
 
-irr::video::SMaterials* irr::video::CRenderer::getMaterials()
-{
-    return Materials;
-}
-
 irr::s32 irr::video::CRenderer::createMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback, irr::video::E_MATERIAL_TYPE baseType)
 {
     return Device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
                shader.SourceVertex.c_str(), "main", irr::video::EVST_VS_2_0,
                shader.SourcePixel.c_str(), "main", irr::video::EPST_PS_2_0,
                callback, baseType);
-}
-
-
-void irr::video::CRenderer::swapMaterials()
-{
-    irr::core::array<irr::scene::ISceneNode*> nodes;
-    Device->getSceneManager()->getSceneNodesFromType(irr::scene::ESNT_ANY, nodes);
-
-    for(irr::u32 i= 0; i < nodes.size(); i++)
-    {
-        irr::scene::ISceneNode* node= nodes[i];
-        for(irr::u32 ii= 0; ii < node->getMaterialCount(); ii++)
-        {
-            if(node->getMaterial(ii).MaterialType == irr::video::EMT_SOLID) node->getMaterial(ii).MaterialType= getMaterials()->Solid;
-            else if(node->getMaterial(ii).MaterialType == irr::video::EMT_NORMAL_MAP_SOLID) node->getMaterial(ii).MaterialType= getMaterials()->NormalAnimated;
-            else if(node->getMaterial(ii).MaterialType == irr::video::EMT_DETAIL_MAP) node->getMaterial(ii).MaterialType= getMaterials()->DetailMap;
-        }
-    }
 }
 
 
@@ -248,6 +226,17 @@ bool irr::video::CRenderer::isHDREnabled()
 irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary()
 {
     return ShaderLib;
+}
+
+
+irr::video::SMaterials* irr::video::CRenderer::getMaterials()
+{
+    return Materials;
+}
+
+irr::video::CMaterialSwapper* irr::video::CRenderer::getMaterialSwapper()
+{
+    return MaterialSwapper;
 }
 
 irr::video::CPostProcessingEffectChain* irr::video::CRenderer::getRootPostProcessingEffectChain()
