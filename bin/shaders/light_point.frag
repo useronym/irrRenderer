@@ -31,17 +31,17 @@ void main()
     vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUpX, projCoord.x),
                         mix(FarLeftDownY, FarLeftUp.y, projCoord.y),
                         FarLeftUp.z);
-    vec4 vPixelPos= vec4(vProjPos * vDepth, 0.0);
+    vec3 vPixelPos= vec3(vProjPos * vDepth);
 
-    vec4 vLightPos= vec4(Position, 0.0);
+    vec3 vLightPos= vec3(Position);
     float dist= length(vLightPos - vPixelPos);
 
     if(dist < Radius)
     {
         //reconstruct normal
-        vec4 vNormal= texture2D(NormalTex, projCoord.xy);
-        vNormal.xyz*= 2.0;
-        vNormal.xyz-= 1.0;
+        vec3 vNormal= texture2D(NormalTex, projCoord.xy).rgb;
+        vNormal*= 2.0;
+        vNormal-= 1.0;
         //vNormal.z= -sqrt( -(vNormal.x*vNormal.x) - (vNormal.y*vNormal.y) + 1.0 );
         //vNormal= normalize(vNormal);
 

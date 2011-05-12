@@ -7,7 +7,7 @@ irr::video::CMaterialSwapper::CMaterialSwapper(irr::scene::ISceneManager* smgr, 
 
     updateEntry(irr::video::EMT_SOLID, Materials->Solid);
     updateEntry(irr::video::EMT_DETAIL_MAP, Materials->DetailMap);
-    updateEntry(irr::video::EMT_NORMAL_MAP_SOLID, Materials->NormalAnimated);
+    updateEntry(irr::video::EMT_NORMAL_MAP_SOLID, Materials->Normal);
 }
 
 irr::video::CMaterialSwapper::~CMaterialSwapper()

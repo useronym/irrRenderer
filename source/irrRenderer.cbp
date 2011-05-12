@@ -66,6 +66,8 @@
 		<Unit filename="..\bin\shaders\light_directional.frag" />
 		<Unit filename="..\bin\shaders\light_point.frag" />
 		<Unit filename="..\bin\shaders\light_spot.frag" />
+		<Unit filename="..\bin\shaders\normalmap.frag" />
+		<Unit filename="..\bin\shaders\normalmap.vert" />
 		<Unit filename="..\bin\shaders\normalmap_animated.frag" />
 		<Unit filename="..\bin\shaders\normalmap_animated.vert" />
 		<Unit filename="..\bin\shaders\postprocess\antialias.frag" />

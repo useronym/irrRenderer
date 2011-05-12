@@ -59,8 +59,9 @@ void irr::video::CRenderer::createDefaultPipeline(bool hdr)
 
 
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
+    Materials->Normal= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normal"), new DefaultCallback);
     Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
-    Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("terrain"), new DefaultCallback);
+    Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("detail"), new DefaultCallback);
 
 
     //set up point lights
@@ -253,6 +254,7 @@ void irr::video::CRenderer::loadShaders()
     ShaderLib->loadShader("light_ambient", "quad.vert", "light_ambient.frag");
 
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
+    ShaderLib->loadShader("normal", "normalmap.vert", "normalmap.frag");
     ShaderLib->loadShader("normalAnimated", "normalmap_animated.vert", "normalmap_animated.frag");
-    ShaderLib->loadShader("terrain", "terrain.vert", "terrain.frag");
+    ShaderLib->loadShader("detail", "terrain.vert", "terrain.frag");
 }

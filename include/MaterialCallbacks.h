@@ -231,7 +231,7 @@ public:
 
         services->setVertexShaderConstant("Repeat", &Repeat, 1);
 
-        services->setVertexShaderConstant("Lighting", &Lighting, 1);
+        services->setPixelShaderConstant("Lighting", &Lighting, 1);
     }
 
     virtual void OnSetMaterial (const irr::video::SMaterial &material)

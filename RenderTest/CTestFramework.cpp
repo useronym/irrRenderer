@@ -2,7 +2,7 @@
 
 CTestFramework::CTestFramework()
 {
-    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(1066,600));
+    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800,600));
     Renderer= createRenderer(Device, false);
 
     //create some live shit
@@ -31,14 +31,36 @@ CTestFramework::CTestFramework()
         }
     }
 
+    //set up level
+    scene::ISceneNode* level= smgr->getSceneNodeFromName("level");
+    if(level && level->getType() == scene::ESNT_MESH)
+    {
+        scene::IMeshSceneNode* mLevel= static_cast<scene::IMeshSceneNode*>(level);
+        scene::IMesh* tangentMesh= smgr->getMeshManipulator()->
+                                createMeshWithTangents(mLevel->getMesh());
+
+        mLevel= smgr->addMeshSceneNode(tangentMesh);
+
+        mLevel->setMaterialType(Renderer->getMaterials()->Normal);
+        for(u32 i= 0; i < level->getMaterialCount(); i++)
+        {
+            mLevel->getMaterial(i).setTexture(0, level->getMaterial(i).getTexture(0));
+            mLevel->getMaterial(i).setTexture(1, level->getMaterial(i).getTexture(1));
+        }
+
+        level->remove();
+        tangentMesh->drop();
+    }
+
     //set automatically all materials
     irr::video::CMaterialSwapper* swapper= Renderer->getMaterialSwapper();
-    swapper->updateEntry(irr::video::EMT_SOLID, Renderer->getMaterials()->NormalAnimated);
+    swapper->updateEntry(irr::video::EMT_SOLID_2_LAYER, Renderer->getMaterials()->Solid);
     swapper->swapMaterials();
 
     //set up post processing
-    Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
+    //Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
     //Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_LQ);
+    //Renderer->createPostProcessingEffect(irr::video::EPE_TONE_MAPPING);
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }
