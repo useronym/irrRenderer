@@ -7,7 +7,7 @@
 
 using namespace irr;
 
-class CTestFramework
+class CTestFramework : public IEventReceiver
 {
     public:
         CTestFramework();
@@ -16,9 +16,15 @@ class CTestFramework
 
         bool run();
 
+        virtual bool OnEvent(const SEvent& event);
+
     private:
         IrrlichtDevice* Device;
         video::CRenderer* Renderer;
+
+        video::CPostProcessingEffect* AA, *Bloom;
+
+        bool EventOccuredLastFrame;
 };
 
 #endif // CTESTFRAMEWORK_H

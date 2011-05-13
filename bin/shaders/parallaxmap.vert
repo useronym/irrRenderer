@@ -5,12 +5,15 @@ uniform float Lighting;
 varying vec3 Normal;
 varying vec3 Tangent;
 varying vec3 Binormal;
+varying vec3 ViewVect;
 
 varying float Depth;
 
 void main()
 {
-    vec4 vertex = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
+    vec4 vertex = gl_ModelViewMatrix * gl_Vertex;
+    ViewVect= normalize(vertex.xyz);
+    vertex= gl_ProjectionMatrix * vertex;
 
     Depth= (gl_ModelViewMatrix * gl_Vertex).z / CamFar;
 

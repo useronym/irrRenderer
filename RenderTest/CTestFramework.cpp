@@ -3,6 +3,9 @@
 CTestFramework::CTestFramework()
 {
     Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800,600));
+    Device->setEventReceiver(this);
+    EventOccuredLastFrame= false;
+
     Renderer= createRenderer(Device, false);
 
     //create some live shit
@@ -31,22 +34,28 @@ CTestFramework::CTestFramework()
         }
     }
 
-    //set up level
-    scene::ISceneNode* level= smgr->getSceneNodeFromName("level");
-    if(level && level->getType() == scene::ESNT_MESH)
+    //set up tangent meshes
+    core::array<scene::ISceneNode*> nodes;
+    Device->getSceneManager()->getSceneNodesFromType(scene::ESNT_MESH, nodes);
+    for(u32 i= 0; i < nodes.size(); i++)
     {
-        scene::IMeshSceneNode* mLevel= static_cast<scene::IMeshSceneNode*>(level);
+        scene::IMeshSceneNode* mnode= static_cast<scene::IMeshSceneNode*>(nodes[i]);
         scene::IMesh* tangentMesh= smgr->getMeshManipulator()->
-                                createMeshWithTangents(mLevel->getMesh());
-        mLevel= smgr->addMeshSceneNode(tangentMesh);
+                                createMeshWithTangents(mnode->getMesh());
+        mnode= smgr->addMeshSceneNode(tangentMesh);
 
-        for(u32 i= 0; i < level->getMaterialCount(); i++)
+        mnode->setPosition(nodes[i]->getPosition());
+        mnode->setRotation(nodes[i]->getRotation());
+        mnode->setScale(nodes[i]->getScale());
+
+        for(u32 ii= 0; ii < nodes[i]->getMaterialCount(); ii++)
         {
-            mLevel->getMaterial(i)= level->getMaterial(i);
+            mnode->getMaterial(ii)= nodes[i]->getMaterial(ii);
         }
-        mLevel->setMaterialType(Renderer->getMaterials()->Parallax);
 
-        level->remove();
+        mnode->setMaterialType(Renderer->getMaterials()->Parallax);
+
+        nodes[i]->remove();
         tangentMesh->drop();
     }
 
@@ -56,9 +65,10 @@ CTestFramework::CTestFramework()
     swapper->swapMaterials();
 
     //set up post processing
-    //Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
-    //Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_LQ);
-    //Renderer->createPostProcessingEffect(irr::video::EPE_TONE_MAPPING);
+    AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
+    Bloom= Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_LQ);
+    AA->setActive(false);
+    Bloom->setActive(false);
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }
@@ -94,4 +104,39 @@ bool CTestFramework::run()
 
     Device->getVideoDriver()->endScene();
     return Device->run();
+}
+
+bool CTestFramework::OnEvent(const SEvent& event)
+{
+    scene::ICameraSceneNode* cam= static_cast<scene::ICameraSceneNode*>(Device->getSceneManager()->getSceneNodeFromType(scene::ESNT_CAMERA));
+    if(cam)cam->OnEvent(event);
+
+    if(event.EventType == EET_KEY_INPUT_EVENT && !EventOccuredLastFrame)
+    {
+        if(event.KeyInput.Key == KEY_SPACE)
+        {
+            core::array<scene::ISceneNode*> meshNodes;
+            Device->getSceneManager()->getSceneNodesFromType(scene::ESNT_MESH, meshNodes);
+            for(u32 i= 0; i < meshNodes.size(); i++)
+            {
+                if(meshNodes[i]->getMaterial(0).MaterialType == Renderer->getMaterials()->Solid) meshNodes[i]->setMaterialType(Renderer->getMaterials()->Normal);
+                else if(meshNodes[i]->getMaterial(0).MaterialType == Renderer->getMaterials()->Normal) meshNodes[i]->setMaterialType(Renderer->getMaterials()->Parallax);
+                else if(meshNodes[i]->getMaterial(0).MaterialType == Renderer->getMaterials()->Parallax) meshNodes[i]->setMaterialType(Renderer->getMaterials()->Solid);
+            }
+        }
+        else if(event.KeyInput.Key == KEY_KEY_A)
+        {
+            AA->setActive(!AA->isActive());
+        }
+        else if(event.KeyInput.Key == KEY_KEY_B)
+        {
+            Bloom->setActive(!Bloom->isActive());
+        }
+
+        EventOccuredLastFrame= true;
+    }
+    else
+    {
+        EventOccuredLastFrame= false;
+    }
 }

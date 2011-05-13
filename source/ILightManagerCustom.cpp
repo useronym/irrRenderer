@@ -57,6 +57,10 @@ void irr::scene::ILightManagerCustom::OnPostRender()
 
     //render ambient
     LightQuad->setMaterialType(LightAmbientMaterial);
+    for(irr::u32 i= 0; i < MRTs.size(); i++)
+    {
+        LightQuad->setMaterialTexture(i, MRTs[i].RenderTexture);
+    }
     LightQuad->render(); //also renders nodes with no lighting
 
     //render dynamic lights
@@ -105,7 +109,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
     }
 
 
-    //post processing
+    //post processing - this is huge mess, nut i understand it (if i try real hard) :)
     if(isPostProcessingActive() && FinalRender)
     {
         LightQuad->setMaterialTexture(0, FinalRender);
@@ -121,6 +125,8 @@ void irr::scene::ILightManagerCustom::OnPostRender()
                         Device->getVideoDriver()->setRenderTarget(0);
                     }
 
+                    if(PostProcessingEffectChains[i]->getEffectFromIndex(ii)->isActive())
+                    {
                     for(irr::u32 iii= 0; iii < PostProcessingEffectChains[i]->getEffectFromIndex(ii)->getTextureToPassCount(); iii++)
                     {
                         LightQuad->setMaterialTexture(iii+1, PostProcessingEffectChains[i]->getEffectFromIndex(ii)->getTextureToPass(iii));
@@ -128,6 +134,8 @@ void irr::scene::ILightManagerCustom::OnPostRender()
 
                     LightQuad->setMaterialType(PostProcessingEffectChains[i]->getEffectFromIndex(ii)->getMaterialType());
                     LightQuad->render();
+
+                    }
                 }
             }
         }

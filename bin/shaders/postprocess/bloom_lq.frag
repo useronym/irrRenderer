@@ -21,16 +21,16 @@ void main()
     for(int i= -QUALITY; i < QUALITY; i++)
     {
         vec2 currentCoord= clampCoord(texcoord + vec2(PixelSizeX*i*SIZE, 0.0));
-        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.3;
+        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.2;
 
         currentCoord= clampCoord(texcoord + vec2(0.0, PixelSizeY*i*SIZE));
-        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.3;
+        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.2;
 
         currentCoord= clampCoord(texcoord + vec2(PixelSizeX*i*SIZE, PixelSizeY*i*SIZE));
-        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.3;
+        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.2;
 
         currentCoord= clampCoord(texcoord + vec2(-PixelSizeX*i*SIZE, PixelSizeY*i*SIZE));
-        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.3;
+        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.2;
     }
 
     baseColor+= sum;
