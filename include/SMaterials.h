@@ -22,6 +22,7 @@ struct SMaterials
     irr::video::E_MATERIAL_TYPE Solid;
     irr::video::E_MATERIAL_TYPE Normal;
     irr::video::E_MATERIAL_TYPE NormalAnimated;
+    irr::video::E_MATERIAL_TYPE Parallax;
     irr::video::E_MATERIAL_TYPE Water;
     irr::video::E_MATERIAL_TYPE DetailMap;
 };

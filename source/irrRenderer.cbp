@@ -70,6 +70,8 @@
 		<Unit filename="..\bin\shaders\normalmap.vert" />
 		<Unit filename="..\bin\shaders\normalmap_animated.frag" />
 		<Unit filename="..\bin\shaders\normalmap_animated.vert" />
+		<Unit filename="..\bin\shaders\parallaxmap.frag" />
+		<Unit filename="..\bin\shaders\parallaxmap.vert" />
 		<Unit filename="..\bin\shaders\postprocess\antialias.frag" />
 		<Unit filename="..\bin\shaders\postprocess\bloom.frag" />
 		<Unit filename="..\bin\shaders\postprocess\bloom_lq.frag" />

@@ -61,6 +61,7 @@ void irr::video::CRenderer::createDefaultPipeline(bool hdr)
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
     Materials->Normal= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normal"), new DefaultCallback);
     Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
+    Materials->Parallax= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("parallax"), new DefaultCallback);
     Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("detail"), new DefaultCallback);
 
 
@@ -256,5 +257,6 @@ void irr::video::CRenderer::loadShaders()
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
     ShaderLib->loadShader("normal", "normalmap.vert", "normalmap.frag");
     ShaderLib->loadShader("normalAnimated", "normalmap_animated.vert", "normalmap_animated.frag");
+    ShaderLib->loadShader("parallax", "parallaxmap.vert", "parallaxmap.frag");
     ShaderLib->loadShader("detail", "terrain.vert", "terrain.frag");
 }

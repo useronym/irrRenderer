@@ -15,7 +15,7 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     LightSphere->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
     LightSphere->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
     LightSphere->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
-    LightSphere->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
+    //LightSphere->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
     LightSphere->setVisible(false);
 
     //set up light mesh - cone

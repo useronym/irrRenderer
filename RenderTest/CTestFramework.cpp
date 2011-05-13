@@ -38,15 +38,13 @@ CTestFramework::CTestFramework()
         scene::IMeshSceneNode* mLevel= static_cast<scene::IMeshSceneNode*>(level);
         scene::IMesh* tangentMesh= smgr->getMeshManipulator()->
                                 createMeshWithTangents(mLevel->getMesh());
-
         mLevel= smgr->addMeshSceneNode(tangentMesh);
 
-        mLevel->setMaterialType(Renderer->getMaterials()->Normal);
         for(u32 i= 0; i < level->getMaterialCount(); i++)
         {
-            mLevel->getMaterial(i).setTexture(0, level->getMaterial(i).getTexture(0));
-            mLevel->getMaterial(i).setTexture(1, level->getMaterial(i).getTexture(1));
+            mLevel->getMaterial(i)= level->getMaterial(i);
         }
+        mLevel->setMaterialType(Renderer->getMaterials()->Parallax);
 
         level->remove();
         tangentMesh->drop();
