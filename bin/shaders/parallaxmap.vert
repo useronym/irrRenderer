@@ -12,7 +12,7 @@ varying float Depth;
 void main()
 {
     vec4 vertex = gl_ModelViewMatrix * gl_Vertex;
-    ViewVect= normalize(vertex.xyz);
+    ViewVect= normalize(gl_ModelViewMatrixInverse * gl_Vertex).xyz;
     vertex= gl_ProjectionMatrix * vertex;
 
     Depth= (gl_ModelViewMatrix * gl_Vertex).z / CamFar;

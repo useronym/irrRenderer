@@ -111,7 +111,7 @@ public:
         Radius= light.Radius * 1.5;
         Color= light.DiffuseColor;
         Direction= light.Direction;
-        CosCutoff= -cos(light.OuterCone/2.0);
+        CosCutoff= cos(light.OuterCone/2.0);
         Falloff= light.Falloff;
 
         /*     /\               Ga - Gamma
@@ -232,6 +232,9 @@ public:
         services->setVertexShaderConstant("Repeat", &Repeat, 1);
 
         services->setPixelShaderConstant("Lighting", &Lighting, 1);
+
+        services->setPixelShaderConstant("Param1", &Param1, 1);
+        services->setPixelShaderConstant("Param2", &Param2, 1);
     }
 
     virtual void OnSetMaterial (const irr::video::SMaterial &material)
@@ -240,11 +243,15 @@ public:
         if(Repeat < 1.0) Repeat= 1.0;
 
         Lighting= float(material.Lighting);
+
+        Param1= material.MaterialTypeParam;
+        Param2= material.MaterialTypeParam2;
     }
 
 private:
     float Repeat;
     float Lighting;
+    float Param1, Param2;
 };
 
 

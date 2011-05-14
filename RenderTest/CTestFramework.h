@@ -22,9 +22,11 @@ class CTestFramework : public IEventReceiver
         IrrlichtDevice* Device;
         video::CRenderer* Renderer;
 
+        scene::ILightSceneNode* Flashlight;
         video::CPostProcessingEffect* AA, *Bloom;
 
-        bool EventOccuredLastFrame;
+        gui::IGUIStaticText* Console;
+        bool DrawGBuffer, EventOccuredLastFrame;
 };
 
 #endif // CTESTFRAMEWORK_H

@@ -35,24 +35,24 @@ void main()
     vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUpX, projCoord.x),
                         mix(FarLeftUp.y, FarLeftDownY, 1.0 - projCoord.y),
                         FarLeftUp.z);
-    vec4 vPixelPos= vec4(vProjPos * vDepth, 0.0);
+    vec3 vPixelPos= vProjPos * vDepth;
 
-    vec4 vLightPos= vec4(Position, 0.0);
+    vec3 vLightPos= Position;
     float dist= length(vLightPos - vPixelPos);
 
     if(dist < Radius)
     {
         //reconstruct normal
-        vec4 vNormal= texture2D(NormalTex, projCoord.xy);
-        vNormal.xyz*= 2.0;
-        vNormal.xyz-= 1.0;
+        vec3 vNormal= texture2D(NormalTex, projCoord.xy).xyz;
+        vNormal*= 2.0;
+        vNormal-= 1.0;
         //vNormal.z= -sqrt(1.0 - (vNormal.x*vNormal.x) - (vNormal.y*vNormal.y));
-        vNormal.xyz= normalize(vNormal.xyz);
+        vNormal= normalize(vNormal);
 
         //calculate the light
-        vec4 lightDir= normalize(vLightPos - vPixelPos);
-        vec4 spotDir= vec4(normalize(Direction), 0.0);
-        float spotEffect = dot(spotDir, -lightDir);
+        vec3 lightDir= normalize(vLightPos - vPixelPos);
+        vec3 spotDir= normalize(Direction);
+        float spotEffect= dot(spotDir, -lightDir);
 
         if(spotEffect > CosCutoff)
         {

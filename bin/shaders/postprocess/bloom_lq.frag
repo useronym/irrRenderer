@@ -1,5 +1,5 @@
 #define QUALITY 3
-#define SIZE 3.0
+#define SIZE 2.5
 
 uniform sampler2D Render;
 
