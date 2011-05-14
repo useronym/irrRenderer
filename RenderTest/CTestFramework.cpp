@@ -11,6 +11,20 @@ CTestFramework::CTestFramework()
     Console->setOverrideColor(video::SColor(255, 255, 255, 255));
     Console->setVisible(false);
 
+    //set up the help thingy
+    core::stringw helpText= L"IrrRenderer Early Alpha Demo\n\n";
+    helpText+= L"Key bindings:\n";
+    helpText+= L"Arrows - movement\n";
+    helpText+= L"A - toggle antialiasing\n";
+    helpText+= L"B - toggle bloom\n";
+    helpText+= L"Space - switch between solid, normal map and parallax map materials\n";
+    helpText+= L"F - toggle flashlight(bugged)\n";
+    helpText+= L"G - show GBuffers debug info on screen\n";
+    helpText+= L"C - toggle console\n";
+    helpText+= L"H - toggle this help text\n";
+    Help= Device->getGUIEnvironment()->addStaticText(helpText.c_str(), core::rect<s32>(100,100, 800, 600));
+    Help->setOverrideColor(video::SColor(255, 255, 255, 255));
+
     //!important do the init
     Renderer= createRenderer(Device, false);
 
@@ -27,6 +41,7 @@ CTestFramework::CTestFramework()
         camPos->remove();
     }
     cam->setFarValue(1000); //to increase accuracy of depth buffer
+    Device->getCursorControl()->setVisible(false);
 
     //set up a flashlight
     Flashlight= smgr->addLightSceneNode(cam);
@@ -77,6 +92,8 @@ CTestFramework::CTestFramework()
 
     //!important set automatically all materials
     irr::video::CMaterialSwapper* swapper= Renderer->getMaterialSwapper();
+    swapper->updateEntry(video::EMT_SOLID_2_LAYER, Renderer->getMaterials()->Solid);
+    swapper->updateEntry(video::EMT_SOLID, Renderer->getMaterials()->Solid);
     swapper->swapMaterials();
 
     //!important set up post processing(this example is not using multiple chains)
@@ -122,6 +139,7 @@ bool CTestFramework::run()
 
     Device->getVideoDriver()->setMaterial(video::SMaterial());
     Console->draw();
+    Help->draw();
 
     Device->getVideoDriver()->endScene();
     return Device->run();
@@ -162,6 +180,10 @@ bool CTestFramework::OnEvent(const SEvent& event)
             else if(event.KeyInput.Key == KEY_KEY_C)
             {
                 Console->setVisible(!Console->isVisible());
+            }
+            else if(event.KeyInput.Key == KEY_KEY_H)
+            {
+                Help->setVisible(!Help->isVisible());
             }
             else if(event.KeyInput.Key == KEY_KEY_F)
             {

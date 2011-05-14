@@ -25,7 +25,7 @@ class CTestFramework : public IEventReceiver
         scene::ILightSceneNode* Flashlight;
         video::CPostProcessingEffect* AA, *Bloom;
 
-        gui::IGUIStaticText* Console;
+        gui::IGUIStaticText* Console, *Help;
         bool DrawGBuffer, EventOccuredLastFrame;
 };
 

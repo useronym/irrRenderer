@@ -12,11 +12,11 @@ void main()
 
     float vDepth= Depth;
 
-    /*if(Lighting == 0.0)
+    if(Lighting == 0.0)
     {
         vNormal= vec3(0.0, 0.0, 0.0);
         vDepth= 1.0;
-    }*/
+    }
 
 
     gl_FragData[0] = texture2D(Tex0, gl_TexCoord[0].xy);
