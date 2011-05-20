@@ -46,10 +46,11 @@ void main()
         //vNormal= normalize(vNormal);
 
         //calculate the light
-        float attLinear = 1.0 / Radius;
+        /*float attLinear = 1.0 / Radius;
         float attQuadratic= attLinear / Radius;
         float att= 1.0 / (dist * attLinear) + (dist * dist * attQuadratic);
-        att-= 2.0;
+        att-= 2.0;*/
+        float att= max(-log(dist/Radius), 0.0);
         float light= max(dot(normalize(vLightPos - vPixelPos), vNormal), 0.0) * att;
 
         vec4 lightColor= vec4(Color, 0.0);

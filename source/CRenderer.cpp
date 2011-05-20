@@ -11,12 +11,12 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool hdr, irr::c8*
 
     ShaderLib= new irr::video::CShaderLibrary(shaderDir);
     Materials= new irr::video::SMaterials;
-    MaterialSwapper= new irr::video::CMaterialSwapper(Device->getSceneManager(), Materials);
 
     loadShaders();
     createDefaultPipeline(hdr);
     HDR= hdr;
     RootPostProcessingEffectChain= createPostProcessingEffectChain();
+    MaterialSwapper= new irr::video::CMaterialSwapper(Device->getSceneManager(), Materials);
 
     Device->run();
 }
@@ -125,9 +125,9 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
             newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom"));
             break;
 
-        case EPE_BLOOM_LQ:
-            ShaderLib->loadShader("bloom_lq", "quad.vert", "postprocess/bloom_lq.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_lq"));
+        case EPE_BLOOM_FAST:
+            ShaderLib->loadShader("bloom_fast", "quad.vert", "postprocess/bloom_fast.frag");
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_fast"));
             break;
 
         case EPE_CONTRAST:

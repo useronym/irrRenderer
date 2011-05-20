@@ -3,7 +3,7 @@
 CTestFramework::CTestFramework()
 {
     Device= 0;
-    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800,600), 16, false, false, false, this);
+    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(600*(16.0/9.0),600), 16, false, false, false, this);
     DrawGBuffer= EventOccuredLastFrame= false;
 
     //create a console
@@ -93,12 +93,12 @@ CTestFramework::CTestFramework()
     //!important set automatically all materials
     irr::video::CMaterialSwapper* swapper= Renderer->getMaterialSwapper();
     swapper->updateEntry(video::EMT_SOLID_2_LAYER, Renderer->getMaterials()->Solid);
-    swapper->updateEntry(video::EMT_SOLID, Renderer->getMaterials()->Solid);
+    //swapper->updateEntry(video::EMT_SOLID, Renderer->getMaterials()->Solid);
     swapper->swapMaterials();
 
     //!important set up post processing(this example is not using multiple chains)
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
-    Bloom= Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_LQ);
+    Bloom= Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_FAST);
     AA->setActive(false);
     Bloom->setActive(false);
 
