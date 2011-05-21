@@ -75,6 +75,8 @@ class ILightManagerCustom : public irr::scene::ILightManager
         irr::scene::IMeshSceneNode* LightSphere, *LightCone;
         irr::scene::IQuadSceneNode* LightQuad;
 
+        bool isAABBinFrustum(irr::core::aabbox3d<irr::f32> box, const irr::scene::SViewFrustum *frustum);
+
 
         irr::video::E_MATERIAL_TYPE LightPointMaterial;
         irr::video::IShaderPointLightCallback* LightPointCallback;

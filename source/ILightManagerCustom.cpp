@@ -76,7 +76,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
             LightSphere->setScale(irr::core::vector3df(light.Radius*2.0));
             LightSphere->setPosition(light.Position);
             LightSphere->updateAbsolutePosition();
-            LightSphere->render();
+            if(isAABBinFrustum(LightSphere->getTransformedBoundingBox(), Device->getSceneManager()->getActiveCamera()->getViewFrustum())) LightSphere->render();
         }
 
         //spot //using sphere instead of a cone as a hack
@@ -93,7 +93,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
 
             LightSphere->setMaterialType(LightSpotMaterial);
             LightSpotCallback->updateConstants(light);
-            LightSphere->setScale(irr::core::vector3df(light.Radius/2.0));
+            LightSphere->setScale(irr::core::vector3df(light.Radius));
             LightSphere->setPosition(light.Position + light.Direction * light.Radius * 0.5);
             LightSphere->updateAbsolutePosition();
             LightSphere->render();
@@ -261,4 +261,15 @@ void irr::scene::ILightManagerCustom::setLightAmbientMaterialType(irr::video::E_
 void irr::scene::ILightManagerCustom::setLightAmbientCallback(irr::video::IShaderAmbientLightCallback* callback)
 {
     LightAmbientCallback= callback;
+}
+
+
+
+bool irr::scene::ILightManagerCustom::isAABBinFrustum(irr::core::aabbox3d<irr::f32> box, const irr::scene::SViewFrustum *frustum)
+{
+    for(irr::u32 i= 0; i < irr::scene::SViewFrustum::VF_PLANE_COUNT; i++)
+    {
+        if(box.classifyPlaneRelation(frustum->planes[i]) == irr::core::ISREL3D_BACK) return true;
+    }
+    return false;
 }

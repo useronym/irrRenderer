@@ -94,6 +94,7 @@ CTestFramework::CTestFramework()
 
     //!important set automatically all materials
     irr::video::CMaterialSwapper* swapper= Renderer->getMaterialSwapper();
+    swapper->updateEntry(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF, Renderer->getMaterials()->TransparentRefNoLight);
     swapper->updateEntry(irr::video::EMT_SOLID_2_LAYER, Renderer->getMaterials()->NormalAnimated);
     swapper->swapMaterials();
 
