@@ -4,7 +4,9 @@ CTestFramework::CTestFramework()
 {
     Device= 0;
     Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(600*(16.0/9.0),600), 16, false, false, false, this);
-    DrawGBuffer= EventOccuredLastFrame= false;
+    DrawGBuffer= false;
+    timeLast= Device->getTimer()->getTime();
+    timeSinceLastEvent= 500;
 
     //create a console
     Console= Device->getGUIEnvironment()->addStaticText(L"", core::rect<s32>(0,0, 800, 600));
@@ -92,8 +94,7 @@ CTestFramework::CTestFramework()
 
     //!important set automatically all materials
     irr::video::CMaterialSwapper* swapper= Renderer->getMaterialSwapper();
-    swapper->updateEntry(video::EMT_SOLID_2_LAYER, Renderer->getMaterials()->Solid);
-    //swapper->updateEntry(video::EMT_SOLID, Renderer->getMaterials()->Solid);
+    swapper->updateEntry(irr::video::EMT_SOLID_2_LAYER, Renderer->getMaterials()->NormalAnimated);
     swapper->swapMaterials();
 
     //!important set up post processing(this example is not using multiple chains)
@@ -113,6 +114,8 @@ CTestFramework::~CTestFramework()
 
 bool CTestFramework::run()
 {
+    timeLast= Device->getTimer()->getTime();
+
     Device->getVideoDriver()->beginScene();
     Device->getSceneManager()->drawAll();
     core::stringw str= L"irrRenderer - RenderTest";
@@ -152,7 +155,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
         scene::ICameraSceneNode* cam= static_cast<scene::ICameraSceneNode*>(Device->getSceneManager()->getSceneNodeFromType(scene::ESNT_CAMERA));
         if(cam)cam->OnEvent(event);
 
-        if(event.EventType == EET_KEY_INPUT_EVENT && !EventOccuredLastFrame)
+        if(event.EventType == EET_KEY_INPUT_EVENT && timeSinceLastEvent > 20)
         {
             if(event.KeyInput.Key == KEY_SPACE)
             {
@@ -191,8 +194,14 @@ bool CTestFramework::OnEvent(const SEvent& event)
                 else if(Flashlight->getLightType() == video::ELT_POINT) Flashlight->setLightType(video::ELT_SPOT);
                 else if(Flashlight->getLightType() == video::ELT_SPOT) Flashlight->setVisible(false);
             }
+            else if(event.KeyInput.Key == KEY_F12)
+            {
+                irr::core::stringc screenName= irr::core::stringc(Device->getTimer()->getRealTime());
+                screenName+= ".jpg";
+                Device->getVideoDriver()->writeImageToFile(Device->getVideoDriver()->createScreenShot(), screenName.c_str());
+            }
 
-            EventOccuredLastFrame= true;
+            timeSinceLastEvent= 0;
         }
         else if(event.EventType == EET_LOG_TEXT_EVENT)
         {
@@ -203,7 +212,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
         }
         else
         {
-            EventOccuredLastFrame= false;
+            timeSinceLastEvent+= Device->getTimer()->getTime() - timeLast;
         }
     }
 }

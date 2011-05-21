@@ -12,16 +12,17 @@ uniform float Param1; //scale
 
 void main()
 {
+    mat3 tangentToView= mat3(normalize(Tangent), normalize(Binormal), normalize(Normal));
+
     vec4 normalFromTex= texture2D(Tex1, gl_TexCoord[0].xy);
 
     float bias = Param1 * 0.5;
-    float heightFromTexture= normalFromTex.a;
+    float heightFromTexture= normalFromTex.a * 2.0 - 1.0;
     float height= Param1 * heightFromTexture - bias;
     vec2 offsetCoord= gl_TexCoord[0].xy + normalize(ViewVect).xy * height;
     normalFromTex= texture2D(Tex1, offsetCoord);
 
     normalFromTex= normalFromTex * 2.0 - 1.0;
-    mat3 tangentToView= mat3(normalize(Tangent), normalize(Binormal), normalize(Normal));
     normalFromTex.xyz= normalize(tangentToView * normalFromTex.xyz);
     normalFromTex.xyz*= 0.5;
     normalFromTex.xyz+= 0.5;

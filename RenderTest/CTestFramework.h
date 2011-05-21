@@ -25,7 +25,8 @@ class CTestFramework : public IEventReceiver
         video::CPostProcessingEffect* AA, *Bloom;
 
         gui::IGUIStaticText* Console, *Help;
-        bool DrawGBuffer, EventOccuredLastFrame;
+        bool DrawGBuffer;
+        irr::u32 timeLast, timeSinceLastEvent;
 };
 
 #endif // CTESTFRAMEWORK_H
