@@ -59,7 +59,7 @@ void irr::video::CRenderer::createDefaultPipeline(bool hdr)
 
 
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
-    Materials->TransparentRefNoLight= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_ref_nolight"), new DefaultCallback);
+    Materials->TransparentRefNoLight= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha_ref"), new DefaultCallback);
     Materials->Normal= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normal"), new DefaultCallback);
     Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
     Materials->Parallax= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("parallax"), new DefaultCallback);
@@ -256,7 +256,7 @@ void irr::video::CRenderer::loadShaders()
     ShaderLib->loadShader("light_ambient", "quad.vert", "light_ambient.frag");
 
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
-    ShaderLib->loadShader("transparent_ref_nolight", "transparent_ref_nolight.vert", "transparent_ref_nolight.frag");
+    ShaderLib->loadShader("transparent_alpha_ref", "transparent_alpha_ref.vert", "transparent_alpha_ref.frag");
     ShaderLib->loadShader("normal", "normalmap.vert", "normalmap.frag");
     ShaderLib->loadShader("normalAnimated", "normalmap_animated.vert", "normalmap_animated.frag");
     ShaderLib->loadShader("parallax", "parallaxmap.vert", "parallaxmap.frag");

@@ -85,6 +85,8 @@
 		<Unit filename="..\bin\shaders\solid.vert" />
 		<Unit filename="..\bin\shaders\terrain.frag" />
 		<Unit filename="..\bin\shaders\terrain.vert" />
+		<Unit filename="..\bin\shaders\transparent_alpha_ref.frag" />
+		<Unit filename="..\bin\shaders\transparent_alpha_ref.vert" />
 		<Unit filename="..\include\CMaterialSwapper.h" />
 		<Unit filename="..\include\CPostProcessingEffect.h" />
 		<Unit filename="..\include\CPostProcessingEffectChain.h" />
