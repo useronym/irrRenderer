@@ -1,5 +1,4 @@
 uniform float CamFar;
-uniform float Repeat;
 uniform float Lighting;
 
 varying vec3 Normal;
@@ -19,6 +18,6 @@ void main()
     Binormal= normalize((gl_NormalMatrix * gl_MultiTexCoord2.xyz)).xyz;
 
     gl_Position= vertex;
-    gl_TexCoord[0]= gl_MultiTexCoord0 * Repeat;
+    gl_TexCoord[0]= gl_MultiTexCoord0;
 }
 

@@ -1,6 +1,5 @@
 uniform mat4 VertexViewMat;
 uniform float CamFar;
-uniform float Repeat;
 
 varying vec3 Normal;
 varying float Depth;
@@ -23,5 +22,5 @@ void main()
     //}
 
     gl_Position= vertex;
-    gl_TexCoord[0]= gl_MultiTexCoord0 * Repeat;
+    gl_TexCoord[0]= gl_MultiTexCoord0;
 }

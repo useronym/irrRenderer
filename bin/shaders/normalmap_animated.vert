@@ -1,5 +1,4 @@
 uniform float CamFar;
-uniform float Repeat;
 uniform float Lighting;
 
 varying vec3 Normal;
@@ -23,6 +22,6 @@ void main()
 
 
     gl_Position= vertex;
-    gl_TexCoord[0]= gl_MultiTexCoord0 * Repeat;
+    gl_TexCoord[0]= gl_MultiTexCoord0;
 }
 

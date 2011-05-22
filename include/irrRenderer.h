@@ -29,9 +29,13 @@
 #define IRRRENDERER_H_INCLUDED
 
 #include "CRenderer.h"
+#include "ILightManagerCustom.h"
 #include "CShaderLibrary.h"
+#include "CMaterialSwapper.h"
 #include "CPostProcessingEffectChain.h"
 #include "CPostProcessingEffect.h"
+#include "E_POST_PROCESSING_EFFECT.h"
+#include "IShaderDefaultCallback.h"
 #include "MaterialCallbacks.h"
 #include "SMaterials.h"
 
@@ -48,7 +52,11 @@ Welcome to irrRenderer doxygen auto-generated documentation!
 int main()
 {
     irr::IrrlichtDevice* device= createDevice(irr::video::EDT_OPENGL, irr::core::dimension2d<u32>(800,600));
-    irr::video::CRenderer* renderer= createRenderer(device);
+    irr::video::CRenderer* renderer= createRenderer(device); //initialize irrRenderer
+
+    device->getSceneManager()->loadScene("scene.irr");
+
+    renderer->getMaterialSwapper()->swap(); //automatically swap the materials
 
     while(device->run())
     {
@@ -61,6 +69,10 @@ int main()
     return 0;
 }
 \endcode
+
+
+\section exmple_more RenderTest
+For a more detailed example with source code, open the RenderTest project in RenderTest directory
 */
 
 //! Use this function to create a new instance of the irrRenderer

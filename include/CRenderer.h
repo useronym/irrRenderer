@@ -5,11 +5,14 @@
 #define CRENDERER_H
 
 #include <irrlicht.h>
+//#include "irrRenderer.h"
+
 #include "ILightManagerCustom.h"
 #include "SMaterials.h"
 #include "CShaderLibrary.h"
 #include "MaterialCallbacks.h"
 #include "CMaterialSwapper.h"
+#include "IShaderDefaultCallback.h"
 #include "IShaderDefaultPostProcessCallback.h"
 #include "CPostProcessingEffectChain.h"
 #include "CPostProcessingEffect.h"

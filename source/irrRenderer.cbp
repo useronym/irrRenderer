@@ -95,6 +95,7 @@
 		<Unit filename="..\include\E_POST_PROCESSING_EFFECT.h" />
 		<Unit filename="..\include\ILightManagerCustom.h" />
 		<Unit filename="..\include\IQuadSceneNode.h" />
+		<Unit filename="..\include\IShaderDefaultCallback.h" />
 		<Unit filename="..\include\IShaderDefaultPostProcessCallback.h" />
 		<Unit filename="..\include\MaterialCallbacks.h" />
 		<Unit filename="..\include\SMaterials.h" />
@@ -106,6 +107,7 @@
 		<Unit filename="CShaderLibrary.cpp" />
 		<Unit filename="ILightManagerCustom.cpp" />
 		<Unit filename="IQuadSceneNode.cpp" />
+		<Unit filename="IShaderDefaultCallback.cpp" />
 		<Unit filename="IShaderDefaultPostProcessCallback.cpp" />
 		<Unit filename="irrRenderer.cpp" />
 		<Extensions>

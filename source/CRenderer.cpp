@@ -58,12 +58,12 @@ void irr::video::CRenderer::createDefaultPipeline(bool hdr)
     Device->getSceneManager()->setLightManager(LightMgr);
 
 
-    Materials->Solid= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new DefaultCallback);
-    Materials->TransparentRefNoLight= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha_ref"), new DefaultCallback);
-    Materials->Normal= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normal"), new DefaultCallback);
-    Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new DefaultCallback);
-    Materials->Parallax= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("parallax"), new DefaultCallback);
-    Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("detail"), new DefaultCallback);
+    Materials->Solid= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new irr::video::IShaderDefaultCallback);
+    Materials->TransparentRef= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha_ref"), new irr::video::IShaderDefaultCallback);
+    Materials->Normal= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normal"), new irr::video::IShaderDefaultCallback);
+    Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new irr::video::IShaderDefaultCallback);
+    Materials->Parallax= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("parallax"), new irr::video::IShaderDefaultCallback);
+    Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("detail"), new irr::video::IShaderDefaultCallback);
 
 
     //set up point lights

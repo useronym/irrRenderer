@@ -76,7 +76,8 @@ void irr::scene::ILightManagerCustom::OnPostRender()
             LightSphere->setScale(irr::core::vector3df(light.Radius*2.0));
             LightSphere->setPosition(light.Position);
             LightSphere->updateAbsolutePosition();
-            if(isAABBinFrustum(LightSphere->getTransformedBoundingBox(), Device->getSceneManager()->getActiveCamera()->getViewFrustum())) LightSphere->render();
+            //if(isAABBinFrustum(LightSphere->getTransformedBoundingBox(), Device->getSceneManager()->getActiveCamera()->getViewFrustum())) LightSphere->render();
+            LightSphere->render();
         }
 
         //spot //using sphere instead of a cone as a hack

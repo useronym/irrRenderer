@@ -20,9 +20,10 @@ struct SMaterials
     irr::video::E_MATERIAL_TYPE LightAmbient;
 
     irr::video::E_MATERIAL_TYPE Solid;
-    irr::video::E_MATERIAL_TYPE TransparentRefNoLight;
+    irr::video::E_MATERIAL_TYPE TransparentRef;
     irr::video::E_MATERIAL_TYPE Normal;
     irr::video::E_MATERIAL_TYPE NormalAnimated;
+    //! Param1 affects bumpiness
     irr::video::E_MATERIAL_TYPE Parallax;
     irr::video::E_MATERIAL_TYPE Water;
     irr::video::E_MATERIAL_TYPE DetailMap;
