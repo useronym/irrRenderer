@@ -111,7 +111,7 @@ public:
         Radius= light.Radius * 1.5;
         Color= light.DiffuseColor;
         Direction= light.Direction;
-        CosCutoff= cos(light.OuterCone/2.0);
+        CosCutoff= -cos(light.OuterCone);
         Falloff= light.Falloff;
 
         /*     /\               Ga - Gamma

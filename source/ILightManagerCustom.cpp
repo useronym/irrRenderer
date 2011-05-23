@@ -95,7 +95,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
             LightSphere->setMaterialType(LightSpotMaterial);
             LightSpotCallback->updateConstants(light);
             LightSphere->setScale(irr::core::vector3df(light.Radius));
-            LightSphere->setPosition(light.Position + light.Direction * light.Radius * 0.5);
+            LightSphere->setPosition(light.Position + light.Direction * light.Radius);
             LightSphere->updateAbsolutePosition();
             LightSphere->render();
         }
