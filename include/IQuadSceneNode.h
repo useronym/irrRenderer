@@ -15,7 +15,7 @@ class IQuadSceneNode : public irr::scene::ISceneNode
         void OnRegisterSceneNode();
         const irr::core::aabbox3d<irr::f32>& getBoundingBox() const;
         void setMaterialTexture(irr::u32 layer, irr::video::ITexture* texture);
-        void setMaterialType(irr::video::E_MATERIAL_TYPE& tehType);
+        void setMaterialType(irr::video::E_MATERIAL_TYPE tehType);
         irr::video::SMaterial& getMaterial(irr::u32 num);
         irr::u32 getMaterialCount();
 

@@ -20,7 +20,7 @@ CTestFramework::CTestFramework()
     helpText+= L"A - toggle antialiasing\n";
     helpText+= L"B - toggle bloom\n";
     helpText+= L"Space - switch between solid, normal map and parallax map materials\n";
-    helpText+= L"F - toggle flashlight(bugged)\n";
+    helpText+= L"F - toggle flashlight\n";
     helpText+= L"G - show GBuffers debug info on screen\n";
     helpText+= L"C - toggle console\n";
     helpText+= L"H - toggle this help text\n";
@@ -28,7 +28,7 @@ CTestFramework::CTestFramework()
     Help->setOverrideColor(video::SColor(255, 255, 255, 255));
 
     //!important do the init
-    Renderer= createRenderer(Device, false);
+    Renderer= createRenderer(Device);
 
     //load teh scene
     scene::ISceneManager* smgr= Device->getSceneManager();
@@ -51,7 +51,7 @@ CTestFramework::CTestFramework()
     Flashlight->setVisible(false);
     video::SLight fl= Flashlight->getLightData();
     fl.OuterCone= 9;
-    fl.Falloff= 15;
+    fl.Falloff= 50;
     Flashlight->setLightData(fl);
 
     //set up walking beast

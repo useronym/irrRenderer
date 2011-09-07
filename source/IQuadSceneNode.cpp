@@ -57,7 +57,7 @@ void irr::scene::IQuadSceneNode::setMaterialTexture(irr::u32 layer, irr::video::
     Material.setTexture(layer, texture);
 }
 
-void irr::scene::IQuadSceneNode::setMaterialType(irr::video::E_MATERIAL_TYPE& tehType)
+void irr::scene::IQuadSceneNode::setMaterialType(irr::video::E_MATERIAL_TYPE tehType)
 {
     Material.MaterialType= tehType;
 }

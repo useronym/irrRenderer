@@ -3,6 +3,7 @@
 
 #include <irrlicht.h>
 #include <irrRenderer.h>
+#include <iostream>
 
 using namespace irr;
 

@@ -110,7 +110,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
     }
 
 
-    //post processing - this is huge mess, nut i understand it (if i try real hard) :)
+    //post processing - this is huge mess, but i understand it (if i try real hard) :)
     if(isPostProcessingActive() && FinalRender)
     {
         LightQuad->setMaterialTexture(0, FinalRender);
