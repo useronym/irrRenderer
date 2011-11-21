@@ -7,9 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="..\lib\release\libirrRenderer" prefix_auto="0" extension_auto="1" />
+				<Option output="../lib/release/libirrRenderer" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output=".obj\" />
+				<Option object_output=".obj/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option projectIncludeDirsRelation="2" />
@@ -20,13 +20,13 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="$(#irrlicht.lib)\libirrlicht.dll.a" />
+					<Add library="$(#irrlicht.lib)/libirrlicht.dll.a" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
-				<Option output="..\lib\debug\libirrRenderer" prefix_auto="0" extension_auto="1" />
+				<Option output="../lib/debug/libirrRenderer" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output=".obj\debug" />
+				<Option object_output=".obj/debug" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option projectIncludeDirsRelation="2" />
@@ -35,13 +35,13 @@
 					<Add directory="$(#irrlicht.include)" />
 				</Compiler>
 				<Linker>
-					<Add library="$(#irrlicht.lib)\libirrlicht.dll.a" />
+					<Add library="$(#irrlicht.lib)/libirrlicht.dll.a" />
 				</Linker>
 			</Target>
 			<Target title="Debug-dll">
-				<Option output="..\bin\irrRenderer" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="..\bin" />
-				<Option object_output=".obj\debug" />
+				<Option output="../bin/irrRenderer" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="../bin" />
+				<Option object_output=".obj/debug" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectIncludeDirsRelation="2" />
@@ -50,13 +50,13 @@
 					<Add directory="$(#irrlicht.include)" />
 				</Compiler>
 				<Linker>
-					<Add library="$(#irrlicht.lib)\libirrlicht.dll.a" />
+					<Add library="$(#irrlicht.lib)/libirrlicht.dll.a" />
 				</Linker>
 			</Target>
 			<Target title="Release-dll">
-				<Option output="..\bin\irrRenderer" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="..\bin" />
-				<Option object_output=".obj\" />
+				<Option output="../bin/irrRenderer" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="../bin" />
+				<Option object_output=".obj/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectIncludeDirsRelation="2" />
@@ -67,56 +67,214 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="$(#irrlicht.lib)\libirrlicht.dll.a" />
+					<Add library="$(#irrlicht.lib)/libirrlicht.dll.a" />
+				</Linker>
+			</Target>
+			<Target title="Linux-Release">
+				<Option output="../bin/irrRenderer" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../bin" />
+				<Option object_output=".obj/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Linker>
+					<Add option="-s" />
+					<Add library="Irrlicht" />
+				</Linker>
+			</Target>
+			<Target title="Linux-Debug">
+				<Option output="../bin/irrRenderer" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../bin" />
+				<Option object_output=".obj/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="Irrlicht" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-fexceptions" />
-			<Add directory="..\include" />
+			<Add directory="../include" />
 		</Compiler>
 		<Linker>
 			<Add directory="$(#irrlicht.lib)" />
 		</Linker>
-		<Unit filename="..\bin\shaders\light.vert" />
-		<Unit filename="..\bin\shaders\light_ambient.frag" />
-		<Unit filename="..\bin\shaders\light_directional.frag" />
-		<Unit filename="..\bin\shaders\light_point.frag" />
-		<Unit filename="..\bin\shaders\light_spot.frag" />
-		<Unit filename="..\bin\shaders\normalmap.frag" />
-		<Unit filename="..\bin\shaders\normalmap.vert" />
-		<Unit filename="..\bin\shaders\normalmap_animated.frag" />
-		<Unit filename="..\bin\shaders\normalmap_animated.vert" />
-		<Unit filename="..\bin\shaders\parallaxmap.frag" />
-		<Unit filename="..\bin\shaders\parallaxmap.vert" />
-		<Unit filename="..\bin\shaders\postprocess\antialias.frag" />
-		<Unit filename="..\bin\shaders\postprocess\bloom.frag" />
-		<Unit filename="..\bin\shaders\postprocess\bloom_fast.frag" />
-		<Unit filename="..\bin\shaders\postprocess\coldcolors.frag" />
-		<Unit filename="..\bin\shaders\postprocess\contrast.frag" />
-		<Unit filename="..\bin\shaders\postprocess\dof.frag" />
-		<Unit filename="..\bin\shaders\postprocess\tonemapping.frag" />
-		<Unit filename="..\bin\shaders\postprocess\warmcolors.frag" />
-		<Unit filename="..\bin\shaders\quad.vert" />
-		<Unit filename="..\bin\shaders\solid.frag" />
-		<Unit filename="..\bin\shaders\solid.vert" />
-		<Unit filename="..\bin\shaders\terrain.frag" />
-		<Unit filename="..\bin\shaders\terrain.vert" />
-		<Unit filename="..\bin\shaders\transparent_alpha_ref.frag" />
-		<Unit filename="..\bin\shaders\transparent_alpha_ref.vert" />
-		<Unit filename="..\include\CMaterialSwapper.h" />
-		<Unit filename="..\include\CPostProcessingEffect.h" />
-		<Unit filename="..\include\CPostProcessingEffectChain.h" />
-		<Unit filename="..\include\CRenderer.h" />
-		<Unit filename="..\include\CShaderLibrary.h" />
-		<Unit filename="..\include\E_POST_PROCESSING_EFFECT.h" />
-		<Unit filename="..\include\ILightManagerCustom.h" />
-		<Unit filename="..\include\IQuadSceneNode.h" />
-		<Unit filename="..\include\IShaderDefaultCallback.h" />
-		<Unit filename="..\include\IShaderDefaultPostProcessCallback.h" />
-		<Unit filename="..\include\MaterialCallbacks.h" />
-		<Unit filename="..\include\SMaterials.h" />
-		<Unit filename="..\include\irrRenderer.h" />
+		<Unit filename="../bin/shaders/light.vert">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/light_ambient.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/light_directional.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/light_point.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/light_spot.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/normalmap.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/normalmap.vert">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/normalmap_animated.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/normalmap_animated.vert">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/parallaxmap.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/parallaxmap.vert">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/postprocess/antialias.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/postprocess/bloom.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/postprocess/bloom_fast.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/postprocess/coldcolors.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/postprocess/contrast.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/postprocess/dof.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/postprocess/tonemapping.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/postprocess/warmcolors.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/quad.vert">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/solid.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/solid.vert">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/terrain.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/terrain.vert">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/transparent_alpha_ref.frag">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../bin/shaders/transparent_alpha_ref.vert">
+			<Option target="Release" />
+			<Option target="Debug" />
+			<Option target="Debug-dll" />
+			<Option target="Release-dll" />
+		</Unit>
+		<Unit filename="../include/CMaterialSwapper.h" />
+		<Unit filename="../include/CPostProcessingEffect.h" />
+		<Unit filename="../include/CPostProcessingEffectChain.h" />
+		<Unit filename="../include/CRenderer.h" />
+		<Unit filename="../include/CShaderLibrary.h" />
+		<Unit filename="../include/E_POST_PROCESSING_EFFECT.h" />
+		<Unit filename="../include/ILightManagerCustom.h" />
+		<Unit filename="../include/IQuadSceneNode.h" />
+		<Unit filename="../include/IShaderDefaultCallback.h" />
+		<Unit filename="../include/IShaderDefaultPostProcessCallback.h" />
+		<Unit filename="../include/MaterialCallbacks.h" />
+		<Unit filename="../include/SMaterials.h" />
+		<Unit filename="../include/irrRenderer.h" />
 		<Unit filename="CMaterialSwapper.cpp" />
 		<Unit filename="CPostProcessingEffect.cpp" />
 		<Unit filename="CPostProcessingEffectChain.cpp" />
