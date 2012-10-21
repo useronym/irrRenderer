@@ -3,7 +3,7 @@
 CTestFramework::CTestFramework()
 {
     Device= 0;
-    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(600*(16.0/9.0),600), 16, false, false, false, this);
+    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800,600), 16, false, false, false, this);
     DrawGBuffer= false;
     timeLast= Device->getTimer()->getTime();
     timeSinceLastEvent= 500;
@@ -17,6 +17,7 @@ CTestFramework::CTestFramework()
     core::stringw helpText= L"IrrRenderer Early Alpha Demo\n\n";
     helpText+= L"Key bindings:\n";
     helpText+= L"Arrows - movement\n";
+    helpText+= L"Esc - toggle mouse capture\n";
     helpText+= L"A - toggle antialiasing\n";
     helpText+= L"B - toggle bloom\n";
     helpText+= L"Space - switch between solid, normal map and parallax map materials\n";
@@ -24,7 +25,7 @@ CTestFramework::CTestFramework()
     helpText+= L"G - show GBuffers debug info on screen\n";
     helpText+= L"C - toggle console\n";
     helpText+= L"H - toggle this help text\n";
-    Help= Device->getGUIEnvironment()->addStaticText(helpText.c_str(), core::rect<s32>(100,100, 800, 600));
+    Help= Device->getGUIEnvironment()->addStaticText(helpText.c_str(), core::rect<s32>(10, 10, 800, 600));
     Help->setOverrideColor(video::SColor(255, 255, 255, 255));
 
     //!important do the init
@@ -72,24 +73,28 @@ CTestFramework::CTestFramework()
     for(u32 i= 0; i < nodes.size(); i++)
     {
         scene::IMeshSceneNode* mnode= static_cast<scene::IMeshSceneNode*>(nodes[i]);
-        scene::IMesh* tangentMesh= smgr->getMeshManipulator()->
-                                createMeshWithTangents(mnode->getMesh());
+        scene::IMesh* tangentMesh= 0;
+        tangentMesh= smgr->getMeshManipulator()->createMeshWithTangents(mnode->getMesh());
+
+        mnode= 0;
         mnode= smgr->addMeshSceneNode(tangentMesh);
-
-        mnode->setPosition(nodes[i]->getPosition());
-        mnode->setRotation(nodes[i]->getRotation());
-        mnode->setScale(nodes[i]->getScale());
-
-        for(u32 ii= 0; ii < nodes[i]->getMaterialCount(); ii++)
+        if(mnode)
         {
-            mnode->getMaterial(ii)= nodes[i]->getMaterial(ii);
+            mnode->setPosition(nodes[i]->getPosition());
+            mnode->setRotation(nodes[i]->getRotation());
+            mnode->setScale(nodes[i]->getScale());
+
+            for(u32 ii= 0; ii < nodes[i]->getMaterialCount(); ii++)
+            {
+                mnode->getMaterial(ii)= nodes[i]->getMaterial(ii);
+            }
+
+            //!important set the proper material
+            mnode->setMaterialType(Renderer->getMaterials()->Parallax);
         }
 
-        //!important set the proper material
-        mnode->setMaterialType(Renderer->getMaterials()->Parallax);
-
         nodes[i]->remove();
-        tangentMesh->drop();
+        if(tangentMesh)tangentMesh->drop();
     }
 
     //!important set automatically all materials
@@ -156,9 +161,14 @@ bool CTestFramework::OnEvent(const SEvent& event)
         scene::ICameraSceneNode* cam= static_cast<scene::ICameraSceneNode*>(Device->getSceneManager()->getSceneNodeFromType(scene::ESNT_CAMERA));
         if(cam)cam->OnEvent(event);
 
-        if(event.EventType == EET_KEY_INPUT_EVENT && timeSinceLastEvent > 20)
+        if(event.EventType == EET_KEY_INPUT_EVENT && timeSinceLastEvent > 25)
         {
-            if(event.KeyInput.Key == KEY_SPACE)
+            if(event.KeyInput.Key == KEY_ESCAPE) //release mouse
+            {
+                cam->setInputReceiverEnabled(!cam->isInputReceiverEnabled());
+                Device->getCursorControl()->setVisible(!cam->isInputReceiverEnabled());
+            }
+            else if(event.KeyInput.Key == KEY_SPACE)
             {
                 core::array<scene::ISceneNode*> meshNodes;
                 Device->getSceneManager()->getSceneNodesFromType(scene::ESNT_MESH, meshNodes);

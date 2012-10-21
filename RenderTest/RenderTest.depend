@@ -1,0 +1,84 @@
+# depslib dependency file v1.0
+1350832934 source:/home/entity/dev/irrrenderer/RenderTest/CTestFramework.cpp
+	"CTestFramework.h"
+
+1350829632 /home/entity/dev/irrrenderer/RenderTest/CTestFramework.h
+	<irrlicht.h>
+	<irrRenderer.h>
+	<iostream>
+
+1350829632 /home/entity/dev/irrrenderer/include/irrRenderer.h
+	"CRenderer.h"
+	"ILightManagerCustom.h"
+	"CShaderLibrary.h"
+	"CMaterialSwapper.h"
+	"CPostProcessingEffectChain.h"
+	"CPostProcessingEffect.h"
+	"E_POST_PROCESSING_EFFECT.h"
+	"IShaderDefaultCallback.h"
+	"MaterialCallbacks.h"
+	"SMaterials.h"
+	<irrlicht.h>
+	<irrRenderer.h>
+
+1350829632 /home/entity/dev/irrrenderer/include/CRenderer.h
+	<irrlicht.h>
+	"ILightManagerCustom.h"
+	"SMaterials.h"
+	"CShaderLibrary.h"
+	"MaterialCallbacks.h"
+	"CMaterialSwapper.h"
+	"IShaderDefaultCallback.h"
+	"IShaderDefaultPostProcessCallback.h"
+	"CPostProcessingEffectChain.h"
+	"CPostProcessingEffect.h"
+	"E_POST_PROCESSING_EFFECT.h"
+
+1350829632 /home/entity/dev/irrrenderer/include/ILightManagerCustom.h
+	<irrlicht.h>
+	"CPostProcessingEffectChain.h"
+	"CPostProcessingEffect.h"
+	"IQuadSceneNode.h"
+	"MaterialCallbacks.h"
+	<iostream>
+
+1350829632 /home/entity/dev/irrrenderer/include/CPostProcessingEffectChain.h
+	<irrlicht.h>
+	"CPostProcessingEffect.h"
+	"E_POST_PROCESSING_EFFECT.h"
+	"IShaderDefaultPostProcessCallback.h"
+
+1350829632 /home/entity/dev/irrrenderer/include/CPostProcessingEffect.h
+	<irrlicht.h>
+
+1350829632 /home/entity/dev/irrrenderer/include/E_POST_PROCESSING_EFFECT.h
+
+1350829632 /home/entity/dev/irrrenderer/include/IShaderDefaultPostProcessCallback.h
+	<irrlicht.h>
+
+1350829632 /home/entity/dev/irrrenderer/include/IQuadSceneNode.h
+	<irrlicht.h>
+
+1350829632 /home/entity/dev/irrrenderer/include/MaterialCallbacks.h
+	<irrlicht.h>
+	<iostream>
+
+1350829632 /home/entity/dev/irrrenderer/include/SMaterials.h
+	<irrlicht.h>
+
+1350829632 /home/entity/dev/irrrenderer/include/CShaderLibrary.h
+	<irrlicht.h>
+	<fstream>
+	<string.h>
+	<iostream>
+
+1350829632 /home/entity/dev/irrrenderer/include/CMaterialSwapper.h
+	<irrlicht.h>
+	"SMaterials.h"
+
+1350829632 /home/entity/dev/irrrenderer/include/IShaderDefaultCallback.h
+	<irrlicht.h>
+
+1350829632 source:/home/entity/dev/irrrenderer/RenderTest/main.cpp
+	"CTestFramework.h"
+
