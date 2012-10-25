@@ -99,11 +99,9 @@ CTestFramework::CTestFramework()
 
     //!important set automatically all materials
     irr::video::CMaterialSwapper* swapper= Renderer->getMaterialSwapper();
-    swapper->updateEntry(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF, Renderer->getMaterials()->TransparentRef);
-    swapper->updateEntry(irr::video::EMT_SOLID_2_LAYER, Renderer->getMaterials()->NormalAnimated);
     swapper->swapMaterials();
 
-    //!important set up post processing(this example is not using multiple chains)
+    //!important set up post processing (this example is not using multiple chains)
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
     Bloom= Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_FAST);
     AA->setActive(false);
@@ -161,7 +159,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
         scene::ICameraSceneNode* cam= static_cast<scene::ICameraSceneNode*>(Device->getSceneManager()->getSceneNodeFromType(scene::ESNT_CAMERA));
         if(cam)cam->OnEvent(event);
 
-        if(event.EventType == EET_KEY_INPUT_EVENT && timeSinceLastEvent > 25)
+        if(event.EventType == irr::EET_KEY_INPUT_EVENT && !event.KeyInput.PressedDown)
         {
             if(event.KeyInput.Key == KEY_ESCAPE) //release mouse
             {

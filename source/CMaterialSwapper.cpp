@@ -8,6 +8,7 @@ irr::video::CMaterialSwapper::CMaterialSwapper(irr::scene::ISceneManager* smgr, 
     updateEntry(irr::video::EMT_SOLID, Materials->Solid);
     updateEntry(irr::video::EMT_DETAIL_MAP, Materials->DetailMap);
     updateEntry(irr::video::EMT_NORMAL_MAP_SOLID, Materials->Normal);
+    updateEntry(irr::video::EMT_PARALLAX_MAP_SOLID, Materials->Parallax);
     updateEntry(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF, Materials->TransparentRef);
 }
 
