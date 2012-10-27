@@ -104,6 +104,7 @@ CTestFramework::CTestFramework()
     //!important set up post processing (this example is not using multiple chains)
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
     Bloom= Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_FAST);
+    Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
     AA->setActive(false);
     Bloom->setActive(false);
 

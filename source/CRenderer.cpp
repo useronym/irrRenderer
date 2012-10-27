@@ -122,6 +122,11 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
             newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_fast"));
             break;
 
+        case EPE_FOG:
+            ShaderLib->loadShader("fog", "quad.vert", "postprocess/fog.frag");
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("fog"));
+            break;
+
         case EPE_COLD_COLORS:
             ShaderLib->loadShader("coldcolors", "quad.vert", "postprocess/coldcolors.frag");
             newEffect= createPostProcessingEffect(ShaderLib->getShader("coldcolors"));
