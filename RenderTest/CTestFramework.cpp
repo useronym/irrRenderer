@@ -25,7 +25,7 @@ CTestFramework::CTestFramework()
     helpText+= L"G - show GBuffers debug info on screen\n";
     helpText+= L"C - toggle console\n";
     helpText+= L"H - toggle this help text\n";
-    Help= Device->getGUIEnvironment()->addStaticText(helpText.c_str(), core::rect<s32>(10, 10, 800, 600));
+    Help= Device->getGUIEnvironment()->addStaticText(helpText.c_str(), core::rect<s32>(600, 10, 800, 600));
     Help->setOverrideColor(video::SColor(255, 255, 255, 255));
 
     //!important do the init

@@ -1,4 +1,4 @@
-uniform sampler2D ColorTex;     //guess what :P
+uniform sampler2D ColorTex;     //color
 uniform sampler2D NormalTex;    //view space normal.xy
 uniform sampler2D DepthTex;    //view space depth
 uniform float CamFar;
@@ -52,17 +52,17 @@ void main()
         //calculate the light
         vec3 lightDir= normalize(vLightPos - vPixelPos);
         vec3 spotDir= normalize(Direction);
-        float spotEffect= dot(spotDir, -lightDir);
+        float cosAngle = dot(spotDir, -lightDir);
 
-        if(spotEffect > CosCutoff)
+        if(cosAngle > CosCutoff)
         {
             //float attLinear = 1.0 / Radius;
             //float attQuadratic= attLinear / Radius;
 
-            //put spotEffect into the range between [0.0, 1.0]
-            spotEffect= pow(spotEffect, Falloff);
-            float att= spotEffect * max(-log(dist/Radius), 0.0);
-            /*float att= spotEffect / (dist * attLinear) + (dist * dist * attQuadratic);
+            //make the edges "soft"
+            float softEdge= (cosAngle - CosCutoff) / (1.0 - CosCutoff);//pow(cosAngle, Falloff);
+            float att= softEdge * max(-log(dist/Radius), 0.0);
+            /*float att= cosAngle / (dist * attLinear) + (dist * dist * attQuadratic);
             att-= 2.0;*/
 
             float light= max(dot(lightDir, vNormal), 0.0) * att;
