@@ -206,24 +206,6 @@
 			<Option target="Debug-dll" />
 			<Option target="Release-dll" />
 		</Unit>
-		<Unit filename="..\bin\shaders\postprocess\contrast.frag">
-			<Option target="Release" />
-			<Option target="Debug" />
-			<Option target="Debug-dll" />
-			<Option target="Release-dll" />
-		</Unit>
-		<Unit filename="..\bin\shaders\postprocess\dof.frag">
-			<Option target="Release" />
-			<Option target="Debug" />
-			<Option target="Debug-dll" />
-			<Option target="Release-dll" />
-		</Unit>
-		<Unit filename="..\bin\shaders\postprocess\tonemapping.frag">
-			<Option target="Release" />
-			<Option target="Debug" />
-			<Option target="Debug-dll" />
-			<Option target="Release-dll" />
-		</Unit>
 		<Unit filename="..\bin\shaders\postprocess\warmcolors.frag">
 			<Option target="Release" />
 			<Option target="Debug" />

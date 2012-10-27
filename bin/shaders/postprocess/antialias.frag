@@ -1,5 +1,5 @@
 uniform sampler2D Render;
-uniform sampler2D Tex0;
+uniform sampler2D Tex0; //depth
 
 uniform float PixelSizeX;
 uniform float PixelSizeY;

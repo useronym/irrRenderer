@@ -1,4 +1,4 @@
-#define STRENGTH 5
+#define STRENGTH 4
 
 uniform sampler2D Render;
 

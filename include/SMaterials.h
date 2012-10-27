@@ -25,7 +25,6 @@ struct SMaterials
     irr::video::E_MATERIAL_TYPE NormalAnimated;
     //! Param1 affects bumpiness
     irr::video::E_MATERIAL_TYPE Parallax;
-    irr::video::E_MATERIAL_TYPE Water;
     irr::video::E_MATERIAL_TYPE DetailMap;
 };
 

@@ -24,7 +24,7 @@ void main()
     //get depth
     float vDepth= texture2D(DepthTex, projCoord.xy).r;
 
-    if(vDepth * CamFar > ScreenPos.z) discard; //stop him!
+    if(vDepth * CamFar > ScreenPos.z) discard; //Z-reject
 
 
     //reconstruct view pixel position
@@ -56,5 +56,5 @@ void main()
         vec4 lightColor= vec4(Color, 0.0);
         gl_FragColor= light * lightColor * texture2D(ColorTex, projCoord.xy);
     }
-    else discard; //fucking stop him already
+    else discard;
 }

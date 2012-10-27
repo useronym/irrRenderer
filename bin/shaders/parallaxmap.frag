@@ -8,7 +8,7 @@ varying float Depth;
 uniform sampler2D Tex0;
 uniform sampler2D Tex1; //oh yes, you're right!
 
-uniform float Param1; //scale
+uniform float Param1; //bumpiness
 
 void main()
 {
@@ -16,9 +16,10 @@ void main()
 
     vec4 normalFromTex= texture2D(Tex1, gl_TexCoord[0].xy);
 
-    float bias = Param1 * 0.5;
+    float bumpiness= clamp(Param1, 0.001, 1.0);
+    //float bias = bumpiness * 0.5;
     float heightFromTexture= normalFromTex.a * 2.0 - 1.0;
-    float height= Param1 * heightFromTexture - bias;
+    float height= bumpiness * heightFromTexture;// - bias;
     vec2 offsetCoord= gl_TexCoord[0].xy + normalize(ViewVect).xy * height;
     normalFromTex= texture2D(Tex1, offsetCoord);
 

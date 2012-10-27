@@ -4,7 +4,7 @@
 #include "CRenderer.h"
 
 
-irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool hdr, irr::c8* shaderDir)
+irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir)
 {
     Device= device;
     LightMgr= 0;
@@ -13,8 +13,7 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, bool hdr, irr::c8*
     Materials= new irr::video::SMaterials;
 
     loadShaders();
-    createDefaultPipeline(hdr);
-    HDR= hdr;
+    createDefaultPipeline();
     RootPostProcessingEffectChain= createPostProcessingEffectChain();
     MaterialSwapper= new irr::video::CMaterialSwapper(Device->getSceneManager(), Materials);
 
@@ -36,21 +35,13 @@ irr::video::CRenderer::~CRenderer()
     Device= 0;
 }
 
-void irr::video::CRenderer::createDefaultPipeline(bool hdr)
+void irr::video::CRenderer::createDefaultPipeline()
 {
     clearMRTs();
-    if(!hdr)
-    {
-        createMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
-        createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
-        createMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
-    }
-    else
-    {
-        createMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A16B16G16R16F);
-        createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_A16B16G16R16F);
-        createMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G32R32F);
-    }
+
+    createMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
+    createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
+    createMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
 
     if(LightMgr) LightMgr->drop();
     LightMgr= new irr::scene::ILightManagerCustom(Device);
@@ -118,7 +109,7 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
         case EPE_ANTIALIASING:
             ShaderLib->loadShader("antialias", "quad.vert", "postprocess/antialias.frag");
             newEffect= createPostProcessingEffect(ShaderLib->getShader("antialias"));
-            newEffect->addTextureToShader(getMRT(2));
+            newEffect->addTextureToShader(getMRT(2)); //depth
             break;
 
         case EPE_BLOOM:
@@ -131,11 +122,6 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
             newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_fast"));
             break;
 
-        case EPE_CONTRAST:
-            ShaderLib->loadShader("contrast", "quad.vert", "postprocess/contrast.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("contrast"));
-            break;
-
         case EPE_COLD_COLORS:
             ShaderLib->loadShader("coldcolors", "quad.vert", "postprocess/coldcolors.frag");
             newEffect= createPostProcessingEffect(ShaderLib->getShader("coldcolors"));
@@ -144,11 +130,6 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
         case EPE_WARM_COLORS:
             ShaderLib->loadShader("warmcolors", "quad.vert", "postprocess/warmcolors.frag");
             newEffect= createPostProcessingEffect(ShaderLib->getShader("warmcolors"));
-            break;
-
-        case EPE_TONE_MAPPING:
-            ShaderLib->loadShader("tonemapping", "quad.vert", "postprocess/tonemapping.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("tonemapping"));
             break;
 
         default: break; //this should never happen
@@ -220,11 +201,6 @@ irr::s32 irr::video::CRenderer::createMaterial(irr::video::SShaderSource shader,
                callback, baseType);
 }
 
-
-bool irr::video::CRenderer::isHDREnabled()
-{
-    return HDR;
-}
 
 irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary()
 {

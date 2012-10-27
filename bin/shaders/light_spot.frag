@@ -47,7 +47,7 @@ void main()
         vNormal*= 2.0;
         vNormal-= 1.0;
         //vNormal.z= -sqrt(1.0 - (vNormal.x*vNormal.x) - (vNormal.y*vNormal.y));
-        vNormal= normalize(vNormal);
+        //vNormal= normalize(vNormal);
 
         //calculate the light
         vec3 lightDir= normalize(vLightPos - vPixelPos);
@@ -56,9 +56,10 @@ void main()
 
         if(spotEffect > CosCutoff)
         {
-            float attLinear = 1.0 / Radius;
-            float attQuadratic= attLinear / Radius;
+            //float attLinear = 1.0 / Radius;
+            //float attQuadratic= attLinear / Radius;
 
+            //put spotEffect into the range between [0.0, 1.0]
             spotEffect= pow(spotEffect, Falloff);
             float att= spotEffect * max(-log(dist/Radius), 0.0);
             /*float att= spotEffect / (dist * attLinear) + (dist * dist * attQuadratic);

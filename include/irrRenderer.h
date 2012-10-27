@@ -81,6 +81,6 @@ For a more detailed example with source code, open the RenderTest project in Ren
 \param shaderDir directory which holds shader source files, relative to the executable
 \return New instance of irrRenderer
 */
-irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, bool HDR= false, irr::c8* shaderDir= "shaders/");
+irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir= "shaders/");
 
 #endif // IRRRENDERER_H_INCLUDED

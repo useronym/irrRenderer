@@ -29,12 +29,12 @@ class CRenderer
 {
     public:
         //! Constructor, only used internally
-        CRenderer(irr::IrrlichtDevice* device, bool hdr, irr::c8* shaderDir);
+        CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir);
 
         ~CRenderer();
 
         //! Loads the default pipeline \n Note: If you haven't altered the pipeline, it doesn't make sense to call this
-        void createDefaultPipeline(bool hdr= false);
+        void createDefaultPipeline();
 
         irr::video::CPostProcessingEffectChain* createPostProcessingEffectChain();
 
@@ -83,8 +83,6 @@ class CRenderer
         */
         irr::s32 createMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback=0, irr::video::E_MATERIAL_TYPE baseType= irr::video::EMT_SOLID);
 
-        bool isHDREnabled();
-
         //! \return The irr::video::CShaderLibrary
         irr::video::CShaderLibrary* getShaderLibrary();
 
@@ -107,7 +105,6 @@ class CRenderer
         irr::video::CPostProcessingEffectChain* RootPostProcessingEffectChain;
 
         irr::core::array<irr::video::IRenderTarget> MRTs;
-        bool HDR;
 };
 
 }

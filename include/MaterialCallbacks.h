@@ -111,7 +111,7 @@ public:
         Radius= light.Radius * 1.5;
         Color= light.DiffuseColor;
         Direction= light.Direction;
-        CosCutoff= -cos(light.OuterCone);
+        CosCutoff= cos((light.OuterCone / 2.0) * irr::core::DEGTORAD);
         Falloff= light.Falloff;
 
         /*     /\               Ga - Gamma
@@ -207,44 +207,6 @@ public:
 
 private:
     irr::scene::ISceneManager* Smgr;
-};
-
-
-
-
-
-
-class TerrainCallback : public irr::video::IShaderConstantSetCallBack
-{
-public:
-    virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
-    {
-        int tex0= 0;
-        int tex1= 1;
-        int tex2= 2;
-        int tex3= 3;
-        services->setPixelShaderConstant("Tex0", (irr::f32*)&tex0, 1);
-        services->setPixelShaderConstant("Tex1", (irr::f32*)&tex1, 1);
-        services->setPixelShaderConstant("Tex2", (irr::f32*)&tex2, 1);
-        services->setPixelShaderConstant("Tex3", (irr::f32*)&tex3, 1);
-
-        irr::core::matrix4 mat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
-        irr::f32 farDist;
-        if (mat[10]>0.f) farDist = -mat[14]/(mat[10]-1.f); // Left Handed
-        else farDist = mat[14]/(mat[10]+1.f); // Right Handed
-        services->setVertexShaderConstant("CamFar", &farDist, 1);
-
-        services->setVertexShaderConstant("Repeat", &Repeat, 1);
-    }
-
-    virtual void OnSetMaterial (const irr::video::SMaterial &material)
-    {
-        Repeat= material.MaterialTypeParam;
-        if(Repeat < 1.0) Repeat= 1.0;
-    }
-
-private:
-    irr::f32 Repeat;
 };
 
 }

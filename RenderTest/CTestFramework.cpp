@@ -51,7 +51,7 @@ CTestFramework::CTestFramework()
     Flashlight->setLightType(video::ELT_SPOT);
     Flashlight->setVisible(false);
     video::SLight fl= Flashlight->getLightData();
-    fl.OuterCone= 9;
+    fl.OuterCone= 40;
     fl.Falloff= 50;
     Flashlight->setLightData(fl);
 
