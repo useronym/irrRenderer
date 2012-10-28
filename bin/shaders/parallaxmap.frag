@@ -5,8 +5,8 @@ varying vec3 ViewVect;
 
 varying float Depth;
 
-uniform sampler2D Tex0;
-uniform sampler2D Tex1; //oh yes, you're right!
+uniform sampler2D Tex0; 
+uniform sampler2D Tex1; //normal map
 
 uniform float Param1; //bumpiness
 

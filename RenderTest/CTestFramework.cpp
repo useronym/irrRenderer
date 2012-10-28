@@ -52,7 +52,8 @@ CTestFramework::CTestFramework()
     Flashlight->setVisible(false);
     video::SLight fl= Flashlight->getLightData();
     fl.OuterCone= 40;
-    fl.Falloff= 50;
+    fl.Falloff= 2;
+    fl.DiffuseColor.set(1.0, 1.0, 0.5);
     Flashlight->setLightData(fl);
 
     //set up walking beast

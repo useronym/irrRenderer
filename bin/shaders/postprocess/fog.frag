@@ -4,7 +4,7 @@ uniform sampler2D Tex1; //depth
 void main()
 {
     vec4 color= texture2D(Render, gl_TexCoord[0].xy);
-    vec4 fogColor= vec4(0.5, 0.5, 0.5, 1.0);
+    vec4 fogColor= vec4(0.35, 0.35, 0.35, 1.0);
     float depth= texture2D(Tex1, gl_TexCoord[0].xy).x;
 
     depth= max(depth-0.2, 0.0);

@@ -61,6 +61,7 @@ void main()
 
             //make the edges "soft"
             float softEdge= (cosAngle - CosCutoff) / (1.0 - CosCutoff);//pow(cosAngle, Falloff);
+            softEdge= pow(softEdge, Falloff);
             float att= softEdge * max(-log(dist/Radius), 0.0);
             /*float att= cosAngle / (dist * attLinear) + (dist * dist * attQuadratic);
             att-= 2.0;*/
