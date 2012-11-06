@@ -38,21 +38,28 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         void setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts);
 
+
+        void setPostProcessingTextures(irr::video::ITexture* tex1, irr::video::ITexture* tex2);
+
+        void setPostProcessingActive(bool active);
+
+        bool getPostProcessingActive();
+
         void addPostProcessingEffectChain(irr::video::CPostProcessingEffectChain* chain);
+
+        irr::u32 getActivePostProcessingEffectsCount();
 
         irr::u32 getActivePostProcessingEffectChainsCount();
 
-        bool isPostProcessingActive();
 
         void setRenderTexture(irr::video::ITexture* tex);
 
-        void doFinalRenderIntoTexture(bool well);
+        void setDoFinalRenderIntoTexture(bool well);
 
         bool getDoFinalRenderToTexture();
 
         irr::video::ITexture* getRenderTexture();
 
-        void setFinalRenderToTexture(bool rtt);
 
         void setLightPointMaterialType(irr::video::E_MATERIAL_TYPE &type);
         void setLightPointCallback(irr::video::IShaderPointLightCallback* callback);
@@ -67,10 +74,12 @@ class ILightManagerCustom : public irr::scene::ILightManager
     private:
         irr::IrrlichtDevice* Device;
         irr::core::array<irr::video::IRenderTarget> MRTs;
-        irr::video::ITexture* FinalRender;
-        bool FinalRenderToTexture;
         bool PostProcessing;
+        irr::video::ITexture* PPTex1, *PPTex2;
         irr::core::array<irr::video::CPostProcessingEffectChain*> PostProcessingEffectChains;
+        bool FinalRenderToTexture;
+        irr::video::ITexture* FinalRender;
+
 
         irr::scene::IMeshSceneNode* LightSphere, *LightCone;
         irr::scene::IQuadSceneNode* LightQuad;

@@ -103,9 +103,10 @@ CTestFramework::CTestFramework()
     swapper->swapMaterials();
 
     //!important set up post processing (this example is not using multiple chains)
+    Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
     Bloom= Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_FAST);
-    Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
+
     AA->setActive(false);
     Bloom->setActive(false);
 
@@ -201,9 +202,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
             }
             else if(event.KeyInput.Key == KEY_KEY_F)
             {
-                if(!Flashlight->isVisible()) { Flashlight->setLightType(video::ELT_POINT); Flashlight->setVisible(true); }
-                else if(Flashlight->getLightType() == video::ELT_POINT) Flashlight->setLightType(video::ELT_SPOT);
-                else if(Flashlight->getLightType() == video::ELT_SPOT) Flashlight->setVisible(false);
+                Flashlight->setVisible(!Flashlight->isVisible());
             }
             else if(event.KeyInput.Key == KEY_F12)
             {
@@ -217,6 +216,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
         else if(event.EventType == EET_LOG_TEXT_EVENT)
         {
             core::stringw text= Console->getText();
+            std::cout << event.LogEvent.Text << "\n";
             text+= event.LogEvent.Text;
             text+= L"\n";
             Console->setText(text.c_str());

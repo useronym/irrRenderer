@@ -125,6 +125,7 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
         case EPE_FOG:
             ShaderLib->loadShader("fog", "quad.vert", "postprocess/fog.frag");
             newEffect= createPostProcessingEffect(ShaderLib->getShader("fog"));
+            newEffect->addTextureToShader(getMRT(2)); //depth
             break;
 
         case EPE_COLD_COLORS:
@@ -145,14 +146,16 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
 
 void irr::video::CRenderer::enablePostProcessing(bool enable, irr::video::ECOLOR_FORMAT format)
 {
-    if(enable && !LightMgr->getRenderTexture())
+    if(enable && !LightMgr->getPostProcessingActive())
     {
         irr::core::dimension2du dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
-        LightMgr->setRenderTexture(Device->getVideoDriver()->addRenderTargetTexture(dimension, "Final-Render-Tex", format));
+        LightMgr->setPostProcessingTextures(Device->getVideoDriver()->addRenderTargetTexture(dimension, "Post-Processing-Tex1"),
+                                            Device->getVideoDriver()->addRenderTargetTexture(dimension, "Post-Processing-Tex2"));
+        LightMgr->setPostProcessingActive(true);
     }
-    else if(!enable && LightMgr->getRenderTexture())
+    else if(!enable && LightMgr->getPostProcessingActive())
     {
-        //LightMgr->removeRenderTexture();
+
     }
 }
 
@@ -186,9 +189,16 @@ irr::u32 irr::video::CRenderer::getMRTCount()
 
 void irr::video::CRenderer::setDoFinalRenderToTexture(bool shouldI)
 {
-    if(shouldI)
+    if(shouldI && !LightMgr->getDoFinalRenderToTexture())
     {
-
+        irr::core::dimension2du dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
+        LightMgr->setRenderTexture(Device->getVideoDriver()->addRenderTargetTexture(dimension, "Final-Render-Tex"));
+        LightMgr->setDoFinalRenderIntoTexture(true);
+    }
+    else if(LightMgr->getDoFinalRenderToTexture())
+    {
+        LightMgr->setDoFinalRenderIntoTexture(false);
+        LightMgr->getRenderTexture()->drop();
     }
 }
 

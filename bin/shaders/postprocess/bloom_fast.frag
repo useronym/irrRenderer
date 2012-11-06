@@ -1,5 +1,6 @@
 #define QUALITY 3
-#define SIZE 2.5
+#define QQUALITY QUALITY*QUALITY
+#define SIZE 2
 
 uniform sampler2D Render;
 
@@ -18,19 +19,21 @@ void main()
     intensity= 1.0 - intensity;
     intensity*= intensity * 0.5;
 
-    for(int i= -QUALITY; i < QUALITY; i++)
+
+
+    for(int i= -QUALITY; i <= QUALITY; i++)
     {
         vec2 currentCoord= clampCoord(texcoord + vec2(PixelSizeX*i*SIZE, 0.0));
-        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.2;
+        sum+= texture2D(Render, currentCoord) * (1.0/(QQUALITY));
 
-        currentCoord= clampCoord(texcoord + vec2(0.0, PixelSizeY*i*SIZE));
+        /*currentCoord= clampCoord(texcoord + vec2(0.0, PixelSizeY*i*SIZE));
         sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.2;
 
         currentCoord= clampCoord(texcoord + vec2(PixelSizeX*i*SIZE, PixelSizeY*i*SIZE));
         sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.2;
 
         currentCoord= clampCoord(texcoord + vec2(-PixelSizeX*i*SIZE, PixelSizeY*i*SIZE));
-        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.2;
+        sum+= texture2D(Render, currentCoord) * intensity * (1.0/QUALITY) * 0.2;*/
     }
 
     baseColor+= sum;
