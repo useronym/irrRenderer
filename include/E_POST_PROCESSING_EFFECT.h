@@ -9,8 +9,8 @@ namespace video
 enum E_POSTPROCESSING_EFFECT
 {
     EPE_ANTIALIASING= 0,
-    EPE_BLOOM,
-    EPE_BLOOM_FAST,
+    EPE_BLOOM_H,
+    EPE_BLOOM_V,
     EPE_FOG,
     EPE_COLD_COLORS,
     EPE_WARM_COLORS,

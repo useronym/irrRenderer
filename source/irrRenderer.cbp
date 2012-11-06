@@ -188,18 +188,8 @@
 			<Option target="Debug-dll" />
 			<Option target="Release-dll" />
 		</Unit>
-		<Unit filename="..\bin\shaders\postprocess\bloom.frag">
-			<Option target="Release" />
-			<Option target="Debug" />
-			<Option target="Debug-dll" />
-			<Option target="Release-dll" />
-		</Unit>
-		<Unit filename="..\bin\shaders\postprocess\bloom_fast.frag">
-			<Option target="Release" />
-			<Option target="Debug" />
-			<Option target="Debug-dll" />
-			<Option target="Release-dll" />
-		</Unit>
+		<Unit filename="..\bin\shaders\postprocess\bloom_h.frag" />
+		<Unit filename="..\bin\shaders\postprocess\bloom_v.frag" />
 		<Unit filename="..\bin\shaders\postprocess\coldcolors.frag">
 			<Option target="Release" />
 			<Option target="Debug" />

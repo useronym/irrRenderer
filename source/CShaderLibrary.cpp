@@ -14,7 +14,7 @@ irr::video::CShaderLibrary::CShaderLibrary(irr::c8* shaderDir)
 void irr::video::CShaderLibrary::loadShader(irr::c8* name, irr::c8* sourceVertex, irr::c8* sourcePixel)
 {
     SShaderSource newShader;
-    newShader.Name.append(name);
+    newShader.Name= name;
 
     irr::core::stringc fileNameVertex;
     fileNameVertex.append(ShaderDir);
@@ -57,7 +57,7 @@ irr::video::SShaderSource& irr::video::CShaderLibrary::getShader(irr::c8* name)
 {
     for(irr::u16 i= 0; i < Shaders.size(); i++)
     {
-        if(Shaders[i].Name.equalsn(name, Shaders[i].Name.size()-1)) return Shaders[i];
+        if(Shaders[i].Name == name) return Shaders[i];
     }
     return Shaders[0];
 }

@@ -105,10 +105,11 @@ CTestFramework::CTestFramework()
     //!important set up post processing (this example is not using multiple chains)
     Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
-    Bloom= Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_FAST);
+    Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_V);
+    Bloom= Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_H);
 
     AA->setActive(false);
-    Bloom->setActive(false);
+    //Bloom->setActive(false);
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }
