@@ -23,7 +23,8 @@ class CTestFramework : public IEventReceiver
         video::CRenderer* Renderer;
 
         scene::ILightSceneNode* Flashlight;
-        video::CPostProcessingEffect* AA, *Bloom;
+        video::CPostProcessingEffect* AA;
+        video::CPostProcessingEffectChain* Bloom;
 
         gui::IGUIStaticText* Console, *Help;
         bool DrawGBuffer;

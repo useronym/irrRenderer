@@ -24,7 +24,7 @@ void main()
     //get depth
     float vDepth= texture2D(DepthTex, projCoord.xy).r;
 
-    if(vDepth * CamFar > ScreenPos.z) discard; //Z-reject
+    //if(vDepth * CamFar > ScreenPos.z) discard; //Z-reject
 
 
     //reconstruct view pixel position
@@ -53,8 +53,8 @@ void main()
         float att= max(-log(dist/Radius), 0.0);
         float light= max(dot(normalize(vLightPos - vPixelPos), vNormal), 0.0) * att;
 
-        vec4 lightColor= vec4(Color, 0.0);
-        gl_FragColor= light * lightColor * texture2D(ColorTex, projCoord.xy);
+        vec3 lightColor= Color;
+        gl_FragColor= light * vec4(lightColor, 0.0) * texture2D(ColorTex, projCoord.xy);
     }
     else discard;
 }

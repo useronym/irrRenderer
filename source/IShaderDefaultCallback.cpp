@@ -2,10 +2,10 @@
 
 void irr::video::IShaderDefaultCallback::OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
 {
-    int tex0= 0;
-    int tex1= 1;
-    services->setPixelShaderConstant("Tex0", (irr::f32*)&tex0, 1);
-    services->setPixelShaderConstant("Tex1", (irr::f32*)&tex1, 1);
+    irr::s32 tex0= 0;
+    irr::s32 tex1= 1;
+    services->setPixelShaderConstant("Tex0", &tex0, 1);
+    services->setPixelShaderConstant("Tex1", &tex1, 1);
 
     irr::core::matrix4 viewMat = services->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
     services->setVertexShaderConstant("VertexViewMat", viewMat.pointer(), 16);

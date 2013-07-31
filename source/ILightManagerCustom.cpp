@@ -38,7 +38,7 @@ irr::scene::ILightManagerCustom::~ILightManagerCustom()
     //dtor
 }
 
-void irr::scene::ILightManagerCustom::OnPreRender(irr::core::array<irr::scene::ILightSceneNode*> &lightList)
+void irr::scene::ILightManagerCustom::OnPreRender(core::array<ISceneNode*> & lightList)
 {
     Device->getVideoDriver()->setRenderTarget(MRTs, true, true, 0);
 }

@@ -4,7 +4,7 @@
 #include "irrRenderer.h"
 
 
-irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir)
+irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir)
 {
     return new irr::video::CRenderer(device, shaderDir);
 }

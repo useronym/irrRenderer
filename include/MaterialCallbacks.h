@@ -5,7 +5,6 @@
 #define MATERIALCALLBACKS_H_INCLUDED
 
 #include <irrlicht.h>
-#include <iostream>
 
 
 namespace irr
@@ -23,12 +22,12 @@ public:
 
     virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
     {
-        int tex0= 0;
-        int tex1= 1;
-        int tex2= 2;
-        services->setPixelShaderConstant("ColorTex", (irr::f32*)&tex0, 1);
-        services->setPixelShaderConstant("NormalTex", (irr::f32*)&tex1, 1);
-        services->setPixelShaderConstant("DepthTex", (irr::f32*)&tex2, 1);
+        irr::s32 tex0= 0;
+        irr::s32 tex1= 1;
+        irr::s32 tex2= 2;
+        services->setPixelShaderConstant("ColorTex", &tex0, 1);
+        services->setPixelShaderConstant("NormalTex", &tex1, 1);
+        services->setPixelShaderConstant("DepthTex", &tex2, 1);
 
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
         irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
@@ -75,12 +74,12 @@ public:
 
     virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
     {
-        int tex0= 0;
-        int tex1= 1;
-        int tex2= 2;
-        services->setPixelShaderConstant("ColorTex", (irr::f32*)&tex0, 1);
-        services->setPixelShaderConstant("NormalTex", (irr::f32*)&tex1, 1);
-        services->setPixelShaderConstant("DepthTex", (irr::f32*)&tex2, 1);
+        irr::s32 tex0= 0;
+        irr::s32 tex1= 1;
+        irr::s32 tex2= 2;
+        services->setPixelShaderConstant("ColorTex", &tex0, 1);
+        services->setPixelShaderConstant("NormalTex", &tex1, 1);
+        services->setPixelShaderConstant("DepthTex", &tex2, 1);
 
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
         irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
@@ -155,12 +154,12 @@ public:
 
     virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
     {
-        int tex0= 0;
-        int tex1= 1;
-        int tex2= 2;
-        services->setPixelShaderConstant("ColorTex", (irr::f32*)&tex0, 1);
-        services->setPixelShaderConstant("NormalTex", (irr::f32*)&tex1, 1);
-        services->setPixelShaderConstant("DepthTex", (irr::f32*)&tex2, 1);
+        irr::s32 tex0= 0;
+        irr::s32 tex1= 1;
+        irr::s32 tex2= 2;
+        services->setPixelShaderConstant("ColorTex", &tex0, 1);
+        services->setPixelShaderConstant("NormalTex", &tex1, 1);
+        services->setPixelShaderConstant("DepthTex", &tex2, 1);
 
         irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
         viewMat.rotateVect(Direction);
@@ -193,10 +192,10 @@ public:
 
     virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
     {
-        int tex0= 0;
-        services->setPixelShaderConstant("ColorTex", (irr::f32*)&tex0, 1);
-        int tex1= 1;
-        services->setPixelShaderConstant("NormalTex", (irr::f32*)&tex1, 1);
+        irr::s32 tex0= 0;
+        irr::s32 tex1= 1;
+        services->setPixelShaderConstant("ColorTex", &tex0, 1);
+        services->setPixelShaderConstant("NormalTex", &tex1, 1);
 
         irr::core::vector3df ambientCol;
         ambientCol.X= Smgr->getAmbientLight().r;

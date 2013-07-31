@@ -5,9 +5,6 @@
 #define CSHADERS_H
 
 #include <irrlicht.h>
-#include <fstream>
-#include <string.h>
-#include <iostream>
 
 namespace irr
 {
@@ -31,23 +28,24 @@ class CShaderLibrary
 {
     public:
         //! Constructor, only used internally
-        CShaderLibrary(irr::c8* shaderDir);
+        CShaderLibrary(const irr::c8* shaderDir, irr::IrrlichtDevice* dev);
 
         //! Loads a new GLSL shader from files
         /*! \param name a unique name of this shader
         \param sourceVertex name of the file holding the vertex source code, relative to the shader dir
         \param sourcePixel name of the file holding the pixel source code, relative to the shader dir
         */
-        void loadShader(irr::c8* name, irr::c8* sourceVertex, irr::c8* sourcePixel);
+        void loadShader(const irr::c8* name, const irr::c8* sourceVertex, const irr::c8* sourcePixel);
 
         //! Gets a previously loaded shader by name
         /*! \param name the unique name of the desired shader
         \return The shader, an irr::video::SShaderSource struct
         */
-        SShaderSource& getShader(irr::c8* name);
+        SShaderSource& getShader(const irr::c8* name);
 
     private:
-        irr::c8* ShaderDir;
+        irr::core::stringc ShaderDir;
+        irr::IrrlichtDevice* Device;
         irr::core::array<SShaderSource> Shaders;
 };
 

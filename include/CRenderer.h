@@ -5,7 +5,6 @@
 #define CRENDERER_H
 
 #include <irrlicht.h>
-//#include "irrRenderer.h"
 
 #include "ILightManagerCustom.h"
 #include "SMaterials.h"
@@ -29,7 +28,7 @@ class CRenderer
 {
     public:
         //! Constructor, only used internally
-        CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir);
+        CRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir);
 
         ~CRenderer();
 
@@ -63,7 +62,7 @@ class CRenderer
         /*! \param name unique name of the texture, so please make sure it's unique
         \param dimension resolution of the texture, leave blank for auto (full screen resolution)
         */
-        void createMRT(irr::c8* name, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
+        void createMRT(const irr::c8* name, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
 
         //! \return The RTT based on index \param index index of the MRT
         irr::video::ITexture* getMRT(irr::u32 index);

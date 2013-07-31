@@ -4,12 +4,12 @@
 #include "CRenderer.h"
 
 
-irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, irr::c8* shaderDir)
+irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir)
 {
     Device= device;
     LightMgr= 0;
 
-    ShaderLib= new irr::video::CShaderLibrary(shaderDir);
+    ShaderLib= new irr::video::CShaderLibrary(shaderDir, Device);
     Materials= new irr::video::SMaterials;
 
     loadShaders();
@@ -168,7 +168,7 @@ void irr::video::CRenderer::clearMRTs()
     MRTs.clear();
 }
 
-void irr::video::CRenderer::createMRT(irr::c8* name, irr::video::ECOLOR_FORMAT format, irr::core::dimension2du dimension)
+void irr::video::CRenderer::createMRT(const irr::c8* name, irr::video::ECOLOR_FORMAT format, irr::core::dimension2du dimension)
 {
     if(MRTs.size() <= 4)
     {

@@ -14,7 +14,7 @@ CTestFramework::CTestFramework()
     Console->setVisible(false);
 
     //set up the help thingy
-    core::stringw helpText= L"IrrRenderer Early Alpha Demo\n\n";
+    core::stringw helpText= L"IrrRenderer Demo\n\n";
     helpText+= L"Key bindings:\n";
     helpText+= L"Arrows - movement\n";
     helpText+= L"Esc - toggle mouse capture\n";
@@ -102,14 +102,16 @@ CTestFramework::CTestFramework()
     irr::video::CMaterialSwapper* swapper= Renderer->getMaterialSwapper();
     swapper->swapMaterials();
 
-    //!important set up post processing (this example is not using multiple chains)
+    //!important set up post processing
     Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
-    Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_V);
-    Bloom= Renderer->createPostProcessingEffect(irr::video::EPE_BLOOM_H);
+
+    Bloom= Renderer->createPostProcessingEffectChain();
+    Bloom->createEffect(irr::video::EPE_BLOOM_V); //Vertical bloom
+    Bloom->createEffect(irr::video::EPE_BLOOM_H); //Horizontal bloom
 
     AA->setActive(false);
-    //Bloom->setActive(false);
+    Bloom->setActive(false);
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

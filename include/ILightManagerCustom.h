@@ -9,7 +9,6 @@
 #include "CPostProcessingEffect.h"
 #include "IQuadSceneNode.h"
 #include "MaterialCallbacks.h"
-#include <iostream>
 
 namespace irr
 {
@@ -23,7 +22,7 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         ~ILightManagerCustom();
 
-        virtual void OnPreRender(irr::core::array<irr::scene::ILightSceneNode*> &lightList);
+        virtual void OnPreRender(core::array<ISceneNode*> & lightList);
 
         virtual void OnPostRender();
 
