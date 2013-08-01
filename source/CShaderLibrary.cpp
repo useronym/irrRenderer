@@ -20,8 +20,9 @@ void irr::video::CShaderLibrary::loadShader(const irr::c8* name, const irr::c8* 
     irr::core::stringc fileNameVertex;
     fileNameVertex.append(ShaderDir);
     fileNameVertex.append(sourceVertex);
-    io::IReadFile* fileVertex= Device->getFileSystem()->createAndOpenFile(fileNameVertex);
-    irr::c8 buff[fileVertex->getSize()];
+    irr::io::IReadFile* fileVertex= Device->getFileSystem()->createAndOpenFile(fileNameVertex);
+    irr::u32 size = fileVertex->getSize();
+    irr::c8 *buff = new irr::c8 [size];
     fileVertex->read(buff, fileVertex->getSize());
     newShader.SourceVertex= buff;
     newShader.SourceVertex[fileVertex->getSize()]= '\0';
@@ -30,7 +31,8 @@ void irr::video::CShaderLibrary::loadShader(const irr::c8* name, const irr::c8* 
     fileNamePixel.append(ShaderDir);
     fileNamePixel.append(sourcePixel);
     io::IReadFile* filePixel= Device->getFileSystem()->createAndOpenFile(fileNamePixel);
-    irr::c8 buff2[filePixel->getSize()];
+    size = filePixel->getSize();
+    irr::c8 *buff2 = new irr::c8 [size];
     filePixel->read(buff2, filePixel->getSize());
     newShader.SourcePixel= buff2;
     newShader.SourcePixel[filePixel->getSize()]= '\0';

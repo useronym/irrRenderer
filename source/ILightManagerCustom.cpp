@@ -9,6 +9,7 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     Device= device;
     FinalRender= 0;
     FinalRenderToTexture= false;
+    setPostProcessingActive(false);
 
     //set up light mesh - sphere
     LightSphere= Device->getSceneManager()->addSphereSceneNode(1.0, 12);
