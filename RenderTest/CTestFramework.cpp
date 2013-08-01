@@ -141,8 +141,6 @@ bool CTestFramework::run()
     if(DrawGBuffer)
     {
         irr::core::recti gbuffRect= irr::core::recti(irr::core::vector2di(0, 0),Renderer->getMRT(0)->getSize());
-        gbuffRect.LowerRightCorner.Y*= -1;
-        gbuffRect.UpperLeftCorner.Y*= -1;
         for(irr::u32 i= 0; i < Renderer->getMRTCount(); i++)
         {
             irr::core::recti gbuffRectSmall= irr::core::recti(irr::core::vector2di(Renderer->getMRT(i)->getSize().Width/4.0*i, 0), irr::core::vector2di(Renderer->getMRT(i)->getSize().Width/4.0*(i+1), Renderer->getMRT(i)->getSize().Height/4.0));
