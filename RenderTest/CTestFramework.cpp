@@ -103,7 +103,7 @@ CTestFramework::CTestFramework()
     swapper->swapMaterials();
 
     //!important set up post processing
-    Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
+    //Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
 
     Bloom= Renderer->createPostProcessingEffectChain();
@@ -112,6 +112,7 @@ CTestFramework::CTestFramework()
 
     AA->setActive(false);
     Bloom->setActive(false);
+
 
     Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
 }

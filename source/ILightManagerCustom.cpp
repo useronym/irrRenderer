@@ -47,7 +47,8 @@ void irr::scene::ILightManagerCustom::OnPreRender(core::array<ISceneNode*> & lig
 void irr::scene::ILightManagerCustom::OnPostRender()
 {
     //decide render targets
-    if(getActivePostProcessingEffectsCount() == 0 && !getDoFinalRenderToTexture())
+    if((getActivePostProcessingEffectsCount() == 0 || !getPostProcessingActive())
+        && !getDoFinalRenderToTexture())
     {
         Device->getVideoDriver()->setRenderTarget(0);
     }
@@ -209,6 +210,14 @@ void irr::scene::ILightManagerCustom::setPostProcessingTextures(irr::video::ITex
 {
     PPTex1= tex1;
     PPTex2= tex2;
+}
+
+void irr::scene::ILightManagerCustom::removePostProcessingTextures()
+{
+    Device->getVideoDriver()->removeTexture(PPTex1);
+    Device->getVideoDriver()->removeTexture(PPTex2);
+
+    setPostProcessingActive(false);
 }
 
 void irr::scene::ILightManagerCustom::setPostProcessingActive(bool active)

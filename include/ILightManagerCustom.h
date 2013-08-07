@@ -40,6 +40,8 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         void setPostProcessingTextures(irr::video::ITexture* tex1, irr::video::ITexture* tex2);
 
+        void removePostProcessingTextures();
+
         void setPostProcessingActive(bool active);
 
         bool getPostProcessingActive();

@@ -155,7 +155,8 @@ void irr::video::CRenderer::enablePostProcessing(bool enable, irr::video::ECOLOR
     }
     else if(!enable && LightMgr->getPostProcessingActive())
     {
-
+        LightMgr->setPostProcessingActive(false);
+        LightMgr->removePostProcessingTextures();
     }
 }
 
@@ -198,7 +199,7 @@ void irr::video::CRenderer::setDoFinalRenderToTexture(bool shouldI)
     else if(LightMgr->getDoFinalRenderToTexture())
     {
         LightMgr->setDoFinalRenderIntoTexture(false);
-        LightMgr->getRenderTexture()->drop();
+        Device->getVideoDriver()->removeTexture(LightMgr->getRenderTexture());
     }
 }
 
