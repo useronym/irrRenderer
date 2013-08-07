@@ -30,8 +30,12 @@ public:
         services->setPixelShaderConstant("DepthTex", &tex2, 1);
 
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
-        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
+        irr::core::matrix4 worldMat = services->getVideoDriver()->getTransform(irr::video::ETS_WORLD);
+        irr::core::matrix4 viewMat = services->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
         irr::core::matrix4 projMat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
+        irr::core::matrix4 worldViewProj = projMat * viewMat * worldMat;//worldMat * viewMat * projMat;
+
+        services->setVertexShaderConstant("WorldViewProjMat", worldViewProj.pointer(), 16);
 
         irr::f32 farDist;
         if (projMat[10]>0.f) farDist = -projMat[14]/(projMat[10]-1.f); // Left Handed
@@ -82,8 +86,12 @@ public:
         services->setPixelShaderConstant("DepthTex", &tex2, 1);
 
         irr::scene::ICameraSceneNode* cam= Smgr->getActiveCamera();
-        irr::core::matrix4 viewMat= Smgr->getVideoDriver()->getTransform(irr::video::ETS_VIEW);;
+        irr::core::matrix4 worldMat = services->getVideoDriver()->getTransform(irr::video::ETS_WORLD);
+        irr::core::matrix4 viewMat = services->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
         irr::core::matrix4 projMat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
+        irr::core::matrix4 worldViewProj = projMat * viewMat * worldMat;//worldMat * viewMat * projMat;
+
+        services->setVertexShaderConstant("WorldViewProjMat", worldViewProj.pointer(), 16);
 
         irr::f32 farDist;
         if (projMat[10]>0.f) farDist = -projMat[14]/(projMat[10]-1.f); // Left Handed

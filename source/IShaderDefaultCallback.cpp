@@ -7,8 +7,14 @@ void irr::video::IShaderDefaultCallback::OnSetConstants(irr::video::IMaterialRen
     services->setPixelShaderConstant("Tex0", &tex0, 1);
     services->setPixelShaderConstant("Tex1", &tex1, 1);
 
+    irr::core::matrix4 worldMat = services->getVideoDriver()->getTransform(irr::video::ETS_WORLD);
     irr::core::matrix4 viewMat = services->getVideoDriver()->getTransform(irr::video::ETS_VIEW);
-    services->setVertexShaderConstant("VertexViewMat", viewMat.pointer(), 16);
+    irr::core::matrix4 projMat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
+    irr::core::matrix4 worldViewProj = projMat * viewMat * worldMat;//worldMat * viewMat * projMat;
+    irr::core::matrix4 worldView = viewMat * worldMat;
+
+    services->setVertexShaderConstant("WorldViewProjMat", worldViewProj.pointer(), 16);
+    services->setVertexShaderConstant("WorldViewMat", worldView.pointer(), 16);
 
     irr::core::matrix4 mat = services->getVideoDriver()->getTransform(irr::video::ETS_PROJECTION);
     irr::f32 farDist;

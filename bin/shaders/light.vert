@@ -1,3 +1,5 @@
+uniform mat4 WorldViewProjMat;
+uniform mat4 WorldViewMat;
 uniform vec3 VertexFarLeftUp;
 
 varying vec4 ScreenPos;
@@ -7,7 +9,7 @@ varying float FarLeftDownY;
 
 void main()
 {
-    ScreenPos= ftransform();
+    ScreenPos= WorldViewProjMat * gl_Vertex;
     gl_Position= ScreenPos;
     FarLeftUp= VertexFarLeftUp;
     FarLeftDownY= -FarLeftUp.y;

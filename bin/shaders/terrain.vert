@@ -1,3 +1,5 @@
+uniform mat4 WorldViewProjMat;
+uniform mat4 WorldViewMat;
 uniform float CamFar;
 uniform float Lighting;
 
@@ -9,7 +11,7 @@ void main()
     Normal= normalize((gl_NormalMatrix * gl_Normal)).xy;
     Normal*= 0.5;
     Normal+= 0.5;
-    vec4 vertex = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
+    vec4 vertex = WorldViewProjMat * gl_Vertex;
     Depth= vertex.z/CamFar;
 
     gl_Position= vertex;

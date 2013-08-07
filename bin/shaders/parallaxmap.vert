@@ -1,3 +1,5 @@
+uniform mat4 WorldViewProjMat;
+uniform mat4 WorldViewMat;
 uniform float CamFar;
 uniform float Lighting;
 
@@ -10,10 +12,10 @@ varying float Depth;
 
 void main()
 {
-    vec4 vertex = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
-    ViewVect= -normalize(gl_ModelViewMatrix * gl_Vertex).xyz;
+    vec4 vertex = WorldViewProjMat * gl_Vertex;
+    ViewVect= -normalize(WorldViewMat * gl_Vertex).xyz;
 
-    Depth= (gl_ModelViewMatrix * gl_Vertex).z / CamFar;
+    Depth= (WorldViewMat * gl_Vertex).z / CamFar;
 
     Normal= normalize((gl_NormalMatrix * gl_Normal)).xyz;
     Tangent= normalize((gl_NormalMatrix * gl_MultiTexCoord1.xyz)).xyz;
