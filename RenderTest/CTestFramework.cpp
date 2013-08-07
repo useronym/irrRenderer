@@ -227,4 +227,6 @@ bool CTestFramework::OnEvent(const SEvent& event)
             timeSinceLastEvent+= Device->getTimer()->getTime() - timeLast;
         }
     }
+
+    return false;
 }
