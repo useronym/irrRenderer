@@ -47,7 +47,7 @@ void irr::scene::ILightManagerCustom::OnPreRender(core::array<ISceneNode*> & lig
 void irr::scene::ILightManagerCustom::OnPostRender()
 {
     //decide render targets
-    if(!getPostProcessingActive() && !getDoFinalRenderToTexture())
+    if(getActivePostProcessingEffectsCount() == 0 && !getDoFinalRenderToTexture())
     {
         Device->getVideoDriver()->setRenderTarget(0);
     }
