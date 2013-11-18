@@ -103,7 +103,7 @@ CTestFramework::CTestFramework()
     swapper->swapMaterials();
 
     //!important set up post processing
-    //Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
+    Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
 
     Bloom= Renderer->createPostProcessingEffectChain();
@@ -114,7 +114,7 @@ CTestFramework::CTestFramework()
     Bloom->setActive(false);
 
 
-    Device->getLogger()->log("Who's that callin?"); //Ain't nobody there
+    Device->getLogger()->log("Who's that callin'?"); //Ain't nobody there
 }
 
 CTestFramework::~CTestFramework()
@@ -161,7 +161,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
 {
     if(Device)
     {
-        scene::ICameraSceneNode* cam= static_cast<scene::ICameraSceneNode*>(Device->getSceneManager()->getSceneNodeFromType(scene::ESNT_CAMERA));
+        scene::ICameraSceneNode* cam = static_cast<scene::ICameraSceneNode*>(Device->getSceneManager()->getSceneNodeFromType(scene::ESNT_CAMERA));
         if(cam)cam->OnEvent(event);
 
         if(event.EventType == irr::EET_KEY_INPUT_EVENT && !event.KeyInput.PressedDown)
@@ -175,7 +175,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
             {
                 core::array<scene::ISceneNode*> meshNodes;
                 Device->getSceneManager()->getSceneNodesFromType(scene::ESNT_MESH, meshNodes);
-                for(u32 i= 0; i < meshNodes.size(); i++)
+                for(u32 i = 0; i < meshNodes.size(); i++)
                 {
                     if(meshNodes[i]->getMaterial(0).MaterialType == Renderer->getMaterials()->Solid) meshNodes[i]->setMaterialType(Renderer->getMaterials()->Normal);
                     else if(meshNodes[i]->getMaterial(0).MaterialType == Renderer->getMaterials()->Normal) meshNodes[i]->setMaterialType(Renderer->getMaterials()->Parallax);
@@ -208,8 +208,8 @@ bool CTestFramework::OnEvent(const SEvent& event)
             }
             else if(event.KeyInput.Key == KEY_F12)
             {
-                irr::core::stringc screenName= irr::core::stringc(Device->getTimer()->getRealTime());
-                screenName+= ".jpg";
+                irr::core::stringc screenName = irr::core::stringc(Device->getTimer()->getRealTime());
+                screenName += ".jpg";
                 Device->getVideoDriver()->writeImageToFile(Device->getVideoDriver()->createScreenShot(), screenName.c_str());
             }
 
@@ -217,10 +217,9 @@ bool CTestFramework::OnEvent(const SEvent& event)
         }
         else if(event.EventType == EET_LOG_TEXT_EVENT)
         {
-            core::stringw text= Console->getText();
-            std::cout << event.LogEvent.Text << "\n";
-            text+= event.LogEvent.Text;
-            text+= L"\n";
+            core::stringw text = Console->getText();
+            text += event.LogEvent.Text;
+            text += L"\n";
             Console->setText(text.c_str());
         }
         else

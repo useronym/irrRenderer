@@ -35,13 +35,11 @@
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
 				<Compiler>
-					<Add option="-pg" />
 					<Add option="-g" />
 					<Add directory="$(#irrlicht.include)" />
 					<Add directory="../include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
 					<Add library="..\bin\Irrlicht.dll" />
 					<Add library="..\lib\win32-gcc\debug\libirrRenderer.a" />
 				</Linker>

@@ -50,7 +50,7 @@
 					<Add directory="$(#irrlicht.include)" />
 				</Compiler>
 				<Linker>
-					<Add library="$(#irrlicht.lib)\libirrlicht.dll.a" />
+					<Add library="$(#irrlicht.lib)\libirrlicht.a" />
 				</Linker>
 			</Target>
 			<Target title="Release-dll">
@@ -67,7 +67,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="$(#irrlicht.lib)\libirrlicht.dll.a" />
+					<Add library="$(#irrlicht.lib)\libirrlicht.a" />
 				</Linker>
 			</Target>
 			<Target title="Linux-Release">
