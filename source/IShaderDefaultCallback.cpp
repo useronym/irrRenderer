@@ -1,3 +1,6 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #include "IShaderDefaultCallback.h"
 
 void irr::video::IShaderDefaultCallback::OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)

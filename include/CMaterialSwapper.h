@@ -1,3 +1,6 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #ifndef CMATERIALSWAPPER_H
 #define CMATERIALSWAPPER_H
 
@@ -22,7 +25,7 @@ class CMaterialSwapper
 
         ~CMaterialSwapper();
 
-        void swapMaterials(irr::scene::ISceneNode* node= 0);
+        void swapMaterials(irr::scene::ISceneNode* node= 0) const;
 
         void updateEntry(irr::video::E_MATERIAL_TYPE swapFrom, irr::video::E_MATERIAL_TYPE swapTo);
 
@@ -31,7 +34,7 @@ class CMaterialSwapper
         irr::video::SMaterials* Materials;
         irr::core::array<irr::video::SMaterialSwapperEntry*> Entries;
 
-        void swapMaterialsOnNode(irr::scene::ISceneNode* node);
+        void swapMaterialsOnNode(irr::scene::ISceneNode* node) const;
 
 };
 

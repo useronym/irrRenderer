@@ -1,3 +1,6 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #ifndef CPOSTPROCESSINGEFFECT_H
 #define CPOSTPROCESSINGEFFECT_H
 
@@ -18,17 +21,17 @@ class CPostProcessingEffect
         ~CPostProcessingEffect();
 
         void setChain(irr::video::CPostProcessingEffectChain* chain);
-        irr::video::CPostProcessingEffectChain* getChain();
+        irr::video::CPostProcessingEffectChain* getChain() const;
 
         void remove();
 
         void addTextureToShader(irr::video::ITexture* tex);
-        irr::video::ITexture* getTextureToPass(irr::u32 index);
-        irr::u32 getTextureToPassCount();
-        irr::video::E_MATERIAL_TYPE& getMaterialType();
-        irr::video::IShaderConstantSetCallBack* getCallback();
+        irr::video::ITexture* getTextureToPass(irr::u32 index) const;
+        irr::u32 getTextureToPassCount() const;
+        const irr::video::E_MATERIAL_TYPE& getMaterialType() const;
+        irr::video::IShaderConstantSetCallBack* getCallback() const;
         void setActive(bool active);
-        bool isActive();
+        bool isActive() const;
 
     private:
         irr::video::CPostProcessingEffectChain* Chain;

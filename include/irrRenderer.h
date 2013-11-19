@@ -1,5 +1,5 @@
 
-/* Copyright (C) 2010-2011 Adam 'entity' Krupicka
+/* Copyright (C) 2010-2013 Adam 'entity' Krupicka
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -24,6 +24,7 @@
   that you use the Irrlicht Engine, the zlib and libPng. See the README files
   in the jpeglib, the zlib and libPng for further informations.
 */
+
 
 #ifndef IRRRENDERER_H_INCLUDED
 #define IRRRENDERER_H_INCLUDED
@@ -78,7 +79,6 @@ For a more detailed example with source code, open the RenderTest project in Ren
 
 //! Use this function to create a new instance of the irrRenderer
 /*! \param device irrlicht device to use
-\param HDR pass true to enable rendering of color buffer into a floating point texture
 \param shaderDir directory which holds shader source files, relative to the executable
 \return New instance of irrRenderer
 */

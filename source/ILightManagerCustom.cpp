@@ -225,7 +225,7 @@ void irr::scene::ILightManagerCustom::setPostProcessingActive(bool active)
     PostProcessing= active;
 }
 
-bool irr::scene::ILightManagerCustom::getPostProcessingActive()
+bool irr::scene::ILightManagerCustom::getPostProcessingActive() const
 {
     return PostProcessing;
 }
@@ -235,7 +235,7 @@ void irr::scene::ILightManagerCustom::addPostProcessingEffectChain(irr::video::C
     PostProcessingEffectChains.push_back(chain);
 }
 
-irr::u32 irr::scene::ILightManagerCustom::getActivePostProcessingEffectsCount()
+irr::u32 irr::scene::ILightManagerCustom::getActivePostProcessingEffectsCount() const
 {
     irr::u32 count= 0;
     for(irr::u32 i= 0; i < PostProcessingEffectChains.size(); i++)
@@ -248,7 +248,7 @@ irr::u32 irr::scene::ILightManagerCustom::getActivePostProcessingEffectsCount()
     return count;
 }
 
-irr::u32 irr::scene::ILightManagerCustom::getActivePostProcessingEffectChainsCount()
+irr::u32 irr::scene::ILightManagerCustom::getActivePostProcessingEffectChainsCount() const
 {
     irr::u32 count= 0;
     for(irr::u32 i= 0; i < PostProcessingEffectChains.size(); i++)
@@ -269,7 +269,7 @@ void irr::scene::ILightManagerCustom::setDoFinalRenderIntoTexture(bool well)
     FinalRenderToTexture= well;
 }
 
-bool irr::scene::ILightManagerCustom::getDoFinalRenderToTexture()
+bool irr::scene::ILightManagerCustom::getDoFinalRenderToTexture() const
 {
     return FinalRenderToTexture;
 }
@@ -324,7 +324,7 @@ void irr::scene::ILightManagerCustom::setLightAmbientCallback(irr::video::IShade
 
 
 
-bool irr::scene::ILightManagerCustom::isAABBinFrustum(irr::core::aabbox3d<irr::f32> box, const irr::scene::SViewFrustum *frustum)
+bool irr::scene::ILightManagerCustom::isAABBinFrustum(irr::core::aabbox3d<irr::f32> box, const irr::scene::SViewFrustum *frustum) const
 {
     for(irr::u32 i= 0; i < irr::scene::SViewFrustum::VF_PLANE_COUNT; i++)
     {

@@ -1,3 +1,6 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #ifndef CPOSTPROCESSINGEFFECTCHAIN_H
 #define CPOSTPROCESSINGEFFECTCHAIN_H
 
@@ -29,10 +32,10 @@ class CPostProcessingEffectChain
 
         void removeEffect(irr::u32 index);
 
-        irr::u32 getEffectCount();
-        irr::u32 getActiveEffectCount();
+        irr::u32 getEffectCount() const;
+        irr::u32 getActiveEffectCount() const;
         irr::video::CPostProcessingEffect* getEffectFromIndex(irr::u32 index);
-        irr::u32 getEffectIndex(irr::video::CPostProcessingEffect* effect);
+        irr::u32 getEffectIndex(irr::video::CPostProcessingEffect* effect) const;
 
         void setActive(bool active);
         bool isActive();

@@ -20,11 +20,11 @@ void main()
     {
         vec2 cCoord = clampCoord(texcoord + vec2(0.0, PixelSizeY*i));
         vec4 cColor = texture2D(Render, cCoord);
-        bloom += cColor * luma(cColor) * weights[i + KERNEL_SIZE];
+        bloom += cColor * weights[i + KERNEL_SIZE];
     }
 
     vec4 baseColor = texture2D(Render, texcoord);
-    gl_FragColor = baseColor + bloom * (1.0 - luma(baseColor));
+    gl_FragColor = bloom;
 }
 
 vec2 clampCoord(in vec2 coord)

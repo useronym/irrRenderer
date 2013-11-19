@@ -108,7 +108,7 @@ CTestFramework::CTestFramework()
 
     Bloom= Renderer->createPostProcessingEffectChain();
     Bloom->createEffect(irr::video::EPE_BLOOM_V); //Vertical bloom
-    Bloom->createEffect(irr::video::EPE_BLOOM_H); //Horizontal bloom
+    //Bloom->createEffect(irr::video::EPE_BLOOM_H); //Horizontal bloom
 
     AA->setActive(false);
     Bloom->setActive(false);

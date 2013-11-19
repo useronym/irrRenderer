@@ -183,7 +183,7 @@ irr::video::ITexture* irr::video::CRenderer::getMRT(irr::u32 index)
     return MRTs[index].RenderTexture;
 }
 
-irr::u32 irr::video::CRenderer::getMRTCount()
+irr::u32 irr::video::CRenderer::getMRTCount() const
 {
     return MRTs.size();
 }

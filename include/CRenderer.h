@@ -68,7 +68,7 @@ class CRenderer
         irr::video::ITexture* getMRT(irr::u32 index);
 
         //! \return The count of the MRT's
-        irr::u32 getMRTCount();
+        irr::u32 getMRTCount() const;
 
         //! Should the final render be rendered to texture?
         void setDoFinalRenderToTexture(bool shouldI);

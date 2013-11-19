@@ -1,3 +1,6 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #include "CPostProcessingEffectChain.h"
 #include "CRenderer.h"
 
@@ -57,12 +60,12 @@ void irr::video::CPostProcessingEffectChain::removeEffect(irr::u32 index)
 }
 
 
-irr::u32 irr::video::CPostProcessingEffectChain::getEffectCount()
+irr::u32 irr::video::CPostProcessingEffectChain::getEffectCount() const
 {
     return Effects.size();
 }
 
-irr::u32 irr::video::CPostProcessingEffectChain::getActiveEffectCount()
+irr::u32 irr::video::CPostProcessingEffectChain::getActiveEffectCount() const
 {
     irr::u32 count= 0;
     for(irr::u32 i= 0; i < Effects.size(); i++)
@@ -79,7 +82,7 @@ irr::video::CPostProcessingEffect* irr::video::CPostProcessingEffectChain::getEf
 }
 
 
-irr::u32 irr::video::CPostProcessingEffectChain::getEffectIndex(irr::video::CPostProcessingEffect* effect)
+irr::u32 irr::video::CPostProcessingEffectChain::getEffectIndex(irr::video::CPostProcessingEffect* effect) const
 {
     for(irr::u32 i= 0; i < Effects.size(); i++)
     {

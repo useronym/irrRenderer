@@ -1,3 +1,6 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #ifndef IQUADSCENENODE_H
 #define IQUADSCENENODE_H
 
@@ -17,7 +20,7 @@ class IQuadSceneNode : public irr::scene::ISceneNode
         void setMaterialTexture(irr::u32 layer, irr::video::ITexture* texture);
         void setMaterialType(irr::video::E_MATERIAL_TYPE tehType);
         irr::video::SMaterial& getMaterial(irr::u32 num);
-        irr::u32 getMaterialCount();
+        irr::u32 getMaterialCount() const;
 
     protected:
         irr::video::SMaterial Material;

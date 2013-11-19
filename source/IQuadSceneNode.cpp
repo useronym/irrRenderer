@@ -1,4 +1,8 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #include "IQuadSceneNode.h"
+
 irr::scene::IQuadSceneNode::IQuadSceneNode(irr::scene::ISceneNode* parent, irr::scene::ISceneManager* mgr, irr::s32 id) : irr::scene::ISceneNode(parent, mgr)
 {
     //remove();
@@ -72,7 +76,7 @@ irr::video::SMaterial& irr::scene::IQuadSceneNode::getMaterial(irr::u32 num)
     return Material;
 }
 
-irr::u32 irr::scene::IQuadSceneNode::getMaterialCount()
+irr::u32 irr::scene::IQuadSceneNode::getMaterialCount() const
 {
     return 1;
 }

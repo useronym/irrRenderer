@@ -1,3 +1,6 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #include "CMaterialSwapper.h"
 
 irr::video::CMaterialSwapper::CMaterialSwapper(irr::scene::ISceneManager* smgr, irr::video::SMaterials* materials)
@@ -17,7 +20,7 @@ irr::video::CMaterialSwapper::~CMaterialSwapper()
     //dtor
 }
 
-void irr::video::CMaterialSwapper::swapMaterials(irr::scene::ISceneNode* node)
+void irr::video::CMaterialSwapper::swapMaterials(irr::scene::ISceneNode* node) const
 {
     if(node)
     {
@@ -54,7 +57,7 @@ void irr::video::CMaterialSwapper::updateEntry(irr::video::E_MATERIAL_TYPE swapF
     Entries.push_back(entry);
 }
 
-void irr::video::CMaterialSwapper::swapMaterialsOnNode(irr::scene::ISceneNode* node)
+void irr::video::CMaterialSwapper::swapMaterialsOnNode(irr::scene::ISceneNode* node) const
 {
     for(irr::u32 i= 0; i < node->getMaterialCount(); i++)
     {

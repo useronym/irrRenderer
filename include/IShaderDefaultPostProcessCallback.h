@@ -1,3 +1,6 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #ifndef ISHADERDEFAULTPOSTPROCESSCALLBACK_H
 #define ISHADERDEFAULTPOSTPROCESSCALLBACK_H
 

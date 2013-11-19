@@ -1,3 +1,6 @@
+// This file is part of the "irrRenderer".
+// For conditions of distribution and use, see copyright notice in irrRenderer.h
+
 #include "CPostProcessingEffect.h"
 #include "CPostProcessingEffectChain.h"
 
@@ -19,7 +22,7 @@ void irr::video::CPostProcessingEffect::setChain(irr::video::CPostProcessingEffe
     Chain= chain;
 }
 
-irr::video::CPostProcessingEffectChain* irr::video::CPostProcessingEffect::getChain()
+irr::video::CPostProcessingEffectChain* irr::video::CPostProcessingEffect::getChain() const
 {
     return Chain;
 }
@@ -36,22 +39,22 @@ void irr::video::CPostProcessingEffect::addTextureToShader(irr::video::ITexture*
     TexturesToPass.push_back(tex);
 }
 
-irr::video::ITexture* irr::video::CPostProcessingEffect::getTextureToPass(irr::u32 index)
+irr::video::ITexture* irr::video::CPostProcessingEffect::getTextureToPass(irr::u32 index) const
 {
     return TexturesToPass[index];
 }
 
-irr::u32 irr::video::CPostProcessingEffect::getTextureToPassCount()
+irr::u32 irr::video::CPostProcessingEffect::getTextureToPassCount() const
 {
     return TexturesToPass.size();
 }
 
-irr::video::E_MATERIAL_TYPE& irr::video::CPostProcessingEffect::getMaterialType()
+const irr::video::E_MATERIAL_TYPE& irr::video::CPostProcessingEffect::getMaterialType() const
 {
     return MaterialType;
 }
 
-irr::video::IShaderConstantSetCallBack* irr::video::CPostProcessingEffect::getCallback()
+irr::video::IShaderConstantSetCallBack* irr::video::CPostProcessingEffect::getCallback() const
 {
     return Callback;
 }
@@ -61,7 +64,7 @@ void irr::video::CPostProcessingEffect::setActive(bool active)
     Active= active;
 }
 
-bool irr::video::CPostProcessingEffect::isActive()
+bool irr::video::CPostProcessingEffect::isActive() const
 {
     return Active;
 }

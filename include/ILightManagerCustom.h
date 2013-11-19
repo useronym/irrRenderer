@@ -44,20 +44,20 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         void setPostProcessingActive(bool active);
 
-        bool getPostProcessingActive();
+        bool getPostProcessingActive() const;
 
         void addPostProcessingEffectChain(irr::video::CPostProcessingEffectChain* chain);
 
-        irr::u32 getActivePostProcessingEffectsCount();
+        irr::u32 getActivePostProcessingEffectsCount() const;
 
-        irr::u32 getActivePostProcessingEffectChainsCount();
+        irr::u32 getActivePostProcessingEffectChainsCount() const;
 
 
         void setRenderTexture(irr::video::ITexture* tex);
 
         void setDoFinalRenderIntoTexture(bool well);
 
-        bool getDoFinalRenderToTexture();
+        bool getDoFinalRenderToTexture() const;
 
         irr::video::ITexture* getRenderTexture();
 
@@ -85,7 +85,7 @@ class ILightManagerCustom : public irr::scene::ILightManager
         irr::scene::IMeshSceneNode* LightSphere, *LightCone;
         irr::scene::IQuadSceneNode* LightQuad;
 
-        bool isAABBinFrustum(irr::core::aabbox3d<irr::f32> box, const irr::scene::SViewFrustum *frustum);
+        bool isAABBinFrustum(irr::core::aabbox3d<irr::f32> box, const irr::scene::SViewFrustum *frustum) const;
 
 
         irr::video::E_MATERIAL_TYPE LightPointMaterial;
