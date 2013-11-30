@@ -23,7 +23,7 @@ struct SMaterials
     irr::video::E_MATERIAL_TYPE TransparentRef;
     irr::video::E_MATERIAL_TYPE Normal;
     irr::video::E_MATERIAL_TYPE NormalAnimated;
-    //! Param1 affects bumpiness
+    /** Param1 affects bumpiness **/
     irr::video::E_MATERIAL_TYPE Parallax;
     irr::video::E_MATERIAL_TYPE DetailMap;
 };

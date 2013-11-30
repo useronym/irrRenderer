@@ -88,8 +88,16 @@ class CRenderer
         //! \return irr::video::SMaterials structure which holds the irrlicht material enums
         irr::video::SMaterials* getMaterials();
 
+        /**
+         * Return the material swapper. Use it to swap irrlicht materials to irrrenderer materials easily.
+         * @return An instance of the material swapper.
+         */
         irr::video::CMaterialSwapper* getMaterialSwapper();
 
+        /**
+         * Returns the root post-processing effect chain. Effects which don't belong to a specific chain are managed by a "root" chain.
+         * @return Pointer to the root post-processing effect chain.
+         */
         irr::video::CPostProcessingEffectChain* getRootPostProcessingEffectChain();
 
 

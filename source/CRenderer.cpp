@@ -112,7 +112,7 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
             newEffect->addTextureToShader(getMRT(2)); //depth
             break;
 
-        case EPE_BLOOM_H:
+        /*case EPE_BLOOM_H:
             ShaderLib->loadShader("bloom_h", "quad.vert", "postprocess/bloom_h.frag");
             newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_h"));
             break;
@@ -120,7 +120,7 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
         case EPE_BLOOM_V:
             ShaderLib->loadShader("bloom_v", "quad.vert", "postprocess/bloom_v.frag");
             newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_v"));
-            break;
+            break;*/
 
         case EPE_FOG:
             ShaderLib->loadShader("fog", "quad.vert", "postprocess/fog.frag");

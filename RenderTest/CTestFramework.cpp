@@ -12,6 +12,7 @@ CTestFramework::CTestFramework()
     Console= Device->getGUIEnvironment()->addStaticText(L"", core::rect<s32>(0,0, 800, 600));
     Console->setOverrideColor(video::SColor(255, 255, 255, 255));
     Console->setVisible(false);
+    Device->getLogger()->log("GCC Version", __VERSION__);
 
     //set up the help thingy
     core::stringw helpText= L"IrrRenderer Demo\n\n";
@@ -34,6 +35,8 @@ CTestFramework::CTestFramework()
     //load teh scene
     scene::ISceneManager* smgr= Device->getSceneManager();
     smgr->loadScene("media/scene.irr");
+    //!important set automatically all materials in the current scene
+    Renderer->getMaterialSwapper()->swapMaterials();
 
     //set up basic camera
     scene::ICameraSceneNode* cam= smgr->addCameraSceneNodeFPS(0, 100, 0.1);
@@ -43,7 +46,8 @@ CTestFramework::CTestFramework()
         cam->setPosition(camPos->getAbsolutePosition());
         camPos->remove();
     }
-    cam->setFarValue(1000); //to increase accuracy of depth buffer
+    //increase accuracy of depth buffer
+    cam->setFarValue(1000);
     Device->getCursorControl()->setVisible(false);
 
     //set up a flashlight
@@ -53,7 +57,7 @@ CTestFramework::CTestFramework()
     video::SLight fl= Flashlight->getLightData();
     fl.OuterCone= 40;
     fl.Falloff= 2;
-    fl.DiffuseColor.set(1.0, 1.0, 0.5);
+    fl.DiffuseColor.set(1.0, 0.8, 0.6);
     Flashlight->setLightData(fl);
 
     //set up walking beast
@@ -65,6 +69,8 @@ CTestFramework::CTestFramework()
             irr::scene::IAnimatedMeshSceneNode* animatedBeast= static_cast<irr::scene::IAnimatedMeshSceneNode*>(beast);
             animatedBeast->setFrameLoop(0,24);
             animatedBeast->setAnimationSpeed(25);
+            //set the proper material
+            beast->setMaterialType(Renderer->getMaterials()->NormalAnimated);
         }
     }
 
@@ -98,20 +104,20 @@ CTestFramework::CTestFramework()
         if(tangentMesh)tangentMesh->drop();
     }
 
-    //!important set automatically all materials
-    irr::video::CMaterialSwapper* swapper= Renderer->getMaterialSwapper();
-    swapper->swapMaterials();
-
     //!important set up post processing
     Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
 
-    Bloom= Renderer->createPostProcessingEffectChain();
-    Bloom->createEffect(irr::video::EPE_BLOOM_V); //Vertical bloom
+    /*Bloom= Renderer->createPostProcessingEffectChain();
+    Bloom->setKeepOriginalRender(true);
+    Bloom->createEffect(irr::video::EPE_BLOOM_PREPASS);
+    Bloom->createEffect(irr::video::EPE_BLUR_V);
+    video::CPostProcessingEffect* blurAdd = Bloom->createEffect(irr::video::EPE_BLUR_H_ADD);
+    blurAdd->addTextureToShader(Bloom->getOriginalRender());
     //Bloom->createEffect(irr::video::EPE_BLOOM_H); //Horizontal bloom
 
     AA->setActive(false);
-    Bloom->setActive(false);
+    Bloom->setActive(false);*/
 
 
     Device->getLogger()->log("Who's that callin'?"); //Ain't nobody there

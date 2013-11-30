@@ -21,12 +21,29 @@ struct SMaterialSwapperEntry
 class CMaterialSwapper
 {
     public:
+        /**
+         * Constructor, only used internally.
+         * @param smgr the scene manager this swapper should operate on
+         * @param materials the materials struct to use
+         */
         CMaterialSwapper(irr::scene::ISceneManager* smgr, irr::video::SMaterials* materials);
 
+        /**
+         * Destructor.
+         */
         ~CMaterialSwapper();
 
+        /**
+         * Swaps materials on the scene node pointed to by the pointer. If 0, swaps materials on all the scene nodes in the current scene.
+         * @param node pointer to a specific node, if any
+         */
         void swapMaterials(irr::scene::ISceneNode* node= 0) const;
 
+        /**
+         * Updates entry for a given material. If the material swapper finds the given material type, it will change it to the suggested new material type. If there's no entry in the "database", keeps the original material.
+         * @param swapFrom material which should be swapped to a different one
+         * @param swapTo new material to which it should be swapped
+         */
         void updateEntry(irr::video::E_MATERIAL_TYPE swapFrom, irr::video::E_MATERIAL_TYPE swapTo);
 
     private:

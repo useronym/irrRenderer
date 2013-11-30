@@ -5,9 +5,11 @@
 #include "CRenderer.h"
 
 irr::video::CPostProcessingEffectChain::CPostProcessingEffectChain(irr::video::CRenderer* renderer)
+    :Renderer(renderer),
+    OriginalRender(0),
+    Active(true)
 {
-    Renderer= renderer;
-    Active= true;
+
 }
 
 irr::video::CPostProcessingEffectChain::~CPostProcessingEffectChain()
@@ -57,6 +59,34 @@ void irr::video::CPostProcessingEffectChain::removeEffect(irr::u32 index)
 {
     delete Effects[index];
     Effects.erase(index);
+}
+
+void irr::video::CPostProcessingEffectChain::removeEffect(irr::video::CPostProcessingEffect* effect)
+{
+    removeEffect(getEffectIndex(effect));
+}
+
+
+void irr::video::CPostProcessingEffectChain::setKeepOriginalRender(bool k)
+{
+    KeepOriginalRender = k;
+}
+
+bool irr::video::CPostProcessingEffectChain::getKeepOriginalRender() const
+{
+    return KeepOriginalRender;
+}
+
+irr::video::ITexture* irr::video::CPostProcessingEffectChain::getOriginalRender()
+{
+    if(KeepOriginalRender)
+    {
+        return OriginalRender;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 
