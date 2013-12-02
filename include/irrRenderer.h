@@ -45,7 +45,7 @@
 \section intro_sec Introduction
 
 Welcome to irrRenderer doxygen auto-generated documentation!
-\section exmple_sec Example
+\section example_sec Example
 
 \code
 #include <irrlicht.h>
@@ -53,8 +53,8 @@ Welcome to irrRenderer doxygen auto-generated documentation!
 
 int main()
 {
-    irr::IrrlichtDevice* device= createDevice(irr::video::EDT_OPENGL, irr::core::dimension2d<u32>(800,600));
-    irr::video::CRenderer* renderer= createRenderer(device); //initialize irrRenderer
+    irr::IrrlichtDevice* device = createDevice(irr::video::EDT_OPENGL, irr::core::dimension2d<u32>(800,600));
+    irr::video::CRenderer* renderer = createRenderer(device); //initialize irrRenderer
 
     device->getSceneManager()->loadScene("scene.irr");
 
@@ -73,15 +73,17 @@ int main()
 \endcode
 
 
-\section exmple_more RenderTest
-For a more detailed example with source code, open the RenderTest project in RenderTest directory
+\section more_sec RenderTest
+For a more detailed example with source code, open the RenderTest project in RenderTest directory.
+\n Another good place to start is irr::video::CRenderer.
 */
 
 //! Use this function to create a new instance of the irrRenderer
-/*! \param device irrlicht device to use
-\param shaderDir directory which holds shader source files, relative to the executable
-\return New instance of irrRenderer
-*/
+/**
+ * @param device irrlicht device to use
+ * @param shaderDir directory which holds shader source files, relative to the executable
+ * @return New instance of irrRenderer
+ */
 irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir= "shaders/");
 
 #endif // IRRRENDERER_H_INCLUDED

@@ -62,6 +62,7 @@ irr::video::IShaderConstantSetCallBack* irr::video::CPostProcessingEffect::getCa
 void irr::video::CPostProcessingEffect::setActive(bool active)
 {
     Active= active;
+    Chain->requestActiveEffectUpdate();
 }
 
 bool irr::video::CPostProcessingEffect::isActive() const

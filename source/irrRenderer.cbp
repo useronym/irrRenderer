@@ -128,8 +128,9 @@
 		<Unit filename="../bin/shaders/parallaxmap.frag" />
 		<Unit filename="../bin/shaders/parallaxmap.vert" />
 		<Unit filename="../bin/shaders/postprocess/antialias.frag" />
-		<Unit filename="../bin/shaders/postprocess/bloom_h.frag" />
-		<Unit filename="../bin/shaders/postprocess/bloom_v.frag" />
+		<Unit filename="../bin/shaders/postprocess/bloom_prepass.frag" />
+		<Unit filename="../bin/shaders/postprocess/blur_h_add.frag" />
+		<Unit filename="../bin/shaders/postprocess/blur_v.frag" />
 		<Unit filename="../bin/shaders/postprocess/coldcolors.frag" />
 		<Unit filename="../bin/shaders/postprocess/fog.frag" />
 		<Unit filename="../bin/shaders/postprocess/warmcolors.frag" />

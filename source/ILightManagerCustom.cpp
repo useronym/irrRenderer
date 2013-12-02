@@ -48,7 +48,7 @@ void irr::scene::ILightManagerCustom::OnPostRender()
 {
     //decide render targets
     if((getActivePostProcessingEffectsCount() == 0 || !getPostProcessingActive())
-        && !getDoFinalRenderToTexture())
+            && !getDoFinalRenderToTexture())
     {
         Device->getVideoDriver()->setRenderTarget(0);
     }
@@ -58,7 +58,23 @@ void irr::scene::ILightManagerCustom::OnPostRender()
     }
     else if(getPostProcessingActive())
     {
-        Device->getVideoDriver()->setRenderTarget(PPTex1, true, true, 0);
+        for(irr::u32 i = 0; i < PostProcessingEffectChains.size(); i++)
+        {
+            irr::video::CPostProcessingEffectChain* chain = PostProcessingEffectChains[i];
+            if(chain->isActive())
+            {
+                if(chain->getKeepOriginalRender())
+                {
+                    Device->getVideoDriver()->setRenderTarget(chain->getOriginalRender());
+                    break;
+                }
+                else
+                {
+                    Device->getVideoDriver()->setRenderTarget(PPTex1, true, true, 0);
+                    break;
+                }
+            }
+        }
     }
 
 
@@ -120,38 +136,73 @@ void irr::scene::ILightManagerCustom::OnPostRender()
     //post processing
     if(getPostProcessingActive() && getActivePostProcessingEffectsCount() > 0)
     {
-        irr::u32 numEffects= getActivePostProcessingEffectsCount();
-        //how many of the effects have we already rendered
-        irr::u32 numEffectsDone= 0;
+        irr::u32 numTotalChains = PostProcessingEffectChains.size();
+        irr::u32 numTotalEffects = getActivePostProcessingEffectsCount();
+        irr::u32 numTotalEffectsDone = 0; // how many of the effects have we already rendered
+        bool nextKeepOriginal = false; // true if next chain wishes to keep the original render
 
-        for(irr::u32 i= 0; i < PostProcessingEffectChains.size(); i++)
+        for(irr::u32 i = 0; i < numTotalChains; i++)
         {
             if(PostProcessingEffectChains[i]->isActive())
             {
-                for(irr::u32 j= 0; j < PostProcessingEffectChains[i]->getEffectCount(); j++)
+                irr::u32 numActiveEffects = PostProcessingEffectChains[i]->getActiveEffectCount();
+                irr::u32 numEffectsDone = 0;
+
+                for(irr::u32 j = 0; j < PostProcessingEffectChains[i]->getEffectCount(); j++)
                 {
                     irr::video::CPostProcessingEffect* effect= PostProcessingEffectChains[i]->getEffectFromIndex(j);
                     if(effect->isActive())
                     {
-                        //we better figure out which of the two alternating RTTs are we going to use
-                        if(numEffectsDone % 2 == 0)
-                        {
-                            Device->getVideoDriver()->setRenderTarget(PPTex2);
-                            LightQuad->setMaterialTexture(0, PPTex1);
-                        }
-                        else
-                        {
-                            Device->getVideoDriver()->setRenderTarget(PPTex1);
-                            LightQuad->setMaterialTexture(0, PPTex2);
-                        }
-
                         //if this is the last effect, time to render to screen now (unless you want your last render done to texture)
-                        if(numEffectsDone+1 == numEffects)
+                        if(numTotalEffectsDone+1 == numTotalEffects)
                         {
                             //if you want your last render directly to screen
                             if(!getDoFinalRenderToTexture()) Device->getVideoDriver()->setRenderTarget(0);
                             //if you want it to a render texture
                             else Device->getVideoDriver()->setRenderTarget(FinalRender);
+                        }
+                        // if not, set up stuff for "chained" post-processing
+                        else
+                        {
+                            //maybe this is the last effect and the next chain wants to keep its original render? Then we have to render to a special texture inside the chain
+                            irr::u32 nextChain = i + 1;
+                            bool nextKeep = false;
+                            if(numEffectsDone+1 == numActiveEffects)
+                            {
+                                if(nextChain < numTotalChains)
+                                {
+
+                                    if(PostProcessingEffectChains[nextChain]->getKeepOriginalRender() &&
+                                            PostProcessingEffectChains[nextChain]->isActive())
+                                    {
+                                        nextKeep = true;
+                                    }
+                                }
+                            }
+
+                            if(nextKeep)
+                            {
+                                Device->getVideoDriver()->setRenderTarget(PostProcessingEffectChains[nextChain]->getOriginalRender());
+
+                            }
+
+                            //we better figure out which of the two alternating RTTs are we going to use
+                            if(numTotalEffectsDone % 2 == 0)
+                            {
+                                if(!nextKeep)
+                                {
+                                    Device->getVideoDriver()->setRenderTarget(PPTex2);
+                                }
+                                LightQuad->setMaterialTexture(0, PPTex1);
+                            }
+                            else
+                            {
+                                if(!nextKeep)
+                                {
+                                    Device->getVideoDriver()->setRenderTarget(PPTex1);
+                                }
+                                LightQuad->setMaterialTexture(0, PPTex2);
+                            }
                         }
 
 
@@ -163,6 +214,8 @@ void irr::scene::ILightManagerCustom::OnPostRender()
 
                         LightQuad->setMaterialType(effect->getMaterialType());
                         LightQuad->render();
+
+                        numTotalEffectsDone++;
                         numEffectsDone++;
                     }
                 }

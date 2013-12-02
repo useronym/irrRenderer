@@ -11,7 +11,7 @@ namespace irr
 namespace video
 {
 
-//! Struct holding all predefined materials
+//! Struct holding all materials irrRenderer uses.
 struct SMaterials
 {
     irr::video::E_MATERIAL_TYPE LightPoint;

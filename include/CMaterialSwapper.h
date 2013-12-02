@@ -18,6 +18,10 @@ struct SMaterialSwapperEntry
     irr::video::E_MATERIAL_TYPE SwapTo;
 };
 
+//! A class to help you with setting the correct materials on your nodes.
+/**
+ * Get an instance from irr::video::CRenderer and call swapMaterials() to automatically set the correct irrRenderer materials on your scene.
+ */
 class CMaterialSwapper
 {
     public:

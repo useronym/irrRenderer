@@ -85,7 +85,7 @@ void irr::video::CRenderer::createDefaultPipeline()
 
 irr::video::CPostProcessingEffectChain* irr::video::CRenderer::createPostProcessingEffectChain()
 {
-    irr::video::CPostProcessingEffectChain* chain= new irr::video::CPostProcessingEffectChain(this);
+    irr::video::CPostProcessingEffectChain* chain= new irr::video::CPostProcessingEffectChain(this, Device->getVideoDriver());
     LightMgr->addPostProcessingEffectChain(chain);
     return chain;
 }
@@ -112,19 +112,24 @@ irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEf
             newEffect->addTextureToShader(getMRT(2)); //depth
             break;
 
-        /*case EPE_BLOOM_H:
-            ShaderLib->loadShader("bloom_h", "quad.vert", "postprocess/bloom_h.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_h"));
+        case EPE_BLOOM_PREPASS:
+            ShaderLib->loadShader("bloom_prepass", "quad.vert", "postprocess/bloom_prepass.frag");
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_prepass"));
             break;
 
-        case EPE_BLOOM_V:
-            ShaderLib->loadShader("bloom_v", "quad.vert", "postprocess/bloom_v.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_v"));
-            break;*/
+        case EPE_BLUR_V:
+            ShaderLib->loadShader("blur_v", "quad.vert", "postprocess/blur_v.frag");
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("blur_v"));
+            break;
 
-        case EPE_FOG:
-            ShaderLib->loadShader("fog", "quad.vert", "postprocess/fog.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("fog"));
+        case EPE_BLUR_H:
+            ShaderLib->loadShader("blur_h", "quad.vert", "postprocess/blur_h.frag");
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("blur_h"));
+            break;
+
+        case EPE_BLUR_H_ADD:
+            ShaderLib->loadShader("blur_h_add", "quad.vert", "postprocess/blur_h_add.frag");
+            newEffect= createPostProcessingEffect(ShaderLib->getShader("blur_h_add"));
             newEffect->addTextureToShader(getMRT(2)); //depth
             break;
 
@@ -211,6 +216,7 @@ irr::video::ITexture* irr::video::CRenderer::getFinalRenderTexture()
 
 irr::s32 irr::video::CRenderer::createMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback, irr::video::E_MATERIAL_TYPE baseType)
 {
+    Device->getLogger()->log("compile shader", shader.Name.c_str(), irr::ELL_DEBUG);
     return Device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
                shader.SourceVertex.c_str(), "main", irr::video::EVST_VS_2_0,
                shader.SourcePixel.c_str(), "main", irr::video::EPST_PS_2_0,

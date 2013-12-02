@@ -91,6 +91,7 @@
 			<Add directory="$(#irrlicht.include)" />
 			<Add directory="../bin" />
 		</Linker>
+		<Unit filename="../bin/shaders/postprocess/blur_h.frag" />
 		<Unit filename="CTestFramework.cpp" />
 		<Unit filename="CTestFramework.h" />
 		<Unit filename="main.cpp" />

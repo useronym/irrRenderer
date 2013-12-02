@@ -13,6 +13,7 @@ CTestFramework::CTestFramework()
     Console->setOverrideColor(video::SColor(255, 255, 255, 255));
     Console->setVisible(false);
     Device->getLogger()->log("GCC Version", __VERSION__);
+    Device->getLogger()->setLogLevel(ELL_DEBUG);
 
     //set up the help thingy
     core::stringw helpText= L"IrrRenderer Demo\n\n";
@@ -108,16 +109,15 @@ CTestFramework::CTestFramework()
     Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
     AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
 
-    /*Bloom= Renderer->createPostProcessingEffectChain();
+    Bloom= Renderer->createPostProcessingEffectChain();
     Bloom->setKeepOriginalRender(true);
     Bloom->createEffect(irr::video::EPE_BLOOM_PREPASS);
     Bloom->createEffect(irr::video::EPE_BLUR_V);
     video::CPostProcessingEffect* blurAdd = Bloom->createEffect(irr::video::EPE_BLUR_H_ADD);
     blurAdd->addTextureToShader(Bloom->getOriginalRender());
-    //Bloom->createEffect(irr::video::EPE_BLOOM_H); //Horizontal bloom
 
     AA->setActive(false);
-    Bloom->setActive(false);*/
+    Bloom->setActive(false);
 
 
     Device->getLogger()->log("Who's that callin'?"); //Ain't nobody there
@@ -215,7 +215,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
             else if(event.KeyInput.Key == KEY_F12)
             {
                 irr::core::stringc screenName = irr::core::stringc(Device->getTimer()->getRealTime());
-                screenName += ".jpg";
+                screenName += ".png";
                 Device->getVideoDriver()->writeImageToFile(Device->getVideoDriver()->createScreenShot(), screenName.c_str());
             }
 

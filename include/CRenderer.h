@@ -23,73 +23,109 @@ namespace irr
 namespace video
 {
 
-//! The base class holding all other stuff
+//! The base class holding all other stuff.
+/**
+ * You can create one by calling irr::video::createRenderer(IrrlichtDevice).
+ */
 class CRenderer
 {
     public:
-        //! Constructor, only used internally
+        /**
+         * Constructor, only used internally.
+         * @param device Irrlicht device
+         * @param shaderDir relative path to the shaders
+         */
         CRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir);
 
+        /**
+         * Destructor.
+         */
         ~CRenderer();
 
-        //! Loads the default pipeline \n Note: If you haven't altered the pipeline, it doesn't make sense to call this
+        /** Loads the default pipeline
+         * \n Note: If you haven't altered the pipeline, it doesn't make sense to call this
+         */
         void createDefaultPipeline();
 
+        /**
+         * Creates a new post-processing effect chain.
+         * @return Pointer to the newly created chain.
+         */
         irr::video::CPostProcessingEffectChain* createPostProcessingEffectChain();
 
-        //! Adds a new post processing effect into the chain
-        /*! \param effectShader shader to use fur this effect
-        \param callback custom callback to use for this shader, if any
-        \return A pointer to the newly created post processing effect
-        */
+        /**
+         * Adds a new post processing effect into the chain
+         * @param effectShader shader to use fur this effect
+         * @param callback custom callback to use for this shader, if any
+         * @return A pointer to the newly created post processing effect
+         */
         irr::video::CPostProcessingEffect* createPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= new irr::video::IShaderDefaultPostProcessCallback);
 
-        //! Adds a new post processing effect into the chain using one of the included shaders
-        /*! \param type type of the shader
-        \return A pointer to the newly created post processing effect
-        */
+        /**
+         * Adds a new post processing effect into the chain using one of the included shaders
+         * @param type type of the shader
+         * @return A pointer to the newly created post processing effect
+         */
         irr::video::CPostProcessingEffect* createPostProcessingEffect(irr::video::E_POSTPROCESSING_EFFECT type);
 
-        //! Enables/Disables post processing
-        /*! \param enable enable or disable post processing
-        */
+        /**
+         * Enables/Disables post processing
+         * @param enable enable or disable post processing
+         */
         void enablePostProcessing(bool enable, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8);
 
-        //! Removes all multiple render target textures - in case you want to create your own
+        /**
+         * Removes all multiple render target textures - in case you want to create your own
+         */
         void clearMRTs();
 
-        //! Adds your own multiple render target texture
-        /*! \param name unique name of the texture, so please make sure it's unique
-        \param dimension resolution of the texture, leave blank for auto (full screen resolution)
-        */
+        /**
+         * Adds your own multiple render target texture
+         * @param name unique name of the texture, so please make sure it's unique
+         * @param dimension resolution of the texture, leave blank for auto (full screen resolution)
+         */
         void createMRT(const irr::c8* name, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
 
-        //! \return The RTT based on index \param index index of the MRT
+        /**
+         * @return The RTT based on index @param index index of the MRT
+         */
         irr::video::ITexture* getMRT(irr::u32 index);
 
-        //! \return The count of the MRT's
+        /**
+         * @return The count of the MRT's..
+         */
         irr::u32 getMRTCount() const;
 
-        //! Should the final render be rendered to texture?
+        /**
+         * Should the final render be rendered to texture?
+         * @param shouldI true if yes
+         */
         void setDoFinalRenderToTexture(bool shouldI);
 
-        //! \return if irr:video::CRenderer::setDoFinalRenderToTexture() was set to true, this will return the final render, otherwise 0
+        /**
+         * @return If irr:video::CRenderer::setDoFinalRenderToTexture() was set to true, this will return the final render, otherwise 0.
+         */
         irr::video::ITexture* getFinalRenderTexture();
 
-        //! Add a new material
-        /*! \param shader previously loaded irr::video::SShaderSource holding the source code, use irr::video::CShaderLibrary to load the shader
-        \param callback custom callback if needed
-        */
+        /**
+         * Add a new material
+         * @param shader previously loaded irr::video::SShaderSource holding the source code, use irr::video::CShaderLibrary to load the shader
+         * @param callback custom callback if needed
+         */
         irr::s32 createMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback=0, irr::video::E_MATERIAL_TYPE baseType= irr::video::EMT_SOLID);
 
-        //! \return The irr::video::CShaderLibrary
+        /**
+         * @return Managed instance of the irr::video::CShaderLibrary.
+         */
         irr::video::CShaderLibrary* getShaderLibrary();
 
-        //! \return irr::video::SMaterials structure which holds the irrlicht material enums
+        /**
+         * @return irr::video::SMaterials structure which holds the shader materials used by irrRenderer.
+         */
         irr::video::SMaterials* getMaterials();
 
         /**
-         * Return the material swapper. Use it to swap irrlicht materials to irrrenderer materials easily.
+         * Returns the material swapper. Use it to swap irrlicht materials to irrrenderer materials easily.
          * @return An instance of the material swapper.
          */
         irr::video::CMaterialSwapper* getMaterialSwapper();

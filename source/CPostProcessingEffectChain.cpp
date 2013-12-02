@@ -4,17 +4,23 @@
 #include "CPostProcessingEffectChain.h"
 #include "CRenderer.h"
 
-irr::video::CPostProcessingEffectChain::CPostProcessingEffectChain(irr::video::CRenderer* renderer)
+irr::video::CPostProcessingEffectChain::CPostProcessingEffectChain(irr::video::CRenderer* renderer, irr::video::IVideoDriver* video)
     :Renderer(renderer),
+    Video(video),
+    ActiveEffectCount(0),
     OriginalRender(0),
-    Active(true)
+    Active(false)
 {
 
 }
 
 irr::video::CPostProcessingEffectChain::~CPostProcessingEffectChain()
 {
-    //dtor
+    if(OriginalRender)
+    {
+        Video->removeTexture(OriginalRender);
+        OriginalRender = 0;
+    }
 }
 
 irr::u32 irr::video::CPostProcessingEffectChain::attachEffect(irr::video::CPostProcessingEffect* effect)
@@ -22,6 +28,8 @@ irr::u32 irr::video::CPostProcessingEffectChain::attachEffect(irr::video::CPostP
     if(effect->getChain())effect->getChain()->detachEffect(effect);
     effect->setChain(this);
     Effects.push_back(effect);
+    Active = true;
+    ActiveEffectCount++;
 
     return getEffectIndex(effect);
 }
@@ -47,6 +55,12 @@ void irr::video::CPostProcessingEffectChain::detachEffect(irr::u32 index)
 {
     Effects[index]->setChain(0);
     Effects.erase(index);
+
+    ActiveEffectCount--;
+    if(getActiveEffectCount() == 0)
+    {
+        Active = false;
+    }
 }
 
 void irr::video::CPostProcessingEffectChain::detachEffect(irr::video::CPostProcessingEffect* effect)
@@ -57,38 +71,48 @@ void irr::video::CPostProcessingEffectChain::detachEffect(irr::video::CPostProce
 
 void irr::video::CPostProcessingEffectChain::removeEffect(irr::u32 index)
 {
-    delete Effects[index];
-    Effects.erase(index);
+    removeEffect(getEffectFromIndex(index));
 }
 
 void irr::video::CPostProcessingEffectChain::removeEffect(irr::video::CPostProcessingEffect* effect)
 {
-    removeEffect(getEffectIndex(effect));
+    detachEffect(effect);
+    delete effect;
 }
 
 
 void irr::video::CPostProcessingEffectChain::setKeepOriginalRender(bool k)
 {
-    KeepOriginalRender = k;
+    if(k && !getKeepOriginalRender())
+    {
+        irr::core::dimension2du dimension= Video->getCurrentRenderTargetSize();
+        OriginalRender = Video->addRenderTargetTexture(dimension, "Chain-original-texture" + Video->getTextureCount());
+    }
+    else if(!k && getKeepOriginalRender())
+    {
+        Video->removeTexture(OriginalRender);
+        OriginalRender = 0;
+    }
 }
 
 bool irr::video::CPostProcessingEffectChain::getKeepOriginalRender() const
 {
-    return KeepOriginalRender;
+    return (OriginalRender != 0);
 }
 
 irr::video::ITexture* irr::video::CPostProcessingEffectChain::getOriginalRender()
 {
-    if(KeepOriginalRender)
-    {
-        return OriginalRender;
-    }
-    else
-    {
-        return 0;
-    }
+    return OriginalRender;
 }
 
+void irr::video::CPostProcessingEffectChain::requestActiveEffectUpdate()
+{
+    ActiveEffectCount = 0;
+    for(irr::u32 i = 0; i < Effects.size(); i++)
+    {
+        if(Effects[i]->isActive()) ActiveEffectCount++;
+    }
+}
 
 irr::u32 irr::video::CPostProcessingEffectChain::getEffectCount() const
 {
@@ -97,12 +121,7 @@ irr::u32 irr::video::CPostProcessingEffectChain::getEffectCount() const
 
 irr::u32 irr::video::CPostProcessingEffectChain::getActiveEffectCount() const
 {
-    irr::u32 count= 0;
-    for(irr::u32 i= 0; i < Effects.size(); i++)
-    {
-        if(Effects[i]->isActive()) count++;
-    }
-    return count;
+    return ActiveEffectCount;
 }
 
 
@@ -129,5 +148,10 @@ void irr::video::CPostProcessingEffectChain::setActive(bool active)
 
 bool irr::video::CPostProcessingEffectChain::isActive()
 {
+    if(getActiveEffectCount() == 0)
+    {
+        setActive(false);
+    }
+
     return Active;
 }

@@ -14,6 +14,10 @@ namespace video
 
 class CPostProcessingEffectChain;
 
+//! A post processing effect.
+/**
+ * These are created either with irr::video::CRenderer or irr::video::CPostProcessingEffectChain.
+ */
 class CPostProcessingEffect
 {
     public:
@@ -34,7 +38,8 @@ class CPostProcessingEffect
          */
         void setChain(irr::video::CPostProcessingEffectChain* chain);
         /**
-         * Returns a pointer to the chain this effect belongs to. Note: Effects which don't have a chain explicitly set in code belong to a "root" effect chain.
+         * Returns a pointer to the chain this effect belongs to.
+         * \n Note: Effects which don't have a chain explicitly set in code belong to a "root" effect chain.
          * @return The chain this effect belongs to.
          */
         irr::video::CPostProcessingEffectChain* getChain() const;

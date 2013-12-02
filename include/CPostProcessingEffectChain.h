@@ -17,14 +17,19 @@ namespace video
 class CRenderer;
 class SShaderSource;
 
+//! A chain that can hold post-processing effects and render them in a set order.
+/**
+ * Create one using irr::video::CRenderer.
+ */
 class CPostProcessingEffectChain
 {
     public:
         /**
          * Constructor, only used internally.
          * @param renderer renderer this chain belongs to
+         * @param video Irrlicht video driver
          */
-        CPostProcessingEffectChain(irr::video::CRenderer* renderer);
+        CPostProcessingEffectChain(irr::video::CRenderer* renderer, irr::video::IVideoDriver* video);
         /**
          * Destructor.
          */
@@ -82,10 +87,26 @@ class CPostProcessingEffectChain
          */
         bool isActive();
 
+        /**
+         * Set to true in order for the chain to preserve it's original input render. The render will be available from irr::video::CPostProcessingEffect::getOriginalRender.
+         * @param k true to keep, false frees the render texture if there was one created with true before
+         */
         void setKeepOriginalRender(bool k);
+        /**
+         * Returns whether the original render is being kept inside this chain.
+         * @return True if yes.
+         */
         bool getKeepOriginalRender() const;
+        /**
+         * Returns the original render texture if irr::video::CPostProcessingEffect::setKeepOriginalTexture was called with true before.
+         * @return The original render texture.
+         */
         irr::video::ITexture* getOriginalRender();
 
+        /**
+         * Requests that the amount of active effects be recalculated. Only used internally.
+         */
+        void requestActiveEffectUpdate();
         /**
          * Gets how many effects there are in this chain
          * @return The amount of effects belonging to this chain
@@ -111,6 +132,9 @@ class CPostProcessingEffectChain
 
     private:
         irr::video::CRenderer* Renderer;
+        irr::video::IVideoDriver* Video;
+
+        irr::u32 ActiveEffectCount;
         bool KeepOriginalRender;
         irr::video::ITexture* OriginalRender;
         bool Active;

@@ -20,10 +20,10 @@ struct SShaderSource
 };
 
 //! A class for managing the shaders
-/*! If you need to add your custom shader, this is the place to start. What this class does, is it loads the source codes
-of your shaders under a name, so you can easily access them later. \n
-Note: If you need to use this class, don't create a new one on your own, but use irr::video::CRenderer::getShaderLibrary() instead
-*/
+/** If you need to add your custom shader, this is the place to start. What this class does is, it loads the source code
+ * of both your vertex and fragment shaders under a name, so you can easily access them later.\n
+ * Note: If you need to use this class, don't create a new one on your own, but use irr::video::CRenderer::getShaderLibrary() instead
+ */
 class CShaderLibrary
 {
     public:
@@ -31,15 +31,15 @@ class CShaderLibrary
         CShaderLibrary(const irr::c8* shaderDir, irr::IrrlichtDevice* dev);
 
         //! Loads a new GLSL shader from files
-        /*! \param name a unique name of this shader
-        \param sourceVertex name of the file holding the vertex source code, relative to the shader dir
-        \param sourcePixel name of the file holding the pixel source code, relative to the shader dir
+        /*! @param name a unique name of this shader
+        @param sourceVertex name of the file holding the vertex source code, relative to the shader dir
+        @param sourcePixel name of the file holding the pixel source code, relative to the shader dir
         */
         void loadShader(const irr::c8* name, const irr::c8* sourceVertex, const irr::c8* sourcePixel);
 
         //! Gets a previously loaded shader by name
-        /*! \param name the unique name of the desired shader
-        \return The shader, an irr::video::SShaderSource struct
+        /*! @param name the unique name of the desired shader
+        @return The shader, an irr::video::SShaderSource struct
         */
         SShaderSource& getShader(const irr::c8* name);
 
