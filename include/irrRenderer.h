@@ -73,9 +73,20 @@ int main()
 \endcode
 
 
-\section more_sec RenderTest
-For a more detailed example with source code, open the RenderTest project in RenderTest directory.
-\n Another good place to start is irr::video::CRenderer.
+\section more_sec Quick start
+A good place to start is irr::video::CRenderer.
+\n For a more detailed example with source code, open the RenderTest project in RenderTest directory.
+
+\section rt_about RenderTest
+RenderTest is an interactive demo created to showcase the capabilities of irrRenderer. If you downloaded the binary release, you can find the executable in the bin/ directory. If not, you can build it yourself from the RenderTest/ directory (after building irrRenderer ;) )
+\n \n RenderTest command line argumens \n
+\code
+-v --vsync
+                start with vertical synchronization enabled
+
+-a --auto
+                run in fullscreen, autodetect dektop resolution
+\endcode
 */
 
 //! Use this function to create a new instance of the irrRenderer

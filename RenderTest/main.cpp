@@ -1,12 +1,41 @@
 //This is kinda funky
 
 #include "CTestFramework.h"
+#include <iostream>
+#include <string>
 
 using namespace std;
 
-int main()
+int main(int argc,char *argv[])
 {
-    CTestFramework* test= new CTestFramework;
+    bool vsync = false;
+    bool automode = false;
+
+    for(unsigned int i = 0; i < argc; i++)
+    {
+        std::string s = argv[i];
+
+        if(s == "-h" || s == "--help" || s == "--usage")
+        {
+            std::cout << "RenderTest, an irrRenderer demo." << std::endl;
+            std::cout << "Arguments:" << std::endl;
+            std::cout << "\t-v --vsync\n" << "\t\t Start with vertical synchronization enabled\n";
+            std::cout << "\t-a --auto --usage\n" << "\t\t Start in full screen mode, autodetect desktop resolution\n";
+            std::cout << "\t-h --help --usage\n" << "\t\t Print this message\n";
+
+            return 0;
+        }
+        else if(s == "--vsync" || s == "-v")
+        {
+            vsync = true;
+        }
+        else if(s == "--auto" || s == "-a")
+        {
+            automode = true;
+        }
+    }
+
+    CTestFramework* test= new CTestFramework(vsync, automode);
     while(test->run())
     {
         //funky,

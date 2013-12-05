@@ -30,7 +30,7 @@ irr::video::CPostProcessingEffectChain* irr::video::CPostProcessingEffect::getCh
 
 void irr::video::CPostProcessingEffect::remove()
 {
-    Chain->removeEffect(Chain->getEffectIndex(this));
+    Chain->removeEffect(this);
 }
 
 

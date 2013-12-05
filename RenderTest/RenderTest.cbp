@@ -21,8 +21,8 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="..\bin\Irrlicht.dll" />
-					<Add library="..\lib\win32-gcc\release\libirrRenderer.a" />
+					<Add library="../bin/Irrlicht.dll" />
+					<Add library="../lib/win32-gcc/release/libirrRenderer.a" />
 					<Add directory="$(#irrlicht.include)" />
 					<Add directory="../bin" />
 				</Linker>
@@ -40,8 +40,8 @@
 					<Add directory="../include" />
 				</Compiler>
 				<Linker>
-					<Add library="..\bin\Irrlicht.dll" />
-					<Add library="..\lib\win32-gcc\debug\libirrRenderer.a" />
+					<Add library="../bin/Irrlicht.dll" />
+					<Add library="../lib/win32-gcc/debug/libirrRenderer.a" />
 				</Linker>
 			</Target>
 			<Target title="Linux-Release">
@@ -53,6 +53,7 @@
 				<Compiler>
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
+					<Add directory="../../irrlicht-1.8.1/include" />
 					<Add directory="../include" />
 				</Compiler>
 				<Linker>
@@ -61,7 +62,7 @@
 					<Add library="GL" />
 					<Add library="GLU" />
 					<Add library="Xxf86vm" />
-					<Add library="..\lib\linux\release\libirrRenderer.a" />
+					<Add library="../lib/linux/release/libirrRenderer.a" />
 				</Linker>
 			</Target>
 			<Target title="Linux-Debug">
@@ -70,9 +71,10 @@
 				<Option object_output=".obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option use_console_runner="0" />
+				<Option parameters="--vsync" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../../irrlicht-1.8.1/include" />
 					<Add directory="../include" />
 				</Compiler>
 				<Linker>
@@ -80,7 +82,7 @@
 					<Add library="GL" />
 					<Add library="GLU" />
 					<Add library="Xxf86vm" />
-					<Add library="..\lib\linux\debug\libirrRenderer.a" />
+					<Add library="../lib/linux/debug/libirrRenderer.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -99,6 +101,15 @@
 			<code_completion />
 			<debugger />
 			<envvars />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

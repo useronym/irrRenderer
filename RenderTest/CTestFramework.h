@@ -10,7 +10,7 @@ using namespace irr;
 class CTestFramework : public IEventReceiver
 {
     public:
-        CTestFramework();
+        CTestFramework(bool vsync, bool automode);
 
         ~CTestFramework();
 
@@ -21,6 +21,10 @@ class CTestFramework : public IEventReceiver
     private:
         IrrlichtDevice* Device;
         video::CRenderer* Renderer;
+
+        bool Vsync, Fullscreen;
+        u32 Depth;
+        core::dimension2d<u32> Resolution;
 
         scene::ILightSceneNode* Flashlight;
         video::CPostProcessingEffect* AA;

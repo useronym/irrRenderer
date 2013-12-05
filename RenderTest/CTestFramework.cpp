@@ -1,103 +1,132 @@
 #include "CTestFramework.h"
 
-CTestFramework::CTestFramework()
+CTestFramework::CTestFramework(bool vsync, bool automode)
+    :Vsync(vsync),
+    Fullscreen(false),
+    Resolution(800, 600)
 {
-    Device= 0;
-    Device= createDevice(video::EDT_OPENGL, core::dimension2d<u32>(800,600), 16, false, false, false, this);
-    DrawGBuffer= false;
-    timeLast= Device->getTimer()->getTime();
-    timeSinceLastEvent= 500;
+    // autodetect video settings (resolution, depth)
+    if(automode)
+    {
+        // create a NULL device to detect screen resolution
+        IrrlichtDevice *nulldevice = createDevice(video::EDT_NULL);
 
-    //create a console
-    Console= Device->getGUIEnvironment()->addStaticText(L"", core::rect<s32>(0,0, 800, 600));
+        video::IVideoModeList* videoList = nulldevice->getVideoModeList();
+        core::dimension2d<u32> screenRes = videoList->getDesktopResolution();
+        Depth = videoList->getDesktopDepth();
+        Resolution = videoList->getVideoModeResolution(core::dimension2d<u32>(0, 0), screenRes);
+        Fullscreen = true;
+
+        nulldevice -> drop();
+    }
+
+    Device = 0;
+    Device = createDevice(video::EDT_OPENGL, Resolution, Depth, Fullscreen, false, Vsync, this);
+    DrawGBuffer = false;
+    timeLast = Device->getTimer()->getTime();
+    timeSinceLastEvent = 500;
+
+    // create a console
+    Console = Device->getGUIEnvironment()->addStaticText(L"", core::rect<s32>(0,0, 800, 600));
     Console->setOverrideColor(video::SColor(255, 255, 255, 255));
     Console->setVisible(false);
+    Device->getLogger()->log("Vsync", Vsync == true ? "on" : "off");
+    Device->getLogger()->log("Depth", core::stringc(Depth).c_str());
+    core::stringc resolutionLog = automode == true ? "auto mode detected: " : "";
+    resolutionLog += Resolution.Width;
+    resolutionLog += " x ";
+    resolutionLog += Resolution.Height;
+    Device->getLogger()->log("Resolution", resolutionLog.c_str());
     Device->getLogger()->log("GCC Version", __VERSION__);
     Device->getLogger()->setLogLevel(ELL_DEBUG);
 
-    //set up the help thingy
-    core::stringw helpText= L"IrrRenderer Demo\n\n";
-    helpText+= L"Key bindings:\n";
-    helpText+= L"Arrows - movement\n";
-    helpText+= L"Esc - toggle mouse capture\n";
-    helpText+= L"A - toggle antialiasing\n";
-    helpText+= L"B - toggle bloom\n";
-    helpText+= L"Space - switch between solid, normal map and parallax map materials\n";
-    helpText+= L"F - toggle flashlight\n";
-    helpText+= L"G - show GBuffers debug info on screen\n";
-    helpText+= L"C - toggle console\n";
-    helpText+= L"H - toggle this help text\n";
-    Help= Device->getGUIEnvironment()->addStaticText(helpText.c_str(), core::rect<s32>(600, 10, 800, 600));
+    // set up the help thingy
+    core::stringw helpText = L"IrrRenderer Demo\n\n";
+    helpText += L"Key bindings:\n";
+    helpText += L"Arrows - movement\n";
+    helpText += L"Esc - toggle mouse capture\n";
+    helpText += L"A - toggle antialiasing\n";
+    helpText += L"B - toggle bloom\n";
+    helpText += L"Space - switch between solid, normal map and parallax map materials\n";
+    helpText += L"F - toggle flashlight\n";
+    helpText += L"G - show GBuffers debug info on screen\n";
+    helpText += L"C - toggle console\n";
+    helpText += L"H - toggle this help text\n";
+    /*core::rect<s32> helpTextPos;
+    helpTextPos.*/
+    Help = Device->getGUIEnvironment()->addStaticText(helpText.c_str(),
+                                                      core::rect<s32>(core::vector2d<s32>(Resolution.Width-200, Resolution.Height-400),
+                                                                      core::dimension2d<u32>(200, 400)));
     Help->setOverrideColor(video::SColor(255, 255, 255, 255));
 
-    //!important do the init
-    Renderer= createRenderer(Device);
+    //! do the init
+    Renderer = createRenderer(Device);
 
     //load teh scene
-    scene::ISceneManager* smgr= Device->getSceneManager();
+    scene::ISceneManager* smgr = Device->getSceneManager();
     smgr->loadScene("media/scene.irr");
-    //!important set automatically all materials in the current scene
+    //! set automatically all materials in the current scene
     Renderer->getMaterialSwapper()->swapMaterials();
 
-    //set up basic camera
-    scene::ICameraSceneNode* cam= smgr->addCameraSceneNodeFPS(0, 100, 0.1);
-    scene::ISceneNode* camPos= smgr->getSceneNodeFromName("camera");
+    // set up basic camera
+    scene::ICameraSceneNode* cam = smgr->addCameraSceneNodeFPS(0, 100, 0.1);
+    scene::ISceneNode* camPos = smgr->getSceneNodeFromName("camera");
     if(camPos)
     {
         cam->setPosition(camPos->getAbsolutePosition());
         camPos->remove();
     }
-    //increase accuracy of depth buffer
+    // increase accuracy of depth buffer
     cam->setFarValue(1000);
     Device->getCursorControl()->setVisible(false);
 
-    //set up a flashlight
-    Flashlight= smgr->addLightSceneNode(cam);
+    // set up a flashlight
+    Flashlight = smgr->addLightSceneNode(cam);
     Flashlight->setLightType(video::ELT_SPOT);
     Flashlight->setVisible(false);
-    video::SLight fl= Flashlight->getLightData();
-    fl.OuterCone= 40;
-    fl.Falloff= 2;
+    video::SLight fl = Flashlight->getLightData();
+    fl.OuterCone = 40;
+    fl.Falloff = 2;
     fl.DiffuseColor.set(1.0, 0.8, 0.6);
     Flashlight->setLightData(fl);
 
-    //set up walking beast
-    scene::ISceneNode* beast= smgr->getSceneNodeFromName("beast");
+    // set up walking beast
+    scene::ISceneNode* beast = smgr->getSceneNodeFromName("beast");
     if(beast)
     {
         if(beast->getType() == irr::scene::ESNT_ANIMATED_MESH)
         {
-            irr::scene::IAnimatedMeshSceneNode* animatedBeast= static_cast<irr::scene::IAnimatedMeshSceneNode*>(beast);
+            irr::scene::IAnimatedMeshSceneNode* animatedBeast = static_cast<irr::scene::IAnimatedMeshSceneNode*>(beast);
             animatedBeast->setFrameLoop(0,24);
             animatedBeast->setAnimationSpeed(25);
-            //set the proper material
+            // set the proper material
             beast->setMaterialType(Renderer->getMaterials()->NormalAnimated);
         }
     }
 
-    //set up tangent meshes
+    // set up tangent meshes
     core::array<scene::ISceneNode*> nodes;
     Device->getSceneManager()->getSceneNodesFromType(scene::ESNT_MESH, nodes);
-    for(u32 i= 0; i < nodes.size(); i++)
+    for(u32 i = 0; i < nodes.size(); i++)
     {
-        scene::IMeshSceneNode* mnode= static_cast<scene::IMeshSceneNode*>(nodes[i]);
-        scene::IMesh* tangentMesh= 0;
-        tangentMesh= smgr->getMeshManipulator()->createMeshWithTangents(mnode->getMesh());
+        scene::IMeshSceneNode* mnode = static_cast<scene::IMeshSceneNode*>(nodes[i]);
+        scene::IMesh* tangentMesh = 0;
+        tangentMesh = smgr->getMeshManipulator()->createMeshWithTangents(mnode->getMesh());
 
-        mnode= 0;
-        mnode= smgr->addMeshSceneNode(tangentMesh);
+        mnode = 0;
+        mnode = smgr->addMeshSceneNode(tangentMesh);
         if(mnode)
         {
             mnode->setPosition(nodes[i]->getPosition());
             mnode->setRotation(nodes[i]->getRotation());
             mnode->setScale(nodes[i]->getScale());
 
-            for(u32 ii= 0; ii < nodes[i]->getMaterialCount(); ii++)
+            for(u32 ii = 0; ii < nodes[i]->getMaterialCount(); ii++)
             {
-                mnode->getMaterial(ii)= nodes[i]->getMaterial(ii);
+                mnode->getMaterial(ii) = nodes[i]->getMaterial(ii);
             }
 
-            //!important set the proper material
+            //! set the proper material
             mnode->setMaterialType(Renderer->getMaterials()->Parallax);
         }
 
@@ -105,11 +134,11 @@ CTestFramework::CTestFramework()
         if(tangentMesh)tangentMesh->drop();
     }
 
-    //!important set up post processing
+    //! set up post processing
     Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
-    AA= Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
+    AA = Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
 
-    Bloom= Renderer->createPostProcessingEffectChain();
+    Bloom = Renderer->createPostProcessingEffectChain();
     Bloom->setKeepOriginalRender(true);
     Bloom->createEffect(irr::video::EPE_BLOOM_PREPASS);
     Bloom->createEffect(irr::video::EPE_BLUR_V);
@@ -131,26 +160,26 @@ CTestFramework::~CTestFramework()
 
 bool CTestFramework::run()
 {
-    timeLast= Device->getTimer()->getTime();
+    timeLast = Device->getTimer()->getTime();
 
     Device->getVideoDriver()->beginScene();
     Device->getSceneManager()->drawAll();
-    core::stringw str= L"irrRenderer - RenderTest";
-    str+= L" | FPS: ";
-    str+= Device->getVideoDriver()->getFPS();
-    str+= L" | ms/frame: ";
-    str+= (1.0 / Device->getVideoDriver()->getFPS())*1000.0;
-    str+= L" | Tris: ";
-    str+= Device->getVideoDriver()->getPrimitiveCountDrawn();
+    core::stringw str = L"irrRenderer - RenderTest";
+    str += L" | FPS: ";
+    str += Device->getVideoDriver()->getFPS();
+    str += L" | ms/frame: ";
+    str += (1.0 / Device->getVideoDriver()->getFPS())*1000.0;
+    str += L" | Tris: ";
+    str += Device->getVideoDriver()->getPrimitiveCountDrawn();
     Device->setWindowCaption(str.c_str());
 
-    //!important (but only for someone) draw GBuffer debug info
+    //! draw GBuffer debug info
     if(DrawGBuffer)
     {
         irr::core::recti gbuffRect= irr::core::recti(irr::core::vector2di(0, 0),Renderer->getMRT(0)->getSize());
-        for(irr::u32 i= 0; i < Renderer->getMRTCount(); i++)
+        for(irr::u32 i = 0; i < Renderer->getMRTCount(); i++)
         {
-            irr::core::recti gbuffRectSmall= irr::core::recti(irr::core::vector2di(Renderer->getMRT(i)->getSize().Width/4.0*i, 0), irr::core::vector2di(Renderer->getMRT(i)->getSize().Width/4.0*(i+1), Renderer->getMRT(i)->getSize().Height/4.0));
+            irr::core::recti gbuffRectSmall = irr::core::recti(irr::core::vector2di(Renderer->getMRT(i)->getSize().Width/4.0*i, 0), irr::core::vector2di(Renderer->getMRT(i)->getSize().Width/4.0*(i+1), Renderer->getMRT(i)->getSize().Height/4.0));
             Device->getVideoDriver()->draw2DImage(Renderer->getMRT(i), gbuffRectSmall, gbuffRect);
         }
     }
@@ -172,7 +201,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
 
         if(event.EventType == irr::EET_KEY_INPUT_EVENT && !event.KeyInput.PressedDown)
         {
-            if(event.KeyInput.Key == KEY_ESCAPE) //release mouse
+            if(event.KeyInput.Key == KEY_ESCAPE) // release mouse
             {
                 cam->setInputReceiverEnabled(!cam->isInputReceiverEnabled());
                 Device->getCursorControl()->setVisible(!cam->isInputReceiverEnabled());
@@ -198,7 +227,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
             }
             else if(event.KeyInput.Key == KEY_KEY_G)
             {
-                DrawGBuffer= !DrawGBuffer;
+                DrawGBuffer = !DrawGBuffer;
             }
             else if(event.KeyInput.Key == KEY_KEY_C)
             {
@@ -219,7 +248,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
                 Device->getVideoDriver()->writeImageToFile(Device->getVideoDriver()->createScreenShot(), screenName.c_str());
             }
 
-            timeSinceLastEvent= 0;
+            timeSinceLastEvent = 0;
         }
         else if(event.EventType == EET_LOG_TEXT_EVENT)
         {
@@ -230,7 +259,7 @@ bool CTestFramework::OnEvent(const SEvent& event)
         }
         else
         {
-            timeSinceLastEvent+= Device->getTimer()->getTime() - timeLast;
+            timeSinceLastEvent += Device->getTimer()->getTime() - timeLast;
         }
     }
 
