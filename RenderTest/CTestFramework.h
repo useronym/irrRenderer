@@ -21,6 +21,8 @@ class CTestFramework : public IEventReceiver
     private:
         IrrlichtDevice* Device;
         video::CRenderer* Renderer;
+        bool RequestedExit;
+        irr::u32 LastFPS;
 
         bool Vsync, Fullscreen;
         u32 Depth;

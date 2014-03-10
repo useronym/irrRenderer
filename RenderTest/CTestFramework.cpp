@@ -1,9 +1,11 @@
 #include "CTestFramework.h"
 
 CTestFramework::CTestFramework(bool vsync, bool automode)
-    :Vsync(vsync),
-    Fullscreen(false),
-    Resolution(800, 600)
+    :RequestedExit(false),
+     LastFPS(0),
+     Vsync(vsync),
+     Fullscreen(false),
+     Resolution(800, 600)
 {
     // autodetect video settings (resolution, depth)
     if(automode)
@@ -52,11 +54,12 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     helpText += L"G - show GBuffers debug info on screen\n";
     helpText += L"C - toggle console\n";
     helpText += L"H - toggle this help text\n";
+    helpText += L"Q - quit\n";
     /*core::rect<s32> helpTextPos;
     helpTextPos.*/
     Help = Device->getGUIEnvironment()->addStaticText(helpText.c_str(),
-                                                      core::rect<s32>(core::vector2d<s32>(Resolution.Width-200, Resolution.Height-400),
-                                                                      core::dimension2d<u32>(200, 400)));
+            core::rect<s32>(core::vector2d<s32>(Resolution.Width-200, Resolution.Height-400),
+                            core::dimension2d<u32>(200, 400)));
     Help->setOverrideColor(video::SColor(255, 255, 255, 255));
 
     //! do the init
@@ -164,14 +167,20 @@ bool CTestFramework::run()
 
     Device->getVideoDriver()->beginScene();
     Device->getSceneManager()->drawAll();
-    core::stringw str = L"irrRenderer - RenderTest";
-    str += L" | FPS: ";
-    str += Device->getVideoDriver()->getFPS();
-    str += L" | ms/frame: ";
-    str += (1.0 / Device->getVideoDriver()->getFPS())*1000.0;
-    str += L" | Tris: ";
-    str += Device->getVideoDriver()->getPrimitiveCountDrawn();
-    Device->setWindowCaption(str.c_str());
+
+    u32 fps = Device->getVideoDriver()->getFPS();
+    if (fps != LastFPS)
+    {
+        core::stringw str = L"irrRenderer - RenderTest";
+        str += L" | FPS: ";
+        str += fps;
+        str += L" | ms/frame: ";
+        str += (1.0 / Device->getVideoDriver()->getFPS())*1000.0;
+        str += L" | Tris: ";
+        str += Device->getVideoDriver()->getPrimitiveCountDrawn();
+        Device->setWindowCaption(str.c_str());
+        LastFPS = fps;
+    }
 
     //! draw GBuffer debug info
     if(DrawGBuffer)
@@ -189,7 +198,7 @@ bool CTestFramework::run()
     Help->draw();
 
     Device->getVideoDriver()->endScene();
-    return Device->run();
+    return (Device->run() && !RequestedExit);
 }
 
 bool CTestFramework::OnEvent(const SEvent& event)
@@ -246,6 +255,10 @@ bool CTestFramework::OnEvent(const SEvent& event)
                 irr::core::stringc screenName = irr::core::stringc(Device->getTimer()->getRealTime());
                 screenName += ".png";
                 Device->getVideoDriver()->writeImageToFile(Device->getVideoDriver()->createScreenShot(), screenName.c_str());
+            }
+            else if(event.KeyInput.Key == KEY_KEY_Q)
+            {
+                RequestedExit = true;
             }
 
             timeSinceLastEvent = 0;

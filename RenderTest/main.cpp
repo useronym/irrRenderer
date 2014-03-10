@@ -15,13 +15,17 @@ int main(int argc,char *argv[])
     {
         std::string s = argv[i];
 
-        if(s == "-h" || s == "--help" || s == "--usage")
+        if(s == "-h" || s == "--help")
         {
             std::cout << "RenderTest, an irrRenderer demo." << std::endl;
+            std::cout << "Compiled with Irrlicht " << IRRLICHT_SDK_VERSION;
+            #ifdef __GNUC__
+                std::cout << ", GCC " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__ << std::endl;
+            #endif // __GNUC__
             std::cout << "Arguments:" << std::endl;
             std::cout << "\t-v --vsync\n" << "\t\t Start with vertical synchronization enabled\n";
-            std::cout << "\t-a --auto --usage\n" << "\t\t Start in full screen mode, autodetect desktop resolution\n";
-            std::cout << "\t-h --help --usage\n" << "\t\t Print this message\n";
+            std::cout << "\t-a --auto\n" << "\t\t Start in full screen mode, autodetect desktop resolution\n";
+            std::cout << "\t-h --help\n" << "\t\t Print this message\n";
 
             return 0;
         }
