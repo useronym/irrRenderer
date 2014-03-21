@@ -58,10 +58,10 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="Irrlicht" />
 					<Add library="GL" />
 					<Add library="GLU" />
 					<Add library="Xxf86vm" />
+					<Add library="../../irrlicht/lib/Linux/libIrrlicht.a" />
 					<Add library="../lib/linux/release/libirrRenderer.a" />
 				</Linker>
 			</Target>
@@ -71,18 +71,17 @@
 				<Option object_output=".obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--vsync" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="../include" />
 					<Add directory="$(#irrlicht.include)" />
 				</Compiler>
 				<Linker>
-					<Add library="Irrlicht" />
 					<Add library="GL" />
 					<Add library="GLU" />
 					<Add library="X11" />
 					<Add library="Xxf86vm" />
+					<Add library="../../irrlicht/lib/Linux/libIrrlicht.a" />
 					<Add library="../lib/linux/debug/libirrRenderer.a" />
 				</Linker>
 			</Target>

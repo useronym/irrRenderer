@@ -1,3 +1,6 @@
+#version 120
+#extension GL_ARB_shading_language_420pack : enable
+
 #define KERNEL_SIZE 4 // actual kernel size = KERNEL_SIZE * 2 + 1, i.e. 9
 
 uniform sampler2D Render;
@@ -5,7 +8,7 @@ uniform sampler2D Render;
 uniform float PixelSizeX;
 uniform float PixelSizeY;
 
-float weights[] = {0.00390625, 0.03125, 0.109375, 0.21875, 0.2734375, 0.21875, 0.109375, 0.03125, 0.00390625};
+float weights[KERNEL_SIZE * 2 + 1] = {0.00390625, 0.03125, 0.109375, 0.21875, 0.2734375, 0.21875, 0.109375, 0.03125, 0.00390625};
 
 vec2 clampCoord(in vec2 coord);
 

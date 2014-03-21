@@ -1,5 +1,7 @@
+#version 120
+#extension GL_ARB_shading_language_420pack : enable
+
 #define KERNEL_SIZE 4 // actual kernel size = KERNEL_SIZE * 2 + 1, i.e. 9
-#define STEP 1
 
 uniform sampler2D Render;
 uniform sampler2D Tex0;
