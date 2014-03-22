@@ -37,22 +37,6 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
         void setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts);
 
-
-        void setPostProcessingTextures(irr::video::ITexture* tex1, irr::video::ITexture* tex2);
-
-        void removePostProcessingTextures();
-
-        void setPostProcessingActive(bool active);
-
-        bool getPostProcessingActive() const;
-
-        void addPostProcessingEffectChain(irr::video::CPostProcessingEffectChain* chain);
-
-        irr::u32 getActivePostProcessingEffectsCount() const;
-
-        irr::u32 getActivePostProcessingEffectChainsCount() const;
-
-
         void setRenderTexture(irr::video::ITexture* tex);
 
         void setDoFinalRenderIntoTexture(bool well);
@@ -75,9 +59,6 @@ class ILightManagerCustom : public irr::scene::ILightManager
     private:
         irr::IrrlichtDevice* Device;
         irr::core::array<irr::video::IRenderTarget> MRTs;
-        bool PostProcessing;
-        irr::video::ITexture* PPTex1, *PPTex2;
-        irr::core::array<irr::video::CPostProcessingEffectChain*> PostProcessingEffectChains;
         bool FinalRenderToTexture;
         irr::video::ITexture* FinalRender;
 

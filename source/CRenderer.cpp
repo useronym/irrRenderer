@@ -14,7 +14,6 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, const irr::c8* sha
 
     loadShaders();
     createDefaultPipeline();
-    RootPostProcessingEffectChain= createPostProcessingEffectChain();
     MaterialSwapper= new irr::video::CMaterialSwapper(Device->getSceneManager(), Materials);
 
     Device->run();
@@ -82,89 +81,6 @@ void irr::video::CRenderer::createDefaultPipeline()
     LightMgr->setLightAmbientCallback(ambientCallback);
 }
 
-
-irr::video::CPostProcessingEffectChain* irr::video::CRenderer::createPostProcessingEffectChain()
-{
-    irr::video::CPostProcessingEffectChain* chain= new irr::video::CPostProcessingEffectChain(this, Device->getVideoDriver());
-    LightMgr->addPostProcessingEffectChain(chain);
-    return chain;
-}
-
-irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback)
-{
-    enablePostProcessing(true);
-
-    irr::video::E_MATERIAL_TYPE effectId= (irr::video::E_MATERIAL_TYPE)createMaterial(effectShader, callback);
-    irr::video::CPostProcessingEffect* effect= new irr::video::CPostProcessingEffect(effectId, callback);
-    RootPostProcessingEffectChain->attachEffect(effect);
-    return effect;
-}
-
-irr::video::CPostProcessingEffect* irr::video::CRenderer::createPostProcessingEffect(irr::video::E_POSTPROCESSING_EFFECT type)
-{
-    video::CPostProcessingEffect* newEffect= 0;
-
-    switch(type)
-    {
-        case EPE_ANTIALIASING:
-            ShaderLib->loadShader("antialias", "quad.vert", "postprocess/antialias.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("antialias"));
-            newEffect->addTextureToShader(getMRT(2)); //depth
-            break;
-
-        case EPE_BLOOM_PREPASS:
-            ShaderLib->loadShader("bloom_prepass", "quad.vert", "postprocess/bloom_prepass.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("bloom_prepass"));
-            break;
-
-        case EPE_BLUR_V:
-            ShaderLib->loadShader("blur_v", "quad.vert", "postprocess/blur_v.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("blur_v"));
-            break;
-
-        case EPE_BLUR_H:
-            ShaderLib->loadShader("blur_h", "quad.vert", "postprocess/blur_h.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("blur_h"));
-            break;
-
-        case EPE_BLUR_H_ADD:
-            ShaderLib->loadShader("blur_h_add", "quad.vert", "postprocess/blur_h_add.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("blur_h_add"));
-            newEffect->addTextureToShader(getMRT(2)); //depth
-            break;
-
-        case EPE_COLD_COLORS:
-            ShaderLib->loadShader("coldcolors", "quad.vert", "postprocess/coldcolors.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("coldcolors"));
-            break;
-
-        case EPE_WARM_COLORS:
-            ShaderLib->loadShader("warmcolors", "quad.vert", "postprocess/warmcolors.frag");
-            newEffect= createPostProcessingEffect(ShaderLib->getShader("warmcolors"));
-            break;
-
-        default: break; //this should never happen
-    }
-
-    return newEffect;
-}
-
-void irr::video::CRenderer::enablePostProcessing(bool enable, irr::video::ECOLOR_FORMAT format)
-{
-    if(enable && !LightMgr->getPostProcessingActive())
-    {
-        irr::core::dimension2du dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
-        LightMgr->setPostProcessingTextures(Device->getVideoDriver()->addRenderTargetTexture(dimension, "Post-Processing-Tex1"),
-                                            Device->getVideoDriver()->addRenderTargetTexture(dimension, "Post-Processing-Tex2"));
-        LightMgr->setPostProcessingActive(true);
-    }
-    else if(!enable && LightMgr->getPostProcessingActive())
-    {
-        LightMgr->setPostProcessingActive(false);
-        LightMgr->removePostProcessingTextures();
-    }
-}
-
 void irr::video::CRenderer::clearMRTs()
 {
     for(irr::u32 i= 0; i < MRTs.size(); i++)
@@ -208,7 +124,7 @@ void irr::video::CRenderer::setDoFinalRenderToTexture(bool shouldI)
     }
 }
 
-irr::video::ITexture* irr::video::CRenderer::getFinalRenderTexture()
+irr::video::ITexture* irr::video::CRenderer::getFinalRenderTexture() const
 {
     if(LightMgr->getDoFinalRenderToTexture()) return LightMgr->getRenderTexture();
     else return 0;
@@ -224,27 +140,26 @@ irr::s32 irr::video::CRenderer::createMaterial(irr::video::SShaderSource shader,
 }
 
 
-irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary()
+irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary() const
 {
     return ShaderLib;
 }
 
 
-irr::video::SMaterials* irr::video::CRenderer::getMaterials()
+irr::video::SMaterials* irr::video::CRenderer::getMaterials() const
 {
     return Materials;
 }
 
-irr::video::CMaterialSwapper* irr::video::CRenderer::getMaterialSwapper()
+irr::video::CMaterialSwapper* irr::video::CRenderer::getMaterialSwapper() const
 {
     return MaterialSwapper;
 }
 
-irr::video::CPostProcessingEffectChain* irr::video::CRenderer::getRootPostProcessingEffectChain()
+irr::IrrlichtDevice* irr::video::CRenderer::getDevice() const
 {
-    return RootPostProcessingEffectChain;
+    return Device;
 }
-
 
 void irr::video::CRenderer::loadShaders()
 {

@@ -4,9 +4,9 @@
 #include "CPostProcessingEffectChain.h"
 #include "CRenderer.h"
 
-irr::video::CPostProcessingEffectChain::CPostProcessingEffectChain(irr::video::CRenderer* renderer, irr::video::IVideoDriver* video)
+irr::video::CPostProcessingEffectChain::CPostProcessingEffectChain(irr::video::CRenderer* renderer)
     :Renderer(renderer),
-    Video(video),
+    Video(Renderer->getDevice()->getVideoDriver()),
     ActiveEffectCount(0),
     OriginalRender(0),
     Active(false)

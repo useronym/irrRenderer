@@ -47,32 +47,6 @@ class CRenderer
          */
         void createDefaultPipeline();
 
-        /**
-         * Creates a new post-processing effect chain.
-         * @return Pointer to the newly created chain.
-         */
-        irr::video::CPostProcessingEffectChain* createPostProcessingEffectChain();
-
-        /**
-         * Adds a new post processing effect into the chain
-         * @param effectShader shader to use fur this effect
-         * @param callback custom callback to use for this shader, if any
-         * @return A pointer to the newly created post processing effect
-         */
-        irr::video::CPostProcessingEffect* createPostProcessingEffect(irr::video::SShaderSource &effectShader, irr::video::IShaderConstantSetCallBack* callback= new irr::video::IShaderDefaultPostProcessCallback);
-
-        /**
-         * Adds a new post processing effect into the chain using one of the included shaders
-         * @param type type of the shader
-         * @return A pointer to the newly created post processing effect
-         */
-        irr::video::CPostProcessingEffect* createPostProcessingEffect(irr::video::E_POSTPROCESSING_EFFECT type);
-
-        /**
-         * Enables/Disables post processing
-         * @param enable enable or disable post processing
-         */
-        void enablePostProcessing(bool enable, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8);
 
         /**
          * Removes all multiple render target textures - in case you want to create your own
@@ -105,7 +79,7 @@ class CRenderer
         /**
          * @return If irr:video::CRenderer::setDoFinalRenderToTexture() was set to true, this will return the final render, otherwise 0.
          */
-        irr::video::ITexture* getFinalRenderTexture();
+        irr::video::ITexture* getFinalRenderTexture() const;
 
         /**
          * Add a new material
@@ -117,24 +91,23 @@ class CRenderer
         /**
          * @return Managed instance of the irr::video::CShaderLibrary.
          */
-        irr::video::CShaderLibrary* getShaderLibrary();
+        irr::video::CShaderLibrary* getShaderLibrary() const;
 
         /**
          * @return irr::video::SMaterials structure which holds the shader materials used by irrRenderer.
          */
-        irr::video::SMaterials* getMaterials();
+        irr::video::SMaterials* getMaterials() const;
 
         /**
          * Returns the material swapper. Use it to swap irrlicht materials to irrrenderer materials easily.
          * @return An instance of the material swapper.
          */
-        irr::video::CMaterialSwapper* getMaterialSwapper();
+        irr::video::CMaterialSwapper* getMaterialSwapper() const;
 
         /**
-         * Returns the root post-processing effect chain. Effects which don't belong to a specific chain are managed by a "root" chain.
-         * @return Pointer to the root post-processing effect chain.
+         * @return Irrlicht device this renderer uses.
          */
-        irr::video::CPostProcessingEffectChain* getRootPostProcessingEffectChain();
+        irr::IrrlichtDevice* getDevice() const;
 
 
     private:
@@ -145,7 +118,6 @@ class CRenderer
         irr::video::CShaderLibrary* ShaderLib;
         irr::video::SMaterials* Materials;
         irr::video::CMaterialSwapper* MaterialSwapper;
-        irr::video::CPostProcessingEffectChain* RootPostProcessingEffectChain;
 
         irr::core::array<irr::video::IRenderTarget> MRTs;
 };

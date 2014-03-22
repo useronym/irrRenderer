@@ -27,9 +27,8 @@ class CPostProcessingEffectChain
         /**
          * Constructor, only used internally.
          * @param renderer renderer this chain belongs to
-         * @param video Irrlicht video driver
          */
-        CPostProcessingEffectChain(irr::video::CRenderer* renderer, irr::video::IVideoDriver* video);
+        CPostProcessingEffectChain(irr::video::CRenderer* renderer);
         /**
          * Destructor.
          */

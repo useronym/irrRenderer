@@ -40,16 +40,16 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     resolutionLog += Resolution.Height;
     Device->getLogger()->log("Resolution", resolutionLog.c_str());
     Device->getLogger()->log("GCC Version", __VERSION__);
-    Device->getLogger()->setLogLevel(ELL_DEBUG);
+    Device->getLogger()->setLogLevel(ELL_INFORMATION);
 
     // set up the help thingy
     core::stringw helpText = L"IrrRenderer Demo\n\n";
     helpText += L"Key bindings:\n";
     helpText += L"Arrows - movement\n";
     helpText += L"Esc - toggle mouse capture\n";
-    helpText += L"A - toggle antialiasing\n";
-    helpText += L"B - toggle bloom\n";
     helpText += L"Space - switch between solid, normal map and parallax map materials\n";
+    //helpText += L"A - toggle antialiasing\n";
+    //helpText += L"B - toggle bloom\n";
     helpText += L"F - toggle flashlight\n";
     helpText += L"G - show GBuffers debug info on screen\n";
     helpText += L"C - toggle console\n";
@@ -138,7 +138,7 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     }
 
     //! set up post processing
-    Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
+    /*Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
     AA = Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
 
     Bloom = Renderer->createPostProcessingEffectChain();
@@ -149,7 +149,7 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     blurAdd->addTextureToShader(Bloom->getOriginalRender());
 
     AA->setActive(false);
-    Bloom->setActive(false);
+    Bloom->setActive(false);*/
 
 
     Device->getLogger()->log("Who's that callin'?"); //Ain't nobody there
@@ -228,11 +228,11 @@ bool CTestFramework::OnEvent(const SEvent& event)
             }
             else if(event.KeyInput.Key == KEY_KEY_A)
             {
-                AA->setActive(!AA->isActive());
+                //AA->setActive(!AA->isActive());
             }
             else if(event.KeyInput.Key == KEY_KEY_B)
             {
-                Bloom->setActive(!Bloom->isActive());
+                //Bloom->setActive(!Bloom->isActive());
             }
             else if(event.KeyInput.Key == KEY_KEY_G)
             {

@@ -20,7 +20,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="$(#irrlicht.lib)\libirrlicht.a" />
+					<Add library="$(#irrlicht.lib)/libirrlicht.a" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
@@ -35,7 +35,7 @@
 					<Add directory="$(#irrlicht.include)" />
 				</Compiler>
 				<Linker>
-					<Add library="$(#irrlicht.lib)\libirrlicht.a" />
+					<Add library="$(#irrlicht.lib)/libirrlicht.a" />
 				</Linker>
 			</Target>
 			<Target title="Debug-dll">
@@ -50,7 +50,7 @@
 					<Add directory="$(#irrlicht.include)" />
 				</Compiler>
 				<Linker>
-					<Add library="$(#irrlicht.lib)\libirrlicht.a" />
+					<Add library="$(#irrlicht.lib)/libirrlicht.a" />
 				</Linker>
 			</Target>
 			<Target title="Release-dll">
@@ -67,7 +67,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="$(#irrlicht.lib)\libirrlicht.a" />
+					<Add library="$(#irrlicht.lib)/libirrlicht.a" />
 				</Linker>
 			</Target>
 			<Target title="Linux-Release">
@@ -155,8 +155,14 @@
 		<Unit filename="../include/SMaterials.h" />
 		<Unit filename="../include/irrRenderer.h" />
 		<Unit filename="CMaterialSwapper.cpp" />
-		<Unit filename="CPostProcessingEffect.cpp" />
-		<Unit filename="CPostProcessingEffectChain.cpp" />
+		<Unit filename="CPostProcessingEffect.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="CPostProcessingEffectChain.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="CRenderer.cpp" />
 		<Unit filename="CShaderLibrary.cpp" />
 		<Unit filename="ILightManagerCustom.cpp" />

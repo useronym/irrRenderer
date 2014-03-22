@@ -29,8 +29,8 @@ class CTestFramework : public IEventReceiver
         core::dimension2d<u32> Resolution;
 
         scene::ILightSceneNode* Flashlight;
-        video::CPostProcessingEffect* AA;
-        video::CPostProcessingEffectChain* Bloom;
+        //video::CPostProcessingEffect* AA;
+        //video::CPostProcessingEffectChain* Bloom;
 
         gui::IGUIStaticText* Console, *Help;
         bool DrawGBuffer;
