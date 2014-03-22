@@ -12,10 +12,6 @@
 #include "MaterialCallbacks.h"
 #include "CMaterialSwapper.h"
 #include "IShaderDefaultCallback.h"
-#include "IShaderDefaultPostProcessCallback.h"
-#include "CPostProcessingEffectChain.h"
-#include "CPostProcessingEffect.h"
-#include "E_POST_PROCESSING_EFFECT.h"
 
 
 namespace irr

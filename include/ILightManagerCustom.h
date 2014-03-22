@@ -5,8 +5,6 @@
 #define ILIGHTMANAGERCUSTOM_H
 
 #include <irrlicht.h>
-#include "CPostProcessingEffectChain.h"
-#include "CPostProcessingEffect.h"
 #include "IQuadSceneNode.h"
 #include "MaterialCallbacks.h"
 

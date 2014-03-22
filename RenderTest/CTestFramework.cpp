@@ -47,7 +47,7 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     helpText += L"Key bindings:\n";
     helpText += L"Arrows - movement\n";
     helpText += L"Esc - toggle mouse capture\n";
-    helpText += L"Space - switch between solid, normal map and parallax map materials\n";
+    helpText += L"Space - solid / normal map / parallax map\n";
     //helpText += L"A - toggle antialiasing\n";
     //helpText += L"B - toggle bloom\n";
     helpText += L"F - toggle flashlight\n";
@@ -58,7 +58,7 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     /*core::rect<s32> helpTextPos;
     helpTextPos.*/
     Help = Device->getGUIEnvironment()->addStaticText(helpText.c_str(),
-            core::rect<s32>(core::vector2d<s32>(Resolution.Width-200, Resolution.Height-400),
+            core::rect<s32>(core::vector2d<s32>(Resolution.Width-200, 75),
                             core::dimension2d<u32>(200, 400)));
     Help->setOverrideColor(video::SColor(255, 255, 255, 255));
 

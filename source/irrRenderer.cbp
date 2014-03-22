@@ -142,33 +142,20 @@
 		<Unit filename="../bin/shaders/transparent_alpha_ref.frag" />
 		<Unit filename="../bin/shaders/transparent_alpha_ref.vert" />
 		<Unit filename="../include/CMaterialSwapper.h" />
-		<Unit filename="../include/CPostProcessingEffect.h" />
-		<Unit filename="../include/CPostProcessingEffectChain.h" />
 		<Unit filename="../include/CRenderer.h" />
 		<Unit filename="../include/CShaderLibrary.h" />
-		<Unit filename="../include/E_POST_PROCESSING_EFFECT.h" />
 		<Unit filename="../include/ILightManagerCustom.h" />
 		<Unit filename="../include/IQuadSceneNode.h" />
 		<Unit filename="../include/IShaderDefaultCallback.h" />
-		<Unit filename="../include/IShaderDefaultPostProcessCallback.h" />
 		<Unit filename="../include/MaterialCallbacks.h" />
 		<Unit filename="../include/SMaterials.h" />
 		<Unit filename="../include/irrRenderer.h" />
 		<Unit filename="CMaterialSwapper.cpp" />
-		<Unit filename="CPostProcessingEffect.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
-		<Unit filename="CPostProcessingEffectChain.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
 		<Unit filename="CRenderer.cpp" />
 		<Unit filename="CShaderLibrary.cpp" />
 		<Unit filename="ILightManagerCustom.cpp" />
 		<Unit filename="IQuadSceneNode.cpp" />
 		<Unit filename="IShaderDefaultCallback.cpp" />
-		<Unit filename="IShaderDefaultPostProcessCallback.cpp" />
 		<Unit filename="irrRenderer.cpp" />
 		<Extensions>
 			<code_completion />

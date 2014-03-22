@@ -33,11 +33,7 @@
 #include "ILightManagerCustom.h"
 #include "CShaderLibrary.h"
 #include "CMaterialSwapper.h"
-#include "CPostProcessingEffectChain.h"
-#include "CPostProcessingEffect.h"
-#include "E_POST_PROCESSING_EFFECT.h"
 #include "IShaderDefaultCallback.h"
-#include "IShaderDefaultPostProcessCallback.h"
 #include "MaterialCallbacks.h"
 #include "SMaterials.h"
 

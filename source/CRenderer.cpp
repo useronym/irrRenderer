@@ -132,7 +132,7 @@ irr::video::ITexture* irr::video::CRenderer::getFinalRenderTexture() const
 
 irr::s32 irr::video::CRenderer::createMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback, irr::video::E_MATERIAL_TYPE baseType)
 {
-    Device->getLogger()->log("compile shader", shader.Name.c_str(), irr::ELL_DEBUG);
+    Device->getLogger()->log("compile shader", shader.Name.c_str(), irr::ELL_INFORMATION);
     return Device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
                shader.SourceVertex.c_str(), "main", irr::video::EVST_VS_2_0,
                shader.SourcePixel.c_str(), "main", irr::video::EPST_PS_2_0,
