@@ -37,6 +37,14 @@
 #include "MaterialCallbacks.h"
 #include "SMaterials.h"
 
+//! Use this function to create a new instance of the irrRenderer
+/**
+ * @param device irrlicht device to use
+ * @param shaderDir directory which holds shader source files, relative to the executable
+ * @return New instance of irrRenderer
+ */
+irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir= "shaders/");
+
 /*! \mainpage
 \section intro_sec Introduction
 
@@ -74,7 +82,7 @@ A good place to start is irr::video::CRenderer.
 \n For a more detailed example with source code, open the RenderTest project in RenderTest directory.
 
 \section rt_about RenderTest
-RenderTest is an interactive demo created to showcase the capabilities of irrRenderer. If you downloaded the binary release, you can find the executable in the bin/ directory. If not, you can build it yourself from the RenderTest/ directory (after building irrRenderer ;) )
+RenderTest is an interactive demo created to showcase the capabilities of irrRenderer. If you downloaded the binary release, you can find the executable in the bin directory. If not, you can build it yourself from the RenderTest directory (after building irrRenderer ;) )
 \n \n RenderTest command line argumens \n
 \code
 -v --vsync
@@ -82,15 +90,10 @@ RenderTest is an interactive demo created to showcase the capabilities of irrRen
 
 -a --auto
                 run in fullscreen, autodetect dektop resolution
+
+-h --help
+                print help message
 \endcode
 */
-
-//! Use this function to create a new instance of the irrRenderer
-/**
- * @param device irrlicht device to use
- * @param shaderDir directory which holds shader source files, relative to the executable
- * @return New instance of irrRenderer
- */
-irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir= "shaders/");
 
 #endif // IRRRENDERER_H_INCLUDED

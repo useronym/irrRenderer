@@ -21,7 +21,7 @@ namespace video
 
 //! The base class holding all other stuff.
 /**
- * You can create one by calling irr::video::createRenderer(IrrlichtDevice).
+ * You can create one by calling createRenderer().
  */
 class CRenderer
 {
