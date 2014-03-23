@@ -56,6 +56,18 @@ void irr::video::CMaterialSwapper::updateEntry(irr::video::E_MATERIAL_TYPE swapF
     Entries.push_back(entry);
 }
 
+void irr::video::CMaterialSwapper::removeEntry(irr::video::E_MATERIAL_TYPE swapFrom)
+{
+    for(irr::u32 i= 0; i < Entries.size(); i++)
+    {
+        if(Entries[i]->SwapFrom == swapFrom)
+        {
+            delete Entries[i];
+            Entries.erase(i);
+        }
+    }
+}
+
 void irr::video::CMaterialSwapper::swapMaterialsOnNode(irr::scene::ISceneNode* node) const
 {
     for(irr::u32 i= 0; i < node->getMaterialCount(); i++)
