@@ -16,7 +16,12 @@ irr::video::CMaterialSwapper::CMaterialSwapper(irr::scene::ISceneManager* smgr, 
 
 irr::video::CMaterialSwapper::~CMaterialSwapper()
 {
-    //dtor
+    for(irr::u32 i= 0; i < Entries.size(); i++)
+    {
+        delete Entries[i];
+    }
+
+    Entries.clear();
 }
 
 void irr::video::CMaterialSwapper::swapMaterials(irr::scene::ISceneNode* node) const
@@ -24,7 +29,6 @@ void irr::video::CMaterialSwapper::swapMaterials(irr::scene::ISceneNode* node) c
     if(node)
     {
         swapMaterialsOnNode(node);
-        return;
     }
     else
     {
@@ -64,6 +68,7 @@ void irr::video::CMaterialSwapper::removeEntry(irr::video::E_MATERIAL_TYPE swapF
         {
             delete Entries[i];
             Entries.erase(i);
+            return;
         }
     }
 }

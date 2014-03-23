@@ -68,6 +68,7 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     //load teh scene
     scene::ISceneManager* smgr = Device->getSceneManager();
     smgr->loadScene("media/scene.irr");
+    Renderer->getMaterialSwapper()->removeEntry(irr::video::EMT_DETAIL_MAP);
     //! set automatically all materials in the current scene
     Renderer->getMaterialSwapper()->swapMaterials();
 
