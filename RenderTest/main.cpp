@@ -20,7 +20,7 @@ int main(int argc,char *argv[])
             std::cout << "RenderTest, an irrRenderer demo." << std::endl;
             std::cout << "Compiled with Irrlicht " << IRRLICHT_SDK_VERSION;
             #ifdef __GNUC__
-                std::cout << ", GCC " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__ << std::endl;
+                std::cout << ", GCC " << __VERSION__ << std::endl;
             #endif // __GNUC__
             std::cout << "Arguments:" << std::endl;
             std::cout << "\t-v --vsync\n" << "\t\t Start with vertical synchronization enabled\n";

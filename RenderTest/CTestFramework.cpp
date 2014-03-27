@@ -32,6 +32,8 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     Console = Device->getGUIEnvironment()->addStaticText(L"", core::rect<s32>(0,0, 800, 600));
     Console->setOverrideColor(video::SColor(255, 255, 255, 255));
     Console->setVisible(false);
+    Device->getLogger()->log("GCC Version", __VERSION__);
+    Device->getLogger()->log("Irrlicht Version", IRRLICHT_SDK_VERSION);
     Device->getLogger()->log("Vsync", Vsync == true ? "on" : "off");
     Device->getLogger()->log("Depth", core::stringc(Depth).c_str());
     core::stringc resolutionLog = automode == true ? "auto mode detected: " : "";
@@ -39,7 +41,6 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     resolutionLog += " x ";
     resolutionLog += Resolution.Height;
     Device->getLogger()->log("Resolution", resolutionLog.c_str());
-    Device->getLogger()->log("GCC Version", __VERSION__);
     Device->getLogger()->setLogLevel(ELL_INFORMATION);
 
     // set up the help thingy
@@ -68,7 +69,8 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     //load teh scene
     scene::ISceneManager* smgr = Device->getSceneManager();
     smgr->loadScene("media/scene.irr");
-    Renderer->getMaterialSwapper()->removeEntry(irr::video::EMT_DETAIL_MAP);
+    //Renderer->getMaterialSwapper()->updateEntry(video::EMT_TRANSPARENT_ALPHA_CHANNEL, Renderer->getMaterials()->TransparentSoft);
+    //Renderer->getMaterialSwapper()->removeEntry(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
     //! set automatically all materials in the current scene
     Renderer->getMaterialSwapper()->swapMaterials();
 
@@ -106,6 +108,19 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
             // set the proper material
             beast->setMaterialType(Renderer->getMaterials()->NormalAnimated);
         }
+    }
+
+    // set up volumetric fog
+    // this needs to be done because the .irr scene was exported with irrEdit that uses Irrlicht 1.5
+    // serialization does not completely... work there :)
+    scene::IParticleSystemSceneNode* fog = static_cast<scene::IParticleSystemSceneNode*>(Device->getSceneManager()->getSceneNodeFromName("fog"));
+    if (fog)
+    {
+        fog->setMaterialType(Renderer->getMaterials()->TransparentSoft);
+
+        scene::IParticleEmitter* emit = fog->getEmitter();
+        emit->setMinStartSize(core::dimension2df(30, 30));
+        emit->setMaxStartSize(core::dimension2df(50, 50));
     }
 
     // set up tangent meshes

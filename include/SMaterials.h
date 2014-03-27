@@ -21,10 +21,12 @@ struct SMaterials
     irr::video::E_MATERIAL_TYPE Solid;
     /** \brief Transparent alpha reference material
      *
-     * Each texel is either fully transparent or solid. \n
+     * Each texel is either fully transparent or solid. Supports lighting.\n
      * Works just as Irrlicht's irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF.
      */
     irr::video::E_MATERIAL_TYPE TransparentRef;
+    irr::video::E_MATERIAL_TYPE Transparent;
+    irr::video::E_MATERIAL_TYPE TransparentSoft;
     /** \brief Normal map
      *
      * Requires a normal map texture and a mesh with tangents.

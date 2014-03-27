@@ -12,6 +12,7 @@ irr::video::CMaterialSwapper::CMaterialSwapper(irr::scene::ISceneManager* smgr, 
     updateEntry(irr::video::EMT_NORMAL_MAP_SOLID, Materials->Normal);
     updateEntry(irr::video::EMT_PARALLAX_MAP_SOLID, Materials->Parallax);
     updateEntry(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF, Materials->TransparentRef);
+    updateEntry(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL, Materials->Transparent);
 }
 
 irr::video::CMaterialSwapper::~CMaterialSwapper()
@@ -73,6 +74,7 @@ void irr::video::CMaterialSwapper::removeEntry(irr::video::E_MATERIAL_TYPE swapF
     }
 }
 
+// TODO (entity#1#): optimize
 void irr::video::CMaterialSwapper::swapMaterialsOnNode(irr::scene::ISceneNode* node) const
 {
     for(irr::u32 i= 0; i < node->getMaterialCount(); i++)

@@ -4,9 +4,14 @@
 #include "ILightManagerCustom.h"
 
 
-irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device)
+irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device, irr::video::SMaterials* mats)
+    :Device(device),
+    Materials(mats),
+    TransparentRenderPass(false)
 {
-    Device= device;
+    irr::core::dimension2du dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
+    SolidBuffer = Device->getVideoDriver()->addRenderTargetTexture(dimension, "deferred-solid-buffer");
+
     FinalRender= 0;
     FinalRenderToTexture= false;
 
@@ -15,7 +20,7 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     LightSphere->setMaterialFlag(irr::video::EMF_BACK_FACE_CULLING, false);
     LightSphere->setMaterialFlag(irr::video::EMF_FRONT_FACE_CULLING, true);
     LightSphere->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
-    //LightSphere->setAutomaticCulling(irr::scene::EAC_FRUSTUM_BOX);
+    LightSphere->setMaterialFlag(irr::video::EMF_ZBUFFER, false);
     LightSphere->setVisible(false);
 
     //set up light mesh - cone
@@ -30,31 +35,73 @@ irr::scene::ILightManagerCustom::ILightManagerCustom(irr::IrrlichtDevice* device
     //set up light mesh - quad
     LightQuad= new irr::scene::IQuadSceneNode(0, Device->getSceneManager());
     LightQuad->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
+    LightQuad->setMaterialFlag(irr::video::EMF_ZBUFFER, false);
     LightQuad->setVisible(false);
 }
 
 irr::scene::ILightManagerCustom::~ILightManagerCustom()
 {
-    //dtor
+    SolidBuffer->drop();
 }
 
 void irr::scene::ILightManagerCustom::OnPreRender(core::array<ISceneNode*> & lightList)
 {
-    Device->getVideoDriver()->setRenderTarget(MRTs, true, true, 0);
+    Device->getVideoDriver()->setRenderTarget(MRTs, false, true);
 }
 
 void irr::scene::ILightManagerCustom::OnPostRender()
 {
-    //decide render targets
-    if (!getDoFinalRenderToTexture())
-    {
-        Device->getVideoDriver()->setRenderTarget(0);
-    }
-    else
-    {
-        Device->getVideoDriver()->setRenderTarget(FinalRender, true, true, 0);
-    }
 
+}
+
+void irr::scene::ILightManagerCustom::OnRenderPassPreRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass)
+{
+    if (renderPass == irr::scene::ESNRP_TRANSPARENT)
+    {
+        TransparentRenderPass = true;
+    }
+}
+
+void irr::scene::ILightManagerCustom::OnRenderPassPostRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass)
+{
+    if (renderPass == irr::scene::ESNRP_SOLID)
+    {
+        Device->getVideoDriver()->setRenderTarget(SolidBuffer, true, false);
+        deferred();
+
+        Device->getVideoDriver()->setRenderTarget(0, false, false);
+        Device->getVideoDriver()->draw2DImage(SolidBuffer, irr::core::position2d<s32> (0,0));
+    }
+    else if (renderPass == irr::scene::ESNRP_TRANSPARENT)
+    {
+        TransparentRenderPass = false;
+    }
+}
+
+void irr::scene::ILightManagerCustom::OnNodePreRender(irr::scene::ISceneNode *node)
+{
+    if (TransparentRenderPass)
+    {
+        if (node->getMaterial(0).MaterialType == Materials->Transparent)
+        {
+            node->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
+            node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+        }
+        else if (node->getMaterial(0).MaterialType == Materials->TransparentSoft)
+        {
+            node->setMaterialTexture(1, MRTs[2].RenderTexture);
+            node->setMaterialFlag(irr::video::EMF_ZWRITE_ENABLE, false);
+        }
+    }
+}
+
+void irr::scene::ILightManagerCustom::OnNodePostRender(irr::scene::ISceneNode *node)
+{
+
+}
+
+inline void irr::scene::ILightManagerCustom::deferred()
+{
     //render ambient
     LightQuad->setMaterialType(LightAmbientMaterial);
     for(irr::u32 i= 0; i < MRTs.size(); i++)
@@ -76,7 +123,6 @@ void irr::scene::ILightManagerCustom::OnPostRender()
             LightSphere->setScale(irr::core::vector3df(light.Radius*2.0));
             LightSphere->setPosition(light.Position);
             LightSphere->updateAbsolutePosition();
-            //if(isAABBinFrustum(LightSphere->getTransformedBoundingBox(), Device->getSceneManager()->getActiveCamera()->getViewFrustum())) LightSphere->render();
             LightSphere->render();
         }
 
@@ -109,27 +155,6 @@ void irr::scene::ILightManagerCustom::OnPostRender()
         }
     }
 }
-
-void irr::scene::ILightManagerCustom::OnRenderPassPreRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass)
-{
-
-}
-
-void irr::scene::ILightManagerCustom::OnRenderPassPostRender(irr::scene::E_SCENE_NODE_RENDER_PASS renderPass)
-{
-
-}
-
-void irr::scene::ILightManagerCustom::OnNodePreRender(irr::scene::ISceneNode *node)
-{
-
-}
-
-void irr::scene::ILightManagerCustom::OnNodePostRender(irr::scene::ISceneNode *node)
-{
-
-}
-
 
 
 void irr::scene::ILightManagerCustom::setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts)

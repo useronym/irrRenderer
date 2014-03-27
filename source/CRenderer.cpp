@@ -19,6 +19,7 @@ irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, const irr::c8* sha
     Device->run();
 }
 
+// TODO (entity#1#): improve
 irr::video::CRenderer::~CRenderer()
 {
     delete Materials;
@@ -43,13 +44,19 @@ void irr::video::CRenderer::createDefaultPipeline()
     createMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
 
     if(LightMgr) LightMgr->drop();
-    LightMgr= new irr::scene::ILightManagerCustom(Device);
+    LightMgr= new irr::scene::ILightManagerCustom(Device, Materials);
     LightMgr->setMRTs(MRTs);
     Device->getSceneManager()->setLightManager(LightMgr);
 
 
     Materials->Solid= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new irr::video::IShaderDefaultCallback);
     Materials->TransparentRef= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha_ref"), new irr::video::IShaderDefaultCallback);
+    Materials->Transparent= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha"),
+                                                                        new irr::video::IShaderDefaultCallback,
+                                                                        irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+    Materials->TransparentSoft= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha_soft"),
+                                                                            new irr::video::IShaderDefaultCallback,
+                                                                            irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
     Materials->Normal= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normal"), new irr::video::IShaderDefaultCallback);
     Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new irr::video::IShaderDefaultCallback);
     Materials->Parallax= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("parallax"), new irr::video::IShaderDefaultCallback);
@@ -170,6 +177,8 @@ void irr::video::CRenderer::loadShaders()
 
     ShaderLib->loadShader("solid", "solid.vert", "solid.frag");
     ShaderLib->loadShader("transparent_alpha_ref", "transparent_alpha_ref.vert", "transparent_alpha_ref.frag");
+    ShaderLib->loadShader("transparent_alpha", "transparent_alpha.vert", "transparent_alpha.frag");
+    ShaderLib->loadShader("transparent_alpha_soft", "transparent_alpha_soft.vert", "transparent_alpha_soft.frag");
     ShaderLib->loadShader("normal", "normalmap.vert", "normalmap.frag");
     ShaderLib->loadShader("normalAnimated", "normalmap_animated.vert", "normalmap_animated.frag");
     ShaderLib->loadShader("parallax", "parallaxmap.vert", "parallaxmap.frag");

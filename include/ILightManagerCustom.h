@@ -7,6 +7,7 @@
 #include <irrlicht.h>
 #include "IQuadSceneNode.h"
 #include "MaterialCallbacks.h"
+#include "SMaterials.h"
 
 namespace irr
 {
@@ -16,7 +17,7 @@ namespace scene
 class ILightManagerCustom : public irr::scene::ILightManager
 {
     public:
-        ILightManagerCustom(irr::IrrlichtDevice* device);
+        ILightManagerCustom(irr::IrrlichtDevice* device, irr::video::SMaterials* mats);
 
         ~ILightManagerCustom();
 
@@ -56,7 +57,18 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
     private:
         irr::IrrlichtDevice* Device;
+        irr::video::SMaterials* Materials;
         irr::core::array<irr::video::IRenderTarget> MRTs;
+        // solid objects are rendered with lighting into this texture, transcluent to be added later on
+        irr::video::ITexture* SolidBuffer;
+        int counter;
+
+        // renders the lighting
+        inline void deferred();
+
+        //set to true if we're currently rendering transparent nodes
+        bool TransparentRenderPass;
+
         bool FinalRenderToTexture;
         irr::video::ITexture* FinalRender;
 
