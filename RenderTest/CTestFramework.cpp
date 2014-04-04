@@ -100,19 +100,23 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     scene::ISceneNode* beast = smgr->getSceneNodeFromName("beast");
     if(beast)
     {
-        if(beast->getType() == irr::scene::ESNT_ANIMATED_MESH)
-        {
-            irr::scene::IAnimatedMeshSceneNode* animatedBeast = static_cast<irr::scene::IAnimatedMeshSceneNode*>(beast);
+        irr::scene::IAnimatedMeshSceneNode* animatedBeast = static_cast<irr::scene::IAnimatedMeshSceneNode*>(beast);
             animatedBeast->setFrameLoop(0,24);
             animatedBeast->setAnimationSpeed(25);
             // set the proper material
             beast->setMaterialType(Renderer->getMaterials()->NormalAnimated);
-        }
+    }
+
+    // set up dwarf
+    scene::ISceneNode* dwarf = smgr->getSceneNodeFromName("dwarf");
+    if(dwarf)
+    {
+        dwarf->setMaterialType(Renderer->getMaterials()->NormalAnimated);
     }
 
     // set up volumetric fog
     // this needs to be done because the .irr scene was exported with irrEdit that uses Irrlicht 1.5
-    // serialization does not completely... work there :)
+    // serialization does not completely... work over there :)
     scene::IParticleSystemSceneNode* fog = static_cast<scene::IParticleSystemSceneNode*>(Device->getSceneManager()->getSceneNodeFromName("fog"));
     if (fog)
     {
