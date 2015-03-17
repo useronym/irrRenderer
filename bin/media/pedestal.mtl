@@ -1,0 +1,7 @@
+newmtl def_surf_mat
+Kd 0.820000 0.830000 0.870000
+Ks 0.150000 0.150000 0.150000
+Ns 100.000000
+d 1.000000
+illum 2
+map_Kd pedestal.jpg

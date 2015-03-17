@@ -1,0 +1,23 @@
+# exported by CopperCube
+
+newmtl mat0
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+0.000000map_Kd c:\program files (x86)\coppercube 2.5.1\textures\wall_concrete.jpg
+
+newmtl mat1
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+0.000000map_Kd c:\program files (x86)\coppercube 2.5.1\textures\wall_concrete_dark.jpg
+
+newmtl mat2
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+0.000000map_Kd c:\program files (x86)\coppercube 2.5.1\textures\ground_stone.jpg
+
