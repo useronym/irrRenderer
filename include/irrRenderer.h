@@ -62,12 +62,12 @@ int main()
 
     device->getSceneManager()->loadScene("scene.irr");
 
-    renderer->getMaterialSwapper()->swap(); //automatically swap the materials
+    renderer->getMaterialSwapper()->swapMaterials(); //automatically swap the materials
 
     while(device->run())
     {
         device->getVideoDriver()->beginScene();
-        renderer->drawAll();
+        device->getSceneManager()->drawAll();
         device->getVideoDriver()->endScene();
     }
 
