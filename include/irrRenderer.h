@@ -94,6 +94,7 @@ RenderTest is an interactive demo created to showcase the capabilities of irrRen
 -h --help
                 print help message
 \endcode
+
 */
 
 #endif // IRRRENDERER_H_INCLUDED
