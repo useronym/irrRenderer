@@ -41,9 +41,12 @@
 /**
  * @param device irrlicht device to use
  * @param shaderDir directory which holds shader source files, relative to the executable
+ * @param depth The depth buffer precision. Valid values are D16 and D32.
  * @return New instance of irrRenderer
  */
-irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir= "shaders/");
+irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device,
+                                      const irr::c8* shaderDir= "shaders/",
+                                      irr::video::ECOLOR_FORMAT depth = irr::video::ECF_D16);
 
 /*! \mainpage
 \section intro_sec Introduction

@@ -28,10 +28,14 @@ class CRenderer
     public:
         /**
          * Constructor, only used internally.
-         * @param device Irrlicht device
-         * @param shaderDir relative path to the shaders
+         * @param device Irrlicht device.
+         * @param shaderDir Relative path to the shaders.
+         * @param depth The precision of the depth buffer. Default is 16,
+         *              the other possible value is 32.
          */
-        CRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir);
+        CRenderer(irr::IrrlichtDevice* device,
+                  const irr::c8* shaderDir,
+                  irr::video::ECOLOR_FORMAT depth);
 
         /**
          * Destructor.
@@ -41,7 +45,7 @@ class CRenderer
         /** Loads the default pipeline
          * \n Note: If you haven't altered the pipeline, it doesn't make sense to call this
          */
-        void createDefaultPipeline();
+        void createDefaultPipeline(irr::video::ECOLOR_FORMAT depth);
 
 
         /**
@@ -57,14 +61,21 @@ class CRenderer
         void createMRT(const irr::c8* name, irr::video::ECOLOR_FORMAT format= irr::video::ECF_A8R8G8B8, irr::core::dimension2du dimension= irr::core::dimension2du(0,0));
 
         /**
-         * @return The RTT based on index @param index index of the MRT
+         * By default, on index 0 is the color texture and on index 1 the normals texture.
+         * @return The RTT based on index
+         * @param index index of the MRT
          */
         irr::video::ITexture* getMRT(irr::u32 index);
 
         /**
-         * @return The count of the MRT's..
+         * @return The count of the MRTs.
          */
         irr::u32 getMRTCount() const;
+        
+        /**
+         * @return The depth buffer.
+         */
+        irr::video::ITexture* getDepthBuffer() const;
 
         /**
          * Should the final render be rendered to texture?
@@ -108,6 +119,7 @@ class CRenderer
 
     private:
         void loadShaders();
+        void loadMaterials();
 
         irr::IrrlichtDevice* Device;
         irr::scene::ILightManagerCustom* LightMgr;
@@ -115,7 +127,9 @@ class CRenderer
         irr::video::SMaterials* Materials;
         irr::video::CMaterialSwapper* MaterialSwapper;
 
-        irr::core::array<irr::video::IRenderTarget> MRTs;
+        irr::video::IRenderTarget *RenderTarget;
+        irr::core::array<irr::video::ITexture*> MRTs;
+        irr::video::ITexture *DepthBuffer;
 };
 
 }

@@ -4,7 +4,9 @@
 #include "irrRenderer.h"
 
 
-irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir)
+irr::video::CRenderer* createRenderer(irr::IrrlichtDevice* device,
+                                      const irr::c8* shaderDir,
+                                      irr::video::ECOLOR_FORMAT depth)
 {
-    return new irr::video::CRenderer(device, shaderDir);
+    return new irr::video::CRenderer(device, shaderDir, depth);
 }

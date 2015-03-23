@@ -34,9 +34,7 @@ class ILightManagerCustom : public irr::scene::ILightManager
         virtual void OnNodePostRender(irr::scene::ISceneNode *node);
 
 
-        void setMRTs(irr::core::array<irr::video::IRenderTarget> &mrts);
-
-        void setRenderTexture(irr::video::ITexture* tex);
+        void setRenderTarget(video::IRenderTarget *RenderTarget);
 
         void setDoFinalRenderIntoTexture(bool well);
 
@@ -46,22 +44,19 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
 
         void setLightPointMaterialType(irr::video::E_MATERIAL_TYPE &type);
-        void setLightPointCallback(irr::video::IShaderPointLightCallback* callback);
+        void setLightPointCallback(irr::video::PointCallback* callback);
         void setLightSpotMaterialType(irr::video::E_MATERIAL_TYPE &type);
-        void setLightSpotCallback(irr::video::IShaderSpotLightCallback* callback);
+        void setLightSpotCallback(irr::video::SpotCallback* callback);
         void setLightDirectionalMaterialType(irr::video::E_MATERIAL_TYPE &type);
-        void setLightDirectionalCallback(irr::video::IShaderDirectionalLightCallback* callback);
+        void setLightDirectionalCallback(irr::video::DirectionalCallback* callback);
         void setLightAmbientMaterialType(irr::video::E_MATERIAL_TYPE &type);
-        void setLightAmbientCallback(irr::video::IShaderAmbientLightCallback* callback);
+        void setLightAmbientCallback(irr::video::AmbientCallback* callback);
 
 
     private:
         irr::IrrlichtDevice* Device;
         irr::video::SMaterials* Materials;
-        irr::core::array<irr::video::IRenderTarget> MRTs;
-        // solid objects are rendered with lighting into this texture, transcluent to be added later on
-        irr::video::ITexture* SolidBuffer;
-        int counter;
+        irr::video::IRenderTarget *RenderTarget;
 
         // renders the lighting
         inline void deferred();
@@ -76,20 +71,18 @@ class ILightManagerCustom : public irr::scene::ILightManager
         irr::scene::IMeshSceneNode* LightSphere, *LightCone;
         irr::scene::IQuadSceneNode* LightQuad;
 
-        bool isAABBinFrustum(irr::core::aabbox3d<irr::f32> box, const irr::scene::SViewFrustum *frustum) const;
-
 
         irr::video::E_MATERIAL_TYPE LightPointMaterial;
-        irr::video::IShaderPointLightCallback* LightPointCallback;
+        irr::video::PointCallback* LightPointCallback;
 
         irr::video::E_MATERIAL_TYPE LightSpotMaterial;
-        irr::video::IShaderSpotLightCallback* LightSpotCallback;
+        irr::video::SpotCallback* LightSpotCallback;
 
         irr::video::E_MATERIAL_TYPE LightDirectionalMaterial;
-        irr::video::IShaderDirectionalLightCallback* LightDirectionalCallback;
+        irr::video::DirectionalCallback* LightDirectionalCallback;
 
         irr::video::E_MATERIAL_TYPE LightAmbientMaterial;
-        irr::video::IShaderAmbientLightCallback* LightAmbientCallback;
+        irr::video::AmbientCallback* LightAmbientCallback;
 };
 
 }

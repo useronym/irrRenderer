@@ -12,10 +12,10 @@ namespace irr
 namespace video
 {
 
-class IShaderPointLightCallback : public irr::video::IShaderConstantSetCallBack
+class PointCallback : public irr::video::IShaderConstantSetCallBack
 {
 public:
-    IShaderPointLightCallback(irr::scene::ISceneManager* smgr)
+    PointCallback(irr::scene::ISceneManager* smgr)
     {
         Smgr= smgr;
     }
@@ -68,10 +68,10 @@ private:
 
 
 
-class IShaderSpotLightCallback : public irr::video::IShaderConstantSetCallBack
+class SpotCallback : public irr::video::IShaderConstantSetCallBack
 {
 public:
-    IShaderSpotLightCallback(irr::scene::ISceneManager* smgr)
+    SpotCallback(irr::scene::ISceneManager* smgr)
     {
         Smgr= smgr;
     }
@@ -152,10 +152,10 @@ private:
 
 
 
-class IShaderDirectionalLightCallback : public irr::video::IShaderConstantSetCallBack
+class DirectionalCallback : public irr::video::IShaderConstantSetCallBack
 {
 public:
-    IShaderDirectionalLightCallback(irr::scene::ISceneManager* smgr)
+    DirectionalCallback(irr::scene::ISceneManager* smgr)
     {
         Smgr= smgr;
     }
@@ -190,10 +190,10 @@ private:
 
 
 
-class IShaderAmbientLightCallback : public irr::video::IShaderConstantSetCallBack
+class AmbientCallback : public irr::video::IShaderConstantSetCallBack
 {
 public:
-    IShaderAmbientLightCallback(irr::scene::ISceneManager* smgr)
+    AmbientCallback(irr::scene::ISceneManager* smgr)
     {
         Smgr= smgr;
     }

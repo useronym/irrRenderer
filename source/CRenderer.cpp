@@ -3,125 +3,148 @@
 
 #include "CRenderer.h"
 
+using namespace irr;
 
-irr::video::CRenderer::CRenderer(irr::IrrlichtDevice* device, const irr::c8* shaderDir)
+
+video::CRenderer::CRenderer(IrrlichtDevice* device,
+                                 const c8* shaderDir,
+                                 video::ECOLOR_FORMAT depth)
 {
     Device= device;
     LightMgr= 0;
 
-    ShaderLib= new irr::video::CShaderLibrary(shaderDir, Device);
-    Materials= new irr::video::SMaterials;
+    ShaderLib = new video::CShaderLibrary(shaderDir, Device);
+    Materials = new video::SMaterials;
 
     loadShaders();
-    createDefaultPipeline();
-    MaterialSwapper= new irr::video::CMaterialSwapper(Device->getSceneManager(), Materials);
+    createDefaultPipeline(depth);
+    loadMaterials();
+    MaterialSwapper = new video::CMaterialSwapper(Device->getSceneManager(), Materials);
 
     Device->run();
 }
 
-// TODO (entity#1#): improve
-irr::video::CRenderer::~CRenderer()
+video::CRenderer::~CRenderer()
 {
     delete Materials;
     delete ShaderLib;
     delete LightMgr;
 
-    for(irr::u32 i= 0; i < MRTs.size(); i++)
+    for(u32 i= 0; i < MRTs.size(); i++)
     {
-        Device->getVideoDriver()->removeTexture(MRTs[i].RenderTexture);
+        Device->getVideoDriver()->removeTexture(MRTs[i]);
     }
 
     Device->getSceneManager()->setLightManager(0);
     Device= 0;
 }
 
-void irr::video::CRenderer::createDefaultPipeline()
+void video::CRenderer::loadMaterials()
 {
-    clearMRTs();
-
-    createMRT("deferred-mrt-color-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
-    createMRT("deferred-mrt-normal-dont-use-this-name-thanks", irr::video::ECF_A8R8G8B8);
-    createMRT("deferred-mrt-depth-dont-use-this-name-thanks", irr::video::ECF_G16R16F);
-
-    if(LightMgr) LightMgr->drop();
-    LightMgr= new irr::scene::ILightManagerCustom(Device, Materials);
-    LightMgr->setMRTs(MRTs);
-    Device->getSceneManager()->setLightManager(LightMgr);
-
-
-    Materials->Solid= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new irr::video::IShaderDefaultCallback);
-    Materials->TransparentRef= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha_ref"), new irr::video::IShaderDefaultCallback);
-    Materials->Transparent= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha"),
-                                                                        new irr::video::IShaderDefaultCallback,
-                                                                        irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-    Materials->TransparentSoft= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha_soft"),
-                                                                            new irr::video::IShaderDefaultCallback,
-                                                                            irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-    Materials->Normal= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normal"), new irr::video::IShaderDefaultCallback);
-    Materials->NormalAnimated= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new irr::video::IShaderDefaultCallback);
-    Materials->Parallax= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("parallax"), new irr::video::IShaderDefaultCallback);
-    Materials->DetailMap= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("detail"), new irr::video::IShaderDefaultCallback);
+Materials->Solid= (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("solid"), new video::IShaderDefaultCallback);
+    Materials->TransparentRef= (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha_ref"), new video::IShaderDefaultCallback);
+    Materials->Transparent= (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha"),
+                                                                        new video::IShaderDefaultCallback,
+                                                                        video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+    Materials->TransparentSoft= (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("transparent_alpha_soft"),
+                                                                            new video::IShaderDefaultCallback,
+                                                                            video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+    Materials->Normal= (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normal"), new video::IShaderDefaultCallback);
+    Materials->NormalAnimated= (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("normalAnimated"), new video::IShaderDefaultCallback);
+    Materials->Parallax= (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("parallax"), new video::IShaderDefaultCallback);
+    Materials->DetailMap= (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("detail"), new video::IShaderDefaultCallback);
 
 
-    //set up point lights
-    irr::video::IShaderPointLightCallback* pointCallback= new irr::video::IShaderPointLightCallback(Device->getSceneManager());
-    Materials->LightPoint= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_point"), pointCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    scene::ISceneManager *smgr = Device->getSceneManager();
+
+    video::PointCallback* pointCallback = new video::PointCallback(smgr);
+    Materials->LightPoint = (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_point"),
+                                                                   pointCallback,
+                                                                   video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightPointMaterialType(Materials->LightPoint);
     LightMgr->setLightPointCallback(pointCallback);
 
-    //set up spot lights
-    irr::video::IShaderSpotLightCallback* spotCallback= new irr::video::IShaderSpotLightCallback(Device->getSceneManager());
-    Materials->LightSpot= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_spot"), spotCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    video::SpotCallback* spotCallback = new video::SpotCallback(smgr);
+    Materials->LightSpot = (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_spot"),
+                                                                  spotCallback,
+                                                                  video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightSpotMaterialType(Materials->LightSpot);
     LightMgr->setLightSpotCallback(spotCallback);
 
-    //set up directional lights
-    irr::video::IShaderDirectionalLightCallback* directionalCallback= new irr::video::IShaderDirectionalLightCallback(Device->getSceneManager());
-    Materials->LightDirectional= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_directional"), directionalCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    video::DirectionalCallback* directionalCallback = new video::DirectionalCallback(smgr);
+    Materials->LightDirectional = (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_directional"),
+                                                                         directionalCallback,
+                                                                         video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightDirectionalMaterialType(Materials->LightDirectional);
     LightMgr->setLightDirectionalCallback(directionalCallback);
 
-    //set up ambient light
-    irr::video::IShaderAmbientLightCallback* ambientCallback= new irr::video::IShaderAmbientLightCallback(Device->getSceneManager());
-    Materials->LightAmbient= (irr::video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_ambient"), ambientCallback, irr::video::EMT_TRANSPARENT_ADD_COLOR);
+    video::AmbientCallback* ambientCallback = new video::AmbientCallback(smgr);
+    Materials->LightAmbient = (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("light_ambient"),
+                                                                     ambientCallback,
+                                                                     video::EMT_TRANSPARENT_ADD_COLOR);
     LightMgr->setLightAmbientMaterialType(Materials->LightAmbient);
     LightMgr->setLightAmbientCallback(ambientCallback);
 }
 
-void irr::video::CRenderer::clearMRTs()
+
+void video::CRenderer::createDefaultPipeline(irr::video::ECOLOR_FORMAT depth)
 {
-    for(irr::u32 i= 0; i < MRTs.size(); i++)
-    {
-        Device->getVideoDriver()->removeTexture(MRTs[i].RenderTexture);
-    }
-    MRTs.clear();
+    clearMRTs();
+    createMRT("deferred-mrt-color", video::ECF_A8R8G8B8);
+    createMRT("deferred-mrt-normal", video::ECF_A8R8G8B8);
+    video::IVideoDriver *video = Device->getVideoDriver();
+    DepthBuffer = video->addRenderTargetTexture(video->getCurrentRenderTargetSize(),
+                                                "deferred-depth",
+                                                depth);
+    RenderTarget = video->addRenderTarget();
+    RenderTarget->setTexture(MRTs, DepthBuffer);
+
+    if(LightMgr)
+        LightMgr->drop();
+    LightMgr = new scene::ILightManagerCustom(Device, Materials);
+    LightMgr->setRenderTarget(RenderTarget);
+    Device->getSceneManager()->setLightManager(LightMgr);    
 }
 
-void irr::video::CRenderer::createMRT(const irr::c8* name, irr::video::ECOLOR_FORMAT format, irr::core::dimension2du dimension)
+void video::CRenderer::clearMRTs()
+{
+    for(u32 i= 0; i < MRTs.size(); i++)
+    {
+        Device->getVideoDriver()->removeTexture(MRTs[i]);
+    }
+    MRTs.clear();
+    Device->getVideoDriver()->removeTexture(DepthBuffer);
+}
+
+void video::CRenderer::createMRT(const c8* name, video::ECOLOR_FORMAT format, core::dimension2du dimension)
 {
     if(MRTs.size() <= 4)
     {
         if(dimension.Height == 0 || dimension.Width == 0) dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
-        MRTs.push_back(irr::video::IRenderTarget(Device->getVideoDriver()->addRenderTargetTexture(dimension, name, format)));
+        MRTs.push_back(Device->getVideoDriver()->addRenderTargetTexture(dimension, name, format));
     }
 }
 
-irr::video::ITexture* irr::video::CRenderer::getMRT(irr::u32 index)
+video::ITexture* video::CRenderer::getMRT(u32 index)
 {
-    return MRTs[index].RenderTexture;
+    return MRTs[index];
 }
 
-irr::u32 irr::video::CRenderer::getMRTCount() const
+u32 video::CRenderer::getMRTCount() const
 {
     return MRTs.size();
 }
 
-void irr::video::CRenderer::setDoFinalRenderToTexture(bool shouldI)
+video::ITexture* video::CRenderer::getDepthBuffer() const
+{
+    return DepthBuffer;
+}
+
+void video::CRenderer::setDoFinalRenderToTexture(bool shouldI)
 {
     if(shouldI && !LightMgr->getDoFinalRenderToTexture())
     {
-        irr::core::dimension2du dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
-        LightMgr->setRenderTexture(Device->getVideoDriver()->addRenderTargetTexture(dimension, "Final-Render-Tex"));
+        core::dimension2du dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
         LightMgr->setDoFinalRenderIntoTexture(true);
     }
     else if(LightMgr->getDoFinalRenderToTexture())
@@ -131,44 +154,44 @@ void irr::video::CRenderer::setDoFinalRenderToTexture(bool shouldI)
     }
 }
 
-irr::video::ITexture* irr::video::CRenderer::getFinalRenderTexture() const
+video::ITexture* video::CRenderer::getFinalRenderTexture() const
 {
     if(LightMgr->getDoFinalRenderToTexture()) return LightMgr->getRenderTexture();
     else return 0;
 }
 
-irr::s32 irr::video::CRenderer::createMaterial(irr::video::SShaderSource shader, irr::video::IShaderConstantSetCallBack *callback, irr::video::E_MATERIAL_TYPE baseType)
+s32 video::CRenderer::createMaterial(video::SShaderSource shader, video::IShaderConstantSetCallBack *callback, video::E_MATERIAL_TYPE baseType)
 {
-    Device->getLogger()->log("compile shader", shader.Name.c_str(), irr::ELL_INFORMATION);
+    Device->getLogger()->log("compile shader", shader.Name.c_str(), ELL_INFORMATION);
     return Device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
-               shader.SourceVertex.c_str(), "main", irr::video::EVST_VS_2_0,
-               shader.SourcePixel.c_str(), "main", irr::video::EPST_PS_2_0,
+               shader.SourceVertex.c_str(), "main", video::EVST_VS_2_0,
+               shader.SourcePixel.c_str(), "main", video::EPST_PS_2_0,
                callback, baseType);
 }
 
 
-irr::video::CShaderLibrary* irr::video::CRenderer::getShaderLibrary() const
+video::CShaderLibrary* video::CRenderer::getShaderLibrary() const
 {
     return ShaderLib;
 }
 
 
-irr::video::SMaterials* irr::video::CRenderer::getMaterials() const
+video::SMaterials* video::CRenderer::getMaterials() const
 {
     return Materials;
 }
 
-irr::video::CMaterialSwapper* irr::video::CRenderer::getMaterialSwapper() const
+video::CMaterialSwapper* video::CRenderer::getMaterialSwapper() const
 {
     return MaterialSwapper;
 }
 
-irr::IrrlichtDevice* irr::video::CRenderer::getDevice() const
+IrrlichtDevice* video::CRenderer::getDevice() const
 {
     return Device;
 }
 
-void irr::video::CRenderer::loadShaders()
+void video::CRenderer::loadShaders()
 {
     ShaderLib->loadShader("light_point", "light.vert", "light_point.frag");
     ShaderLib->loadShader("light_spot", "light.vert", "light_spot.frag");
