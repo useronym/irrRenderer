@@ -57,6 +57,7 @@ class ILightManagerCustom : public irr::scene::ILightManager
         irr::IrrlichtDevice* Device;
         irr::video::SMaterials* Materials;
         irr::video::IRenderTarget *RenderTarget;
+        irr::core::array<irr::u32> RenderIndices;
 
         // renders the lighting
         inline void deferred();

@@ -49,15 +49,11 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     helpText += L"Arrows - movement\n";
     helpText += L"Esc - toggle mouse capture\n";
     helpText += L"Space - solid / normal map / parallax map\n";
-    //helpText += L"A - toggle antialiasing\n";
-    //helpText += L"B - toggle bloom\n";
     helpText += L"F - toggle flashlight\n";
     helpText += L"G - show GBuffers debug info on screen\n";
     helpText += L"C - toggle console\n";
     helpText += L"H - toggle this help text\n";
     helpText += L"Q - quit\n";
-    /*core::rect<s32> helpTextPos;
-    helpTextPos.*/
     Help = Device->getGUIEnvironment()->addStaticText(helpText.c_str(),
             core::rect<s32>(core::vector2d<s32>(Resolution.Width-200, 75),
                             core::dimension2d<u32>(200, 400)));
@@ -69,8 +65,7 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     //load teh scene
     scene::ISceneManager* smgr = Device->getSceneManager();
     smgr->loadScene("media/scene.irr");
-    //Renderer->getMaterialSwapper()->updateEntry(video::EMT_TRANSPARENT_ALPHA_CHANNEL, Renderer->getMaterials()->TransparentSoft);
-    //Renderer->getMaterialSwapper()->removeEntry(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+    
     //! set automatically all materials in the current scene
     Renderer->getMaterialSwapper()->swapMaterials();
 
@@ -101,10 +96,10 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     if(beast)
     {
         irr::scene::IAnimatedMeshSceneNode* animatedBeast = static_cast<irr::scene::IAnimatedMeshSceneNode*>(beast);
-            animatedBeast->setFrameLoop(0,24);
-            animatedBeast->setAnimationSpeed(25);
-            // set the proper material
-            beast->setMaterialType(Renderer->getMaterials()->NormalAnimated);
+        animatedBeast->setFrameLoop(0,24);
+        animatedBeast->setAnimationSpeed(25);
+        // set the proper material
+        beast->setMaterialType(Renderer->getMaterials()->NormalAnimated);
     }
 
     // set up dwarf
@@ -117,12 +112,12 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
     // set up volumetric fog
     // this needs to be done because the .irr scene was exported with irrEdit that uses Irrlicht 1.5
     // serialization does not completely... work over there :)
-    scene::IParticleSystemSceneNode* fog = static_cast<scene::IParticleSystemSceneNode*>(Device->getSceneManager()->getSceneNodeFromName("fog"));
+    scene::ISceneNode *fog = smgr->getSceneNodeFromName("fog");
     if (fog)
     {
         fog->setMaterialType(Renderer->getMaterials()->TransparentSoft);
 
-        scene::IParticleEmitter* emit = fog->getEmitter();
+        scene::IParticleEmitter* emit = static_cast<scene::IParticleSystemSceneNode*>(fog)->getEmitter();
         emit->setMinStartSize(core::dimension2df(30, 30));
         emit->setMaxStartSize(core::dimension2df(50, 50));
     }
@@ -156,20 +151,6 @@ CTestFramework::CTestFramework(bool vsync, bool automode)
         nodes[i]->remove();
         if(tangentMesh)tangentMesh->drop();
     }
-
-    //! set up post processing
-    /*Renderer->createPostProcessingEffect(irr::video::EPE_FOG);
-    AA = Renderer->createPostProcessingEffect(irr::video::EPE_ANTIALIASING);
-
-    Bloom = Renderer->createPostProcessingEffectChain();
-    Bloom->setKeepOriginalRender(true);
-    Bloom->createEffect(irr::video::EPE_BLOOM_PREPASS);
-    Bloom->createEffect(irr::video::EPE_BLUR_V);
-    video::CPostProcessingEffect* blurAdd = Bloom->createEffect(irr::video::EPE_BLUR_H_ADD);
-    blurAdd->addTextureToShader(Bloom->getOriginalRender());
-
-    AA->setActive(false);
-    Bloom->setActive(false);*/
 
 
     Device->getLogger()->log("Who's that callin'?"); //Ain't nobody there

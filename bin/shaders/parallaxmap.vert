@@ -1,4 +1,4 @@
-#version 140
+#version 130
 
 uniform mat4 WorldViewProjMat;
 uniform mat4 WorldViewMat;

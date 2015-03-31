@@ -25,7 +25,6 @@ void main()
     projCoord*= 0.5;
     projCoord.xy= clamp(projCoord.xy, 0.001, 0.999);
 
-    //get depth
     float vDepth= texture2D(DepthTex, projCoord.xy).r;
 
     if(vDepth * CamFar > ScreenPos.z) discard;
@@ -46,8 +45,6 @@ void main()
         vec3 vNormal= texture2D(NormalTex, projCoord.xy).xyz;
         vNormal*= 2.0;
         vNormal-= 1.0;
-        //vNormal.z= -sqrt(1.0 - (vNormal.x*vNormal.x) - (vNormal.y*vNormal.y));
-        //vNormal= normalize(vNormal);
 
         //calculate the light
         vec3 lightDir= normalize(vLightPos - vPixelPos);

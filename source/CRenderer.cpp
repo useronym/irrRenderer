@@ -7,8 +7,8 @@ using namespace irr;
 
 
 video::CRenderer::CRenderer(IrrlichtDevice* device,
-                                 const c8* shaderDir,
-                                 video::ECOLOR_FORMAT depth)
+                            const c8* shaderDir,
+                            irr::video::ECOLOR_FORMAT depth)
 {
     Device= device;
     LightMgr= 0;
@@ -89,10 +89,13 @@ Materials->Solid= (video::E_MATERIAL_TYPE)createMaterial(ShaderLib->getShader("s
 
 void video::CRenderer::createDefaultPipeline(irr::video::ECOLOR_FORMAT depth)
 {
-    clearMRTs();
+    video::IVideoDriver *video = Device->getVideoDriver();
+
+    //clearMRTs();
     createMRT("deferred-mrt-color", video::ECF_A8R8G8B8);
     createMRT("deferred-mrt-normal", video::ECF_A8R8G8B8);
-    video::IVideoDriver *video = Device->getVideoDriver();
+    createMRT("deferred-mrt-depth", video::ECF_G16R16F);
+
     DepthBuffer = video->addRenderTargetTexture(video->getCurrentRenderTargetSize(),
                                                 "deferred-depth",
                                                 depth);

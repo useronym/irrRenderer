@@ -2,13 +2,13 @@ varying vec3 Normal;
 varying vec3 Tangent;
 varying vec3 Binormal;
 varying vec3 ViewVect;
-
 varying float Depth;
 
 uniform sampler2D Tex0;
 uniform sampler2D Tex1; //normal map
 
 uniform float Param1; //bumpiness
+
 
 void main()
 {
@@ -17,9 +17,8 @@ void main()
     vec4 normalFromTex= texture2D(Tex1, gl_TexCoord[0].xy);
 
     float bumpiness= Param1;
-    //float bias = bumpiness * 0.5;
     float heightFromTexture= normalFromTex.a * 2.0 - 1.0;
-    float height= bumpiness * heightFromTexture;// - bias;
+    float height= bumpiness * heightFromTexture;
     vec2 offsetCoord= gl_TexCoord[0].xy + normalize(ViewVect).xy * height;
     normalFromTex= texture2D(Tex1, offsetCoord);
 

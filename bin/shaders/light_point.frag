@@ -16,45 +16,36 @@ varying float FarLeftDownY;
 void main()
 {
     //need some cool tex coords in here!
-    vec4 projCoord= ScreenPos / ScreenPos.w;
-    projCoord+= vec4(1.0);
-    projCoord*= 0.5;
-    projCoord.xy= clamp(projCoord.xy, 0.001, 0.999);
+    vec4 projCoord = ScreenPos / ScreenPos.w;
+    projCoord += vec4(1.0);
+    projCoord *= 0.5;
+    projCoord.xy = clamp(projCoord.xy, 0.001, 0.999);
 
-    //get depth
-    float vDepth= texture2D(DepthTex, projCoord.xy).r;
+    float vDepth = texture2D(DepthTex, projCoord.xy).r;
 
-    //if(vDepth * CamFar > ScreenPos.z) discard; //Z-reject
-
+    if(vDepth * CamFar > ScreenPos.z) discard; //Z-reject
+    
 
     //reconstruct view pixel position
-    vec3 vProjPos= vec3(mix(FarLeftUp.x, FarRightUpX, projCoord.x),
+    vec3 vProjPos = vec3(mix(FarLeftUp.x, FarRightUpX, projCoord.x),
                         mix(FarLeftDownY, FarLeftUp.y, projCoord.y),
                         FarLeftUp.z);
-    vec3 vPixelPos= vec3(vProjPos * vDepth);
+    vec3 vPixelPos = vec3(vProjPos * vDepth);
 
-    vec3 vLightPos= vec3(Position);
-    float dist= length(vLightPos - vPixelPos);
+    vec3 vLightPos = vec3(Position);
+    float dist = length(vLightPos - vPixelPos);
 
     if(dist < Radius)
     {
-        //reconstruct normal
-        vec3 vNormal= texture2D(NormalTex, projCoord.xy).rgb;
-        vNormal*= 2.0;
-        vNormal-= 1.0;
-        //vNormal.z= -sqrt( -(vNormal.x*vNormal.x) - (vNormal.y*vNormal.y) + 1.0 );
-        //vNormal= normalize(vNormal);
+        vec3 vNormal = texture2D(NormalTex, projCoord.xy).rgb;
+        vNormal *= 2.0;
+        vNormal -= 1.0;
 
-        //calculate the light
-        /*float attLinear = 1.0 / Radius;
-        float attQuadratic= attLinear / Radius;
-        float att= 1.0 / (dist * attLinear) + (dist * dist * attQuadratic);
-        att-= 2.0;*/
-        float att= max(-log(dist/Radius), 0.0);
-        float light= max(dot(normalize(vLightPos - vPixelPos), vNormal), 0.0) * att;
+        float att = max(-log(dist/Radius), 0.0);
+        float light = max(dot(normalize(vLightPos - vPixelPos), vNormal), 0.0) * att;
 
-        vec3 lightColor= Color;
-        gl_FragColor= light * vec4(lightColor, 0.0) * texture2D(ColorTex, projCoord.xy);
+        vec3 lightColor = Color;
+        gl_FragColor = light * vec4(lightColor, 0.0) * texture2D(ColorTex, projCoord.xy);
     }
     else discard;
 }
