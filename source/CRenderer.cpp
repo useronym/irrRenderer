@@ -145,22 +145,23 @@ video::ITexture* video::CRenderer::getDepthBuffer() const
 
 void video::CRenderer::setDoFinalRenderToTexture(bool shouldI)
 {
-    if(shouldI && !LightMgr->getDoFinalRenderToTexture())
+    video::IVideoDriver *video = Device->getVideoDriver();
+    
+    if(shouldI && !LightMgr->getFinalRenderTexture())
     {
-        core::dimension2du dimension= Device->getVideoDriver()->getCurrentRenderTargetSize();
-        LightMgr->setDoFinalRenderIntoTexture(true);
+        core::dimension2du dimension = video->getCurrentRenderTargetSize();
+        LightMgr->setFinalRenderTexture(video->addRenderTargetTexture(dimension));
     }
-    else if(LightMgr->getDoFinalRenderToTexture())
+    else if(!shouldI && LightMgr->getFinalRenderTexture())
     {
-        LightMgr->setDoFinalRenderIntoTexture(false);
-        Device->getVideoDriver()->removeTexture(LightMgr->getRenderTexture());
+        video->removeTexture(LightMgr->getFinalRenderTexture());
+        LightMgr->setFinalRenderTexture(0);
     }
 }
 
 video::ITexture* video::CRenderer::getFinalRenderTexture() const
 {
-    if(LightMgr->getDoFinalRenderToTexture()) return LightMgr->getRenderTexture();
-    else return 0;
+    return LightMgr->getFinalRenderTexture();
 }
 
 s32 video::CRenderer::createMaterial(video::SShaderSource shader, video::IShaderConstantSetCallBack *callback, video::E_MATERIAL_TYPE baseType)

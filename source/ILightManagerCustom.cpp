@@ -9,11 +9,8 @@ using namespace irr;
 scene::ILightManagerCustom::ILightManagerCustom(IrrlichtDevice* device, video::SMaterials* mats)
     :Device(device),
     Materials(mats),
-    TransparentRenderPass(false)
+    FinalRender(0)
 {
-    FinalRender= 0;
-    FinalRenderToTexture= false;
-
     //set up light mesh - sphere
     LightSphere= Device->getSceneManager()->addSphereSceneNode(1.0, 12);
     LightSphere->setMaterialFlag(video::EMF_BACK_FACE_CULLING, false);
@@ -46,10 +43,7 @@ void scene::ILightManagerCustom::OnPostRender()
 
 void scene::ILightManagerCustom::OnRenderPassPreRender(scene::E_SCENE_NODE_RENDER_PASS renderPass)
 {
-    if (renderPass == scene::ESNRP_TRANSPARENT)
-    {
-        TransparentRenderPass = true;
-    }
+
 }
 
 void scene::ILightManagerCustom::OnRenderPassPostRender(scene::E_SCENE_NODE_RENDER_PASS renderPass)
@@ -120,6 +114,8 @@ inline void scene::ILightManagerCustom::deferred()
 void scene::ILightManagerCustom::setRenderTarget(video::IRenderTarget *RT)
 {
     RenderTarget = RT;
+    RenderIndices.clear();
+    
     for (u32 i = 0; i < RT->getTextures().size(); i++)
     {
         LightSphere->setMaterialTexture(i, RT->getTextures()[i]);
@@ -128,22 +124,14 @@ void scene::ILightManagerCustom::setRenderTarget(video::IRenderTarget *RT)
     }
 }
 
-void scene::ILightManagerCustom::setDoFinalRenderIntoTexture(bool well)
+void scene::ILightManagerCustom::setFinalRenderTexture(video::ITexture *tex)
 {
-    FinalRenderToTexture = well;
+    FinalRender = tex;
 }
 
-bool scene::ILightManagerCustom::getDoFinalRenderToTexture() const
+video::ITexture* scene::ILightManagerCustom::getFinalRenderTexture() const
 {
-    return FinalRenderToTexture;
-}
-
-video::ITexture* scene::ILightManagerCustom::getRenderTexture()
-{
-    if(FinalRender)
-        return FinalRender;
-    else
-        return 0;
+    return FinalRender;
 }
 
 

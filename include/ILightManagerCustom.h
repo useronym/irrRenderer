@@ -35,12 +35,10 @@ class ILightManagerCustom : public irr::scene::ILightManager
 
 
         void setRenderTarget(video::IRenderTarget *RenderTarget);
+        
+        void setFinalRenderTexture(video::ITexture *tex);
 
-        void setDoFinalRenderIntoTexture(bool well);
-
-        bool getDoFinalRenderToTexture() const;
-
-        irr::video::ITexture* getRenderTexture();
+        irr::video::ITexture* getFinalRenderTexture() const;
 
 
         void setLightPointMaterialType(irr::video::E_MATERIAL_TYPE &type);
@@ -62,12 +60,7 @@ class ILightManagerCustom : public irr::scene::ILightManager
         // renders the lighting
         inline void deferred();
 
-        //set to true if we're currently rendering transparent nodes
-        bool TransparentRenderPass;
-
-        bool FinalRenderToTexture;
         irr::video::ITexture* FinalRender;
-
 
         irr::scene::IMeshSceneNode* LightSphere, *LightCone;
         irr::scene::IQuadSceneNode* LightQuad;
